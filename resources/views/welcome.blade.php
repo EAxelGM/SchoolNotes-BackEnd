@@ -95,6 +95,23 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
             </div>
+            <!--div class="row">
+                <form action="api/usuario-img-perfil" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                    <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">ID usuario</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="5iujsdbuiv87jbsdfi" name="id">
+                    </div>  
+                    </div>
+                    <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Imagen perfil</label>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="img_perfil">
+                    </div>  
+                    </div>
+                    <button type="submit" class="btn btn-success">Cargar</button>
+                </form>
+            </div-->
         </div>
     </body>
 </html>

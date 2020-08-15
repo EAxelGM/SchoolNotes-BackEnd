@@ -23,7 +23,22 @@ class User extends MongoModel implements Authenticatable,JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'apellidos', 'email', 'password',
+        'name',   
+        'apellidos', 
+        'email', 
+        'password',
+        'correo_verificado',
+        'token_verificacion',
+        'descripcion_perfil',
+        'fecha_nacimiento',
+        'img_perfil',
+        'seguidos',
+        'seguidores',
+        'etiquetas_ids',
+        'clips',
+        'diamond_clips',
+        'tipo',
+        'activo',
     ];
 
     /**
@@ -32,7 +47,7 @@ class User extends MongoModel implements Authenticatable,JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'token_verificacion',
     ];
 
     /**
@@ -54,5 +69,9 @@ class User extends MongoModel implements Authenticatable,JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function publicaciones(){
+        return $this->hasMany('App\Publicacion');
     }
 }

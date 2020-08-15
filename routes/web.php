@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/layout-email', 'Api\UserController@index')->name('layout');
+Route::get('/validar/{id}/{token}', 'Api\UserController@validarCorreo')->name('validarCorreo');
+Route::get('/recuperar-contrasena/{id}/{token}', 'Api\UserController@recuperarPassword')->name('recuperarContrasena');
