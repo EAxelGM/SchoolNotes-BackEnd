@@ -14,6 +14,6 @@ $factory->define(Publicacion::class, function (Faker $faker) {
         'contenido' => $faker->text(rand(10,200)),
         'reacciones' => $faker->randomElements($users_ids, rand(0, $user_count)), 
         'activo' => $faker->randomElement([1, 0]),
-        'user_id' => User::where('activo',1)->random()->_id,
+        'user_id' => User::where('activo',1)->get()->random()->_id,
     ];
 });

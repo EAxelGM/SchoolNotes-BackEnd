@@ -18,7 +18,7 @@ $factory->define(Comentario::class, function (Faker $faker) {
             'publicacion_id' => App\Publicacion::all()->random()->_id,
             'comentario' => $faker->text(rand(20,100)),
             'reacciones' => $faker->randomElements($users_ids, rand(0, $user_count)),
-            'user_id' => User::where('activo',1)->random()->_id,
+            'user_id' => User::where('activo',1)->get()->random()->_id,
         ];
     }else{
         return [
@@ -26,7 +26,7 @@ $factory->define(Comentario::class, function (Faker $faker) {
             'publicacion_id' => null,
             'comentario' => $faker->text(rand(20,100)),
             'reacciones' => $faker->randomElements($users_ids, rand(0, $user_count)), 
-            'user_id' => User::where('activo',1)->random()->_id,
+            'user_id' => User::where('activo',1)->get()->random()->_id,
         ];
     }
 });

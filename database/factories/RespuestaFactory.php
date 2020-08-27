@@ -11,7 +11,7 @@ $factory->define(Respuesta::class, function (Faker $faker) {
     $users_ids = User::pluck('_id')->all();
     return [
         'contenido' => $faker->text(rand(10,200)), 
-        'user_id' => User::where('activo',1)->random()->_id,
+        'user_id' => User::where('activo',1)->get()->random()->_id,
         'pregunta_id' => App\Pregunta::all()->random()->_id, 
         'reacciones' => $faker->randomElements($users_ids, rand(0, $user_count)),
     ];
