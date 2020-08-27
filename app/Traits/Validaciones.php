@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use App\Traits\EnviarCorreos;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 trait Validaciones {
     use EnviarCorreos;
@@ -19,6 +21,7 @@ trait Validaciones {
             }else{
                 if($user->correo_verificado){
                     $data['code'] = 200;
+                    $data['mensaje'] = 'Este usuario esta verificado';
                 }else{
                     $data['mensaje'] = "Lo sentimos $user->name, pero aun no has verificado tu correo electronico, hemos enviado un correo electronico a $user->email para que verifiques tu cuenta.";
                     $data['code'] = 421;
