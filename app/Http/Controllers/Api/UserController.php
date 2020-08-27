@@ -168,8 +168,8 @@ class UserController extends Controller
         return response()->json(compact('token'));
     }
 
-    //Logout
-    public function logout(Request $request)
+    //Loggout
+    public function loggout(Request $request)
     {
         $this->validate($request, ['token' => 'required']);
 

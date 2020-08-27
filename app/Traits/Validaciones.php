@@ -2,6 +2,9 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 use App\Traits\EnviarCorreos;
 
 trait Validaciones {
