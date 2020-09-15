@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use App\Traits\EnviarCorreos;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 trait Validaciones {
     use EnviarCorreos;

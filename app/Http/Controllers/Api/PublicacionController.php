@@ -58,7 +58,7 @@ class PublicacionController extends Controller
         $user = User::find($request->user_id);
 
         $activo = $this->userActivoVerificado($user);
-        if($activo['code'] == 201){
+        if($activo['code'] == 200){
             $publicacion = new Publicacion;
             $publicacion->contenido = $request->contenido;
             $publicacion->reacciones = [];
