@@ -43,10 +43,10 @@ $factory->define(User::class, function (Faker $faker) {
         'fecha_nacimiento' => $anio.'-'.$mes.'-'.$dia,
         //'img_perfil' => asset('img_perfiles/default.png'),
         'img_perfil' => $faker->randomElement([
-            'https://galaxylifereborn.com/assets/img/def1.png', 
-            'https://galaxylifereborn.com/assets/img/def2.png', 
-            'https://galaxylifereborn.com/assets/img/def3.png', 
-            'https://galaxylifereborn.com/assets/img/def4.png'
+            'https://launcher.galaxylifereborn.com/assets/img/def1.png', 
+            'https://launcher.galaxylifereborn.com/assets/img/def2.png', 
+            'https://launcher.galaxylifereborn.com/assets/img/def3.png', 
+            'https://launcher.galaxylifereborn.com/assets/img/def4.png'
         ]),
         'seguidos' => [],
         'seguidores' => [],

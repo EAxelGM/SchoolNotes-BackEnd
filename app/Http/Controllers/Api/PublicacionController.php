@@ -9,38 +9,56 @@ use App\Publicacion;
 use App\User;
 use App\Traits\EnviarCorreos;
 use App\Traits\Validaciones;
+use App\Traits\Funciones;
+
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Input;
 
 class PublicacionController extends Controller
 {
-    use EnviarCorreos, Validaciones;
+    use EnviarCorreos, Validaciones, Funciones;
     
     public function index(){
         $id = isset($_GET['user_id']);
-        if(!$id){
+        $page = isset($_GET['page']);
+        if(!$id || !$page){
             return response()->json([
                 'message' => 'La ruta esta mal escrita.',
-            ]);
+            ],405);
         }
         $id = $_GET['user_id'];
+        $page = $_GET['page'];
         
         $user = User::find($id);
         if(!$user){
             return response()->json([
                 'message' => 'Este ID '. $id .' no existe',
-            ]);
+            ],404);
         }
 
         $publicaciones = [];
+
+        $publicaciones_mias = Publicacion::where([['user_id', $user->id],['activo', 1]])
+        ->with('user:name,apellidos,img_perfil')
+        ->with('comentarios.user:name,apellidos,img_perfil')
+        ->get();
+        foreach($publicaciones_mias as $publicacion){
+            array_push($publicaciones, $publicacion);
+        }
+
         foreach($user->seguidos as $seguido_id){
-            $todas_publicaciones = Publicacion::where([['user_id', $seguido_id],['activo', 1]])->with('user')->get();
+            $todas_publicaciones = Publicacion::where([['user_id', $seguido_id],['activo', 1]])
+            ->with('user:name,apellidos,img_perfil')
+            ->with('comentarios.user:name,apellidos,img_perfil')->get();
             if(!empty($todas_publicaciones)){
                 foreach($todas_publicaciones as $publicacion){
-                    $publicacion->comentarios;
                     array_push($publicaciones, $publicacion);
                 }
             }
-        }
-
+        } 
+        
+        $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 3, 'created_at');
+        
         return response()->json([
             'message' => 'success',
             'data' => $publicaciones,
@@ -58,7 +76,7 @@ class PublicacionController extends Controller
         $user = User::find($request->user_id);
 
         $activo = $this->userActivoVerificado($user);
-        if($activo['code'] == 201){
+        if($activo['code'] == 200){
             $publicacion = new Publicacion;
             $publicacion->contenido = $request->contenido;
             $publicacion->reacciones = [];
