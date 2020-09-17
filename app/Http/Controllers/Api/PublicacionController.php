@@ -11,9 +11,6 @@ use App\Traits\EnviarCorreos;
 use App\Traits\Validaciones;
 use App\Traits\Funciones;
 
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Input;
-
 class PublicacionController extends Controller
 {
     use EnviarCorreos, Validaciones, Funciones;
@@ -57,7 +54,7 @@ class PublicacionController extends Controller
             }
         } 
         
-        $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 3, 'created_at');
+        $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 4, 'created_at');
         
         return response()->json([
             'message' => 'success',
