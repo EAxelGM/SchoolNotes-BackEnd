@@ -2,18 +2,21 @@
 namespace App\Traits;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 trait Funciones{
-    public function paginacionPersonalizada($page, $data, $data_for_page, $path){
+    public function paginacionPersonalizada($page, $data, $data_for_page, $objectOrder){
         /*Orden por defecto (ASCendente)*/
-        //usort($data, $this->object_sorter('created_at'));
-
-        /*Orden DESCendente (indicándolo en parámetro)*/
-        usort($data, $this->object_sorter('created_at','DESC'));
+        //usort($data, $this->object_sorter($objectOrder));
         
-        $posts = new Paginator($data, $data_for_page, $page);
-    
-        $posts->setPath($path);
+        /*Orden DESCendente (indicándolo en parámetro)*/
+        usort($data, $this->object_sorter($objectOrder,'DESC'));
+
+        //paginacion
+        $currentPage = $page;
+        $perPage = $data_for_page;
+        $currentElements = array_slice($data, $perPage * ($currentPage - 1), $perPage);
+        $posts = new Paginator($currentElements, $perPage, $currentPage);
         return $posts;
     }
 

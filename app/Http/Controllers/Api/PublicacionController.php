@@ -11,6 +11,9 @@ use App\Traits\EnviarCorreos;
 use App\Traits\Validaciones;
 use App\Traits\Funciones;
 
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Input;
+
 class PublicacionController extends Controller
 {
     use EnviarCorreos, Validaciones, Funciones;
@@ -35,13 +38,18 @@ class PublicacionController extends Controller
 
         $publicaciones = [];
 
-        $publicaciones_mias = Publicacion::where([['user_id', $user->id],['activo', 1]])->with('user')->with('comentarios')->get();
+        $publicaciones_mias = Publicacion::where([['user_id', $user->id],['activo', 1]])
+        ->with('user:name,apellidos,img_perfil')
+        ->with('comentarios.user:name,apellidos,img_perfil')
+        ->get();
         foreach($publicaciones_mias as $publicacion){
             array_push($publicaciones, $publicacion);
         }
 
         foreach($user->seguidos as $seguido_id){
-            $todas_publicaciones = Publicacion::where([['user_id', $seguido_id],['activo', 1]])->with('user')->with('comentarios')->get();
+            $todas_publicaciones = Publicacion::where([['user_id', $seguido_id],['activo', 1]])
+            ->with('user:name,apellidos,img_perfil')
+            ->with('comentarios.user:name,apellidos,img_perfil')->get();
             if(!empty($todas_publicaciones)){
                 foreach($todas_publicaciones as $publicacion){
                     array_push($publicaciones, $publicacion);
@@ -49,7 +57,7 @@ class PublicacionController extends Controller
             }
         } 
         
-        $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 3, 'publicaciones');
+        $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 3, 'created_at');
         
         return response()->json([
             'message' => 'success',
