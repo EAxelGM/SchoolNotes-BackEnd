@@ -50,7 +50,7 @@ $factory->define(User::class, function (Faker $faker) {
         ]),
         'seguidos' => [],
         'seguidores' => [],
-        'etiquetas_ids' => $faker->randomElements($etiquetas_ids, rand(1, 6)),
+        'etiquetas_ids' => $faker->randomElements($etiquetas_ids, rand(1, 3)),
         'clips' => $faker->numberBetween(0,9999),
         'diamond_clips' => $faker->numberBetween(0,999),
         'tipo' => 'usuario',
