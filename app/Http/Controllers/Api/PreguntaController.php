@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Pregunta;
+use App\Etiqueta;
+use App\User;
 use App\Traits\Validaciones;
 
 class PreguntaController extends Controller
@@ -13,7 +15,8 @@ class PreguntaController extends Controller
 
     public function index()
     {
-        $preguntas = Pregunta::with('user')->paginate(10);
+        $preguntas = Pregunta::with(['user:name,apellidos,img_perfil','respuestas'])->orderBy('created_at','DESC')->paginate(3);
+        
         return response()->json([
             'message' => 'Success',
             'data' => $preguntas,
@@ -22,14 +25,15 @@ class PreguntaController extends Controller
     
     public function store(Request $request)
     {
+        //return $request->all();
         $validator = $this->datosPregunta($request->all());
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
-        $user = User::find($id);
-        $valida = $this->userActivo($user);
-        if($valida != 200){
+        $user = User::find($request->user_id);
+        $data = $this->userActivo($user);
+        if($data['code'] != 200){
             return response()->json([
                 'message' => $data['mensaje'],
             ],$data['code']);
@@ -40,6 +44,7 @@ class PreguntaController extends Controller
         $pregunta->user_id = $request->user_id;
         $pregunta->verificado = 0;
         $pregunta->reacciones = [];
+        $pregunta->etiquetas_ids = $request->etiquetas_ids;
         $pregunta->save();
         
         return response()->json([
@@ -50,14 +55,19 @@ class PreguntaController extends Controller
     
     public function show($id)
     {
-        $pregunta = Pregunta::find($id);
+        $pregunta = Pregunta::with(['user:name,apellidos,img_perfil','respuestas.user:name,apellidos,img_perfil'])->find($id);
         if(!$pregunta){
             return response()->json([
-                'message' => 'No se encontre esta pregunta',
+                'message' => 'No se encontro esta pregunta',
             ],404);
         }
-        $pregunta->respuestas;
-        $pregunta->user;
+        $etiquetas = [];
+        foreach($pregunta->etiquetas_ids as $etiqueta_id){
+            $etiqueta = Etiqueta::find($etiqueta_id);
+            array_push($etiquetas,$etiqueta);
+        }
+        $pregunta['etiquetas'] = $etiquetas;
+
         return response()->json([
             'message' => 'Se encontro la pregunta',
             'data' => $pregunta,
@@ -69,7 +79,7 @@ class PreguntaController extends Controller
         $pregunta = Pregunta::find($id);
         if(!$pregunbta){
             return response()->json([
-                'message' => 'No se encontre esta pregunta',
+                'message' => 'No se encontro esta pregunta',
             ],404);
         }
 

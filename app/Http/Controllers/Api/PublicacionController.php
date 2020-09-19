@@ -36,8 +36,10 @@ class PublicacionController extends Controller
         $publicaciones = [];
 
         $publicaciones_mias = Publicacion::where([['user_id', $user->id],['activo', 1]])
-        ->with('user:name,apellidos,img_perfil')
-        ->with('comentarios.user:name,apellidos,img_perfil')
+        ->with([
+            'user:name,apellidos,img_perfil',
+            'comentarios.user:name,apellidos,img_perfil'
+        ])
         ->get();
         foreach($publicaciones_mias as $publicacion){
             array_push($publicaciones, $publicacion);
@@ -45,17 +47,18 @@ class PublicacionController extends Controller
 
         foreach($user->seguidos as $seguido_id){
             $todas_publicaciones = Publicacion::where([['user_id', $seguido_id],['activo', 1]])
-            ->with('user:name,apellidos,img_perfil')
-            ->with('comentarios.user:name,apellidos,img_perfil')->get();
+            ->with([
+                'user:name,apellidos,img_perfil',
+                'comentarios.user:name,apellidos,img_perfil'
+            ])->get();
             if(!empty($todas_publicaciones)){
                 foreach($todas_publicaciones as $publicacion){
                     array_push($publicaciones, $publicacion);
                 }
             }
         } 
-        
         $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 4, 'created_at');
-        
+
         return response()->json([
             'message' => 'success',
             'data' => $publicaciones,
