@@ -77,23 +77,22 @@ class PreguntaController extends Controller
     public function update(Request $request, $id)
     {
         $pregunta = Pregunta::find($id);
-        if(!$pregunbta){
+        if(!$pregunta){
             return response()->json([
                 'message' => 'No se encontro esta pregunta',
             ],404);
         }
-
         $validator = $this->datosPregunta($request->all());
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
-
-        if($pregunta->user_id == $request->user_id){
+        //return [$request->all(), $pregunta];
+        if($pregunta->user_id != $request->user_id){
             return response()->json([
-                'message' => 'Lo sentimos pero no eres dueño de esta publicacion',
+                'message' => 'Lo sentimos pero no eres dueño de esta pregunta',
             ],421);
         }
-
+        
         $pregunta->fill($request->all());
         if($pregunta->isClean()){
             return response()->json(['message'=>'Especifica al menos un valor diferente'],421);
@@ -111,7 +110,7 @@ class PreguntaController extends Controller
         $pregunta = Pregunta::find($id);
         if(!$pregunta){
             return response()->json([
-                'message' => 'No se encontre esta pregunta',
+                'message' => 'No se encontro esta pregunta',
             ],404);
         }
 
