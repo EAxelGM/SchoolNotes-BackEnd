@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use App\Traits\EnviarCorreos;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 trait Validaciones {
     use EnviarCorreos;
@@ -159,7 +157,7 @@ trait Validaciones {
         $validator = Validator::make($data, [
             'contenido' => 'required', 
             'user_id' => 'required',
-            'publicacion_id' => 'required',
+            'pregunta_id' => 'required',
         ]);
         return $validator;
     }
