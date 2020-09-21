@@ -156,7 +156,7 @@ trait Validaciones {
         $validator = Validator::make($data, [
             'contenido' => 'required', 
             'user_id' => 'required',
-            'publicacion_id' => 'required',
+            'pregunta_id' => 'required',
         ]);
         return $validator;
     }

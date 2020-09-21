@@ -13,6 +13,7 @@ $factory->define(Respuesta::class, function (Faker $faker) {
         'contenido' => $faker->text(rand(10,200)), 
         'user_id' => User::where('activo',1)->get()->random()->_id,
         'pregunta_id' => App\Pregunta::all()->random()->_id, 
+        'verificado' => 0,
         'reacciones' => $faker->randomElements($users_ids, rand(0, $user_count)),
     ];
 });

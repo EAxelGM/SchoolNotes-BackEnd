@@ -20,5 +20,6 @@ $factory->define(Pregunta::class, function (Faker $faker) {
         'etiquetas_ids' => $faker->randomElements($etiquetas_ids, rand(1, 3)),
         'verificado' => $faker->randomElement([1, 0]), 
         'reacciones' => $faker->randomElements($users_ids, rand(0, $user_count)),
+        'activo' => $faker->randomElement([1, 0]),
     ];
 });
