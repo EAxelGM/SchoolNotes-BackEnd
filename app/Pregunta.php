@@ -19,6 +19,7 @@ class Pregunta extends MongoModel
         'etiquetas_ids',
         'verificado', 
         'reacciones',
+        'activo',
     ];
 
     public function respuestas(){

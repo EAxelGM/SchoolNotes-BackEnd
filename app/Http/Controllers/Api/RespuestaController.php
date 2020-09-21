@@ -14,10 +14,10 @@ class RespuestaController extends Controller
 
     public function index()
     {
-        $respuesta = Respuesta::with('user')->paginate(10);
+        $respuestas = Respuesta::with('user:name,apellidos,img_perfil')->orderBy('created_at', 'DESC')->paginate(4);
         return response()->json([
             'message' => 'Success',
-            'data' => $respuesta,
+            'data' => $respuestas,
         ],200);
     }
     
@@ -25,21 +25,22 @@ class RespuestaController extends Controller
     {
         $validator = $this->datosRespuesta($request->all());
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
-        $user = User::find($id);
+        $user = User::find($request->user_id);
         $valida = $this->userActivo($user);
-        if($valida != 200){
+        if($valida['code'] != 200){
             return response()->json([
-                'message' => $data['mensaje'],
-            ],$data['code']);
+                'message' => $valida['mensaje'],
+            ],$valida['code']);
         }
 
         $respuesta = new Respuesta;
         $respuesta->contenido = $request->contenido;
         $respuesta->user_id = $request->user_id;
         $respuesta->pregunta_id = $request->pregunta_id;
+        $respuesta->verificado = 0;
         $respuesta->reacciones = [];
         $respuesta->save();
 
@@ -51,14 +52,14 @@ class RespuestaController extends Controller
     
     public function show($id)
     {
-        $respuesta = Respuesta::find($id);
+        $respuesta = Respuesta::with(['user:name,apellidos,img_perfil','pregunta.user:name,apellidos,img_perfil'])->find($id);
         if(!$respuesta){
             return response()->json([
                 'message' => 'No se encontre esta respuesta',
             ],404);
         }
-        $respuesta->user;
-        $respuesta->publicacion;
+        /* $respuesta->user;
+        $respuesta->publicacion; */
         return response()->json([
             'message' => 'Se encontro la respuesta',
             'data' => $respuesta,
@@ -70,18 +71,18 @@ class RespuestaController extends Controller
     public function update(Request $request, $id)
     {
         $respuesta = Respuesta::find($id);
-        if(!$pregunbta){
+        if(!$respuesta){
             return response()->json([
-                'message' => 'No se encontre esta respuesta',
+                'message' => 'No se encontro esta respuesta',
             ],404);
         }
 
         $validator = $this->datosRespuesta($request->all());
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
-
-        if($respuesta->user_id == $request->user_id){
+        
+        if($respuesta->user_id != $request->user_id){
             return response()->json([
                 'message' => 'Lo sentimos pero no eres dueño de esta respuesta',
             ],421);
@@ -104,7 +105,7 @@ class RespuestaController extends Controller
         $respuesta = Respuesta::find($id);
         if(!$respuesta){
             return response()->json([
-                'message' => 'No se encontre esta respuesta',
+                'message' => 'No se encontro esta respuesta',
             ],404);
         }
 

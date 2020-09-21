@@ -14,6 +14,7 @@ class Respuesta extends MongoModel
         'contenido', 
         'user_id',
         'pregunta_id', 
+        'verificado',
         'reacciones',
     ];
 
