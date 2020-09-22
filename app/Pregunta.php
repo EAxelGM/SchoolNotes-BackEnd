@@ -23,7 +23,7 @@ class Pregunta extends MongoModel
     ];
 
     public function respuestas(){
-        return $this->hasMany('App\Respuesta');
+        return $this->hasMany('App\Respuesta')->orderBy('verificado', 'DESC');
     }
     
     public function user(){

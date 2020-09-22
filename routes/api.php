@@ -42,6 +42,6 @@ Route::resource('respuestas', 'Api\RespuestaController');
 Route::post('seguir', 'Api\SeguirController@seguir');
 Route::post('reaccion', 'Api\ReaccionController@index');
 
-
-
 Route::get('re-enviar-correo-verificacion/{id}', 'Api\UserController@enviarCorreo');
+
+Route::post('valida-respuesta', 'Api\RespuestaController@validaRespuesta');
