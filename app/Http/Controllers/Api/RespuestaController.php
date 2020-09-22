@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Validaciones;
 use App\Respuesta;
+use App\Pregunta;
 use App\User;
 
 class RespuestaController extends Controller
@@ -113,5 +114,53 @@ class RespuestaController extends Controller
         return response()->json([
             'message' => 'Se borro la respuesta',
         ],200);
+    }
+
+    public function validaRespuesta(Request $request){
+        $respuesta = Respuesta::find($request->id);
+        if(!$respuesta){
+            return response()->json([
+                'message' => 'Al parecer no existe',
+            ],404);
+        }
+
+        $pregunta = Pregunta::find($respuesta->pregunta_id);
+        if(!$pregunta){
+            return response()->json([
+                'message' => 'Al parecer no existe la pregunta',
+            ],404);
+        }
+
+        switch($respuesta->verificado){
+            case 1:
+                $respuesta->verificado = 0;
+                $pregunta->verificado = 0;
+                $mensaje = 'La respuesta se quito de verificados';
+                $code = 200;
+            break;
+            case 0:
+                if($pregunta->verificado == 1){
+                    return response()->json([
+                        'message' => 'al parecer ya existe una respuesta verificada para esta pregunta. ',
+                    ],403);
+                }
+                $respuesta->verificado = 1;
+                $pregunta->verificado = 1;
+                $mensaje = 'La respuesta se ha verificado';
+                $code = 200;
+            break;
+            default:
+                $respuesta->verificado = 0;
+                $pregunta->verificado = 0;
+                $mensaje = 'Oops... hubo un error, vuelve a intentarlo';
+                $code = 421;
+            break;
+        }
+        $respuesta->save();
+        $pregunta->save();
+
+        return response()->json([
+            'message' => $mensaje,
+        ],$code);
     }
 }
