@@ -14,7 +14,8 @@ class Pregunta extends MongoModel
 
 
     protected $fillable = [
-        'contenido', 
+        'pregunta', 
+        'descripcion', 
         'user_id',
         'etiquetas_ids',
         'verificado', 
