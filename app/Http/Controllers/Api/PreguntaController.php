@@ -51,7 +51,20 @@ class PreguntaController extends Controller
                 break;
 
                 case 'sin_verificar':
-                    $preguntas = Pregunta::where('verificado', 0)->with(['user:name,apellidos,img_perfil','respuestas.user:name,apellidos,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
+                    $data = [];
+                    $preguntas = Pregunta::where('verificado', 0)->with(['user:name,apellidos,img_perfil','respuestas'])->get();
+                    foreach($preguntas as $pregunta){
+                        if($pregunta->respuestas()->count() != 0){
+                            array_push($data, $pregunta);
+                        }
+                    }
+                    if(!isset($_GET['page'])){
+                        return response()->json([
+                            'message' => 'Ruta mal escrita',
+                            'data' => 'error',
+                        ],405);
+                    }
+                    $preguntas = $this->paginacionPersonalizada($_GET['page'], $data, 4, 'created_at');
                     $code = 200;
                 break;
 
@@ -94,7 +107,8 @@ class PreguntaController extends Controller
         }
         
         $pregunta = new Pregunta;
-        $pregunta->contenido = $request->contenido;
+        $pregunta->pregunta = $request->pregunta;
+        $pregunta->descripcion = $request->descripcion;
         $pregunta->user_id = $request->user_id;
         $pregunta->verificado = 0;
         $pregunta->reacciones = [];
