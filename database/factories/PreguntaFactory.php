@@ -15,7 +15,8 @@ $factory->define(Pregunta::class, function (Faker $faker) {
     $etiquetas_ids = Etiqueta::pluck('_id')->all();
 
     return [
-        'contenido' => $faker->text(rand(10,200)), 
+        'pregunta' => $faker->text(rand(10,30)), 
+        'descripcion' => $faker->text(rand(10,200)), 
         'user_id' => User::where('activo',1)->get()->random()->_id,
         'etiquetas_ids' => $faker->randomElements($etiquetas_ids, rand(1, 3)),
         'verificado' => $faker->randomElement([1, 0]), 
