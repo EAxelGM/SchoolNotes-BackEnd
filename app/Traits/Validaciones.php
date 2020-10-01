@@ -147,7 +147,8 @@ trait Validaciones {
 
     public function datosPublicacion($data){
         $validator = Validator::make($data, [
-            'contenido' => 'required|string',
+            'pregunta' => 'required|string',
+            'descripcion' => 'required|string',
             'user_id' => 'required|string',
         ]);
         return $validator;
