@@ -67,6 +67,23 @@ trait Validaciones {
         return $data;
     }
 
+    public function preguntaActivo($pregunta){
+        $code = $pregunta ? true : false;
+        if($code){
+            if($pregunta->activo == 1){
+                $data['mensaje'] = 'pregunta Encontrada';
+                $data['code'] = 200;
+            }else{
+                $data['mensaje'] = 'La pregunta ha sido borrada.';
+                $data['code'] = 421;
+            }
+        }else{
+            $data['mensaje'] = 'Oops... no pudimos localizar la pregunta... vuelve a intentarlo.';
+            $data['code'] = 404;
+        }
+        return $data;
+    }
+
     public function comentarioActivo($comentario){
         $code = $comentario ? true : false;
         if($code){
@@ -74,6 +91,18 @@ trait Validaciones {
             $data['code'] = 200;
         }else{
             $data['mensaje'] = 'Oops... no pudimos localizar el comentario o no existe... vuelve a intentarlo.';
+            $data['code'] = 404;
+        }
+        return $data;
+    }
+
+    public function respuestaActivo($respuesta){
+        $code = $respuesta ? true : false;
+        if($code){
+            $data['mensaje'] = 'Respuesta Encontrada';
+            $data['code'] = 200;
+        }else{
+            $data['mensaje'] = 'Oops... no pudimos localizar la respuesta o no existe... vuelve a intentarlo.';
             $data['code'] = 404;
         }
         return $data;
@@ -138,7 +167,8 @@ trait Validaciones {
 
     public function datosPregunta($data){
         $validator = Validator::make($data, [
-            'contenido' => 'required', 
+            'pregunta' => 'required', 
+            'descripcion' => 'required', 
             'user_id' => 'required',
         ]);
         return $validator;

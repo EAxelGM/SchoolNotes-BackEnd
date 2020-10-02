@@ -8,6 +8,8 @@ use App\Traits\Validaciones;
 use App\Traits\Reacciones;
 use App\Publicacion;
 use App\Comentario;
+use App\Respuesta;
+use App\Pregunta;
 use App\User;
 
 class ReaccionController extends Controller
@@ -37,6 +39,14 @@ class ReaccionController extends Controller
 
             case 'comentario':
                 $data = $this->comentario($request->tipo_id,$user);
+            break;
+
+            case 'pregunta':
+                $data = $this->pregunta($request->tipo_id,$user);
+            break;
+
+            case 'respuesta':
+                $data = $this->respuesta($request->tipo_id,$user);
             break;
             
             default:
@@ -80,6 +90,34 @@ class ReaccionController extends Controller
             $data = $this->quitarReaccion($comentario, $user);
         }else{
             $data = $this->darReaccion($comentario, $user);
+        }
+        return $data;
+    }
+
+    public function pregunta($pregunta_id, $user){
+        $pregunta = Pregunta::find($pregunta_id);
+        $data = $this->preguntaActivo($pregunta);
+        if($data['code'] != 200){
+            return $data;
+        }
+        if(in_array($user->_id,$pregunta->reacciones)){
+            $data = $this->quitarReaccion($pregunta, $user);
+        }else{
+            $data = $this->darReaccion($pregunta, $user);
+        }
+        return $data;
+    }
+
+    public function respuesta($respuesta_id, $user){
+        $respuesta = Respuesta::find($respuesta_id);
+        $data = $this->respuestaActivo($respuesta);
+        if($data['code'] != 200){
+            return $data;
+        }
+        if(in_array($user->_id,$respuesta->reacciones)){
+            $data = $this->quitarReaccion($respuesta, $user);
+        }else{
+            $data = $this->darReaccion($respuesta, $user);
         }
         return $data;
     }
