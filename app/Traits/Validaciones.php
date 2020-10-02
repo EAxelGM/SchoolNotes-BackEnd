@@ -2,9 +2,10 @@
 
 namespace App\Traits;
 
-use App\Traits\EnviarCorreos;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
+use App\Traits\EnviarCorreos;
 
 trait Validaciones {
     use EnviarCorreos;
@@ -176,7 +177,8 @@ trait Validaciones {
 
     public function datosPublicacion($data){
         $validator = Validator::make($data, [
-            'contenido' => 'required|string',
+            'pregunta' => 'required|string',
+            'descripcion' => 'required|string',
             'user_id' => 'required|string',
         ]);
         return $validator;
