@@ -44,7 +44,7 @@ class RespuestaController extends Controller
         $respuesta->verificado = 0;
         $respuesta->reacciones = [];
         $respuesta->save();
-
+        $respuesta->user;
         return response()->json([
             'message' => 'Respuesta creada',
             'data' => $respuesta,
