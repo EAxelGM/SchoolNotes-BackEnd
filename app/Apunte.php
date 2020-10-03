@@ -12,6 +12,8 @@ class Apunte extends MongoModel
 
     protected $fillable = [
         'titulo',  
+        'slug',  
+        'descripcion',  
         'archivo',
         'reacciones',
         'activo', 
