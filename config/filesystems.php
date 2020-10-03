@@ -42,7 +42,6 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -65,6 +64,25 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'word' => [
+            'driver' => 'local',
+            'root' => public_path().'/documentos-word',
+        ],
+
+        'power_point' => [
+            'driver' => 'local',
+            'root' => public_path().'/documentos-power-point',
+        ],
+
+        'pdf' => [
+            'driver' => 'local',
+            'root' => public_path().'/documentos-pdf',
+        ],
+
+        'fotos_perfiles' => [
+            'driver' => 'local',
+            'root' => public_path().'/img_perfiles',
+        ],
     ],
 
 ];

@@ -17,31 +17,55 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Login y Register para JWT
-Route::post('register', 'Api\UserController@register');
-Route::post('login', 'Api\UserController@authenticate');
-Route::get('profile', 'Api\UserController@getAuthenticatedUser');
-Route::post('loggout', 'Api\UserController@loggout');
-
 Route::group(['middleware' => ['jwt.verify']], function() {
     /*AÑADE AQUI LAS RUTAS QUE QUIERAS PROTEGER CON JWT*/
 });
 
-Route::resource('usuarios', 'Api\UserController');
-Route::post('cambiar-contrasena', 'Api\UserController@cambiarContrasena');
-Route::post('usuario-img-perfil', 'Api\UserController@imgPerfil');
+Route::group(['namespace' => 'Api'], function() {
+    // Rutas de los controladores dentro del Namespace "App\Http\Controllers\Api"
 
-Route::resource('publicaciones', 'Api\PublicacionController');
-Route::resource('apuntes', 'Api\ApunteController');
-Route::resource('etiquetas', 'Api\EtiquetaController');
+    //Login y Register para JWT
+    Route::post('register', 'Api\UserController@register');
+    Route::post('login', 'Api\UserController@authenticate');
+    Route::get('profile', 'Api\UserController@getAuthenticatedUser');
+    Route::post('loggout', 'Api\UserController@loggout');
+    
+    /** USUARIOS */
+    Route::resource('usuarios', 'UserController');
+    Route::post('cambiar-contrasena', 'UserController@cambiarContrasena');
+    Route::post('usuario-img-perfil', 'UserController@imgPerfil');
+    Route::get('re-enviar-correo-verificacion/{id}', 'UserController@enviarCorreo');
+    
+    /**pUBLICACIONES */
+    Route::resource('publicaciones', 'PublicacionController');
+    
+    /**APUNTES */
+    Route::resource('apuntes', 'ApunteController');
+    Route::post('upload-file', 'ApunteController@uploadFile');
+    
+    /**ETIQUETAS */
+    Route::resource('etiquetas', 'EtiquetaController');
+
+    /**COMENTARIOS */
+    Route::resource('comentarios', 'ComentarioController');
+
+    /**PREGUNTAS */
+    Route::resource('preguntas', 'PreguntaController');
+
+    /**RESPUESTAS */
+    Route::resource('respuestas', 'RespuestaController');
+
+    /**SEGUIMIENTOS */
+    Route::post('seguir', 'SeguirController@seguir');
+
+    /**REACCIONES */
+    Route::post('reaccion', 'ReaccionController@index');
+
+    /**RESPUESTAS */
+    Route::post('valida-respuesta', 'RespuestaController@validaRespuesta');
+
+});
+
 Route::resource('categorias', 'Api\CategoriaController');
-Route::resource('comentarios', 'Api\ComentarioController');
-Route::resource('preguntas', 'Api\PreguntaController');
-Route::resource('respuestas', 'Api\RespuestaController');
 
-Route::post('seguir', 'Api\SeguirController@seguir');
-Route::post('reaccion', 'Api\ReaccionController@index');
 
-Route::get('re-enviar-correo-verificacion/{id}', 'Api\UserController@enviarCorreo');
-
-Route::post('valida-respuesta', 'Api\RespuestaController@validaRespuesta');

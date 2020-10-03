@@ -11,13 +11,12 @@ class Apunte extends MongoModel
     protected $table='apuntes';
 
     protected $fillable = [
-        'contenido',  
-        'imagenes',
+        'titulo',  
+        'archivo',
         'reacciones',
         'activo', 
         'user_id',
-        'etiqueta_ids',
-        'categoria_id',
+        'etiquetas_ids',
     ];
 
     public function user()

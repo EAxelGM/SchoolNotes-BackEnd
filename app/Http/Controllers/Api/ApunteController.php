@@ -4,82 +4,98 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Traits\Funciones;
+use App\User;
+use App\Apunte;
 
 class ApunteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    use Funciones;
+
     public function index()
     {
         //
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
-        return $request->all();
-    }
+        $user = User::find($request->user_id);
+        if(!$user){
+            return response()->json([
+                'message' => 'Error al encontrar al usuario...',
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+            ],404);
+        }
+
+        $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
+        
+        if($subir['path'] == null){
+            return response()->json([
+                'message' => $subir['message'],
+                'data' => $subir['path'],
+            ],$subir['code']);
+        }
+        $slug = explode(".", $subir['casi_slug']);
+
+        $apunte = new Apunte;
+        $apunte->titulo = $request->titulo;
+        $apunte->slug = $slug[0];
+        $apunte->descripcion = $request->descripcion;
+        $apunte->archivo = $subir['path'];
+        $apunte->user_id = $user->_id;
+        $apunte->etiquetas_ids = $request->etiquetas_ids;
+        $apunte->reacciones = [];
+        $apunte->activo = 1;
+        $apunte->save();
+        $apunte->user;
+
+        return response()->json([
+            'message' => $subir['message'],
+            'data' => $apunte,
+        ],$subir['code']);
+    }
+    
     public function show($id)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($id)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         //
+    }
+
+    public function uploadFile(Request $request){
+        $user = User::find($request->user_id);
+        if(!$user){
+            return response()->json([
+                'message' => 'Error al encontrar al usuario...',
+
+            ],404);
+        }
+
+        $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
+
+        return response()->json([
+            'message' => $subir['message'],
+            'path' => $subir['path'],
+        ],$subir['code']);
+
+
     }
 }
