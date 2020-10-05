@@ -22,7 +22,7 @@ $factory->define(Comentario::class, function (Faker $faker) {
         ];
     }else{
         return [
-            'apunte_id' => 'EL ID SE AGREGARA PRONTO',
+            'apunte_id' => App\Apunte::all()->random()->_id,
             'publicacion_id' => null,
             'comentario' => $faker->text(rand(20,100)),
             'reacciones' => $faker->randomElements($users_ids, rand(0, $user_count)), 

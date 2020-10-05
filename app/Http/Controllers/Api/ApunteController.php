@@ -5,31 +5,62 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Funciones;
+use App\Traits\Validaciones;
 use App\User;
 use App\Apunte;
 
 class ApunteController extends Controller
 {
-    use Funciones;
+    use Funciones, Validaciones;
 
     public function index()
     {
-        //
-    }
-    
-    public function create()
-    {
-        //
+        $id = isset($_GET['user_id']);
+        $page = isset($_GET['page']);
+        if(!$id || !$page){
+            return response()->json([
+                'message' => 'La ruta esta mal escrita.',
+            ],405);
+        }
+        $id = $_GET['user_id'];
+        $page = $_GET['page'];
+        
+        $user = User::find($id);
+        if(!$user){
+            return response()->json([
+                'message' => 'Este ID '. $id .' no existe',
+            ],404);
+        }
+
+        $apuntes = [];
+
+        foreach($user->etiquetas_ids as $etiqueta){
+            $apuntes_for = Apunte::where([
+                ['etiquetas_ids', $etiqueta],
+                ['activo', 1],
+            ])
+            ->with('user:name,apellidos,img_perfil')->get();
+
+            foreach($apuntes_for as $i){
+                array_push($apuntes, $i);
+            }
+        }
+
+        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
+        return response()->json([
+            'message' => 'Success',
+            'data' => $apuntes,
+        ],200);
     }
     
     public function store(Request $request)
     {
         $user = User::find($request->user_id);
-        if(!$user){
+        $valida = $this->userActivoVerificado($user);
+        if(!$valida['code'] != 200){
             return response()->json([
-                'message' => 'Error al encontrar al usuario...',
-
-            ],404);
+                'message' => $valida['mensaje'],
+            ],$valida['code']);
         }
 
         $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
@@ -77,25 +108,32 @@ class ApunteController extends Controller
     
     public function destroy($id)
     {
-        //
-    }
-
-    public function uploadFile(Request $request){
-        $user = User::find($request->user_id);
-        if(!$user){
-            return response()->json([
-                'message' => 'Error al encontrar al usuario...',
-
-            ],404);
+        $apunte = Apunte::find($id);
+        $code = $apunte ? 200 : 404;
+        if($code == 200){
+            switch ($apunte->activo) {
+                case 1:
+                    $apunte->activo = 0;
+                    $apunte->save();
+                    $mensaje= 'Apunte Borrado con exito!';
+                break;
+                case 0:
+                    $apunte->activo = 1;
+                    $apunte->save();
+                    $mensaje= 'Apunte Activado con exito!';
+                break;
+                
+                default:
+                    $mensaje= 'Oops... Al parecer hubo un error al eliminar.';
+                break;
+            }
+            
+        }else{
+            $mensaje = 'No pudimos encontrar el Apunte.';
         }
 
-        $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
-
         return response()->json([
-            'message' => $subir['message'],
-            'path' => $subir['path'],
-        ],$subir['code']);
-
-
+            'message' => $mensaje,
+        ],$code);
     }
 }
