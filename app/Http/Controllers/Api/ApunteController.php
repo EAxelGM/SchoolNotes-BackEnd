@@ -108,7 +108,7 @@ class ApunteController extends Controller
     
     public function update(Request $request, $id)
     {
-        //
+        return response()->json(['message' => 'Por el momento esta cancelado editar apuntes'],404);
     }
     
     public function destroy($id)
