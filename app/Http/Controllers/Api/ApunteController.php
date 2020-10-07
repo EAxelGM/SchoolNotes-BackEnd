@@ -93,7 +93,17 @@ class ApunteController extends Controller
     
     public function show($id)
     {
-        //
+        $apunte = Apunte::where([['slug', $id],['activo', 1]])
+        ->with('user:name,apellidos,img_perfil','comentarios.user:name,apellidos,img_perfil')->first();
+        if(!$apunte){
+            return response()->json([
+                'message' => 'No encontramos el apunte',
+            ],404);
+        }
+        return response()->json([
+            'message' => 'Success',
+            'data' => $apunte,
+        ],200);
     }
     
     public function edit($id)

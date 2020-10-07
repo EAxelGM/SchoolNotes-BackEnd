@@ -25,4 +25,9 @@ class Apunte extends MongoModel
     {
         return $this->belongsTo('App\User');
     }
+
+    public function comentarios()
+    {
+        return $this->hasMany('App\Comentario');
+    }
 }

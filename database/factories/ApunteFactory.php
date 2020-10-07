@@ -14,7 +14,7 @@ $factory->define(Apunte::class, function (Faker $faker) {
     $etiqueta_count = Etiqueta::all()->count();
     $etiquetas_ids = Etiqueta::pluck('_id')->all();
 
-    $titulo = $faker->text(rand(10,15));
+    $titulo = $faker->text(rand(10,15)).' '.rand(123456,654321);
     return [
         'titulo' => $titulo,
         'slug' => Str::slug($titulo),
