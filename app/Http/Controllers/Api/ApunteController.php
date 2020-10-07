@@ -57,7 +57,7 @@ class ApunteController extends Controller
     {
         $user = User::find($request->user_id);
         $valida = $this->userActivoVerificado($user);
-        if(!$valida['code'] != 200){
+        if($valida['code'] != 200){
             return response()->json([
                 'message' => $valida['mensaje'],
             ],$valida['code']);
@@ -104,11 +104,6 @@ class ApunteController extends Controller
             'message' => 'Success',
             'data' => $apunte,
         ],200);
-    }
-    
-    public function edit($id)
-    {
-        //
     }
     
     public function update(Request $request, $id)

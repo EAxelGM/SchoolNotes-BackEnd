@@ -15,13 +15,13 @@
     <![endif]-->
     <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]-->
     <!--[if gte mso 9]>
-<xml>
-    <o:OfficeDocumentSettings>
-    <o:AllowPNG></o:AllowPNG>
-    <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-</xml>
-<![endif]-->
+    <xml>
+        <o:OfficeDocumentSettings>
+        <o:AllowPNG></o:AllowPNG>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
     <!--[if !mso]><!-- -->
     <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
     <!--<![endif]-->
