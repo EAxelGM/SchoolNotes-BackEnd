@@ -41,6 +41,7 @@ Route::group(['namespace' => 'Api'], function() {
     
     /**APUNTES */
     Route::resource('apuntes', 'ApunteController');
+    Route::get('apuntes/{id}/usuario', 'ApunteController@apuntesUsuario');
     Route::post('upload-file', 'ApunteController@uploadFile');
     
     /**ETIQUETAS */

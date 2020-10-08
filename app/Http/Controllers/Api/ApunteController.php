@@ -141,4 +141,13 @@ class ApunteController extends Controller
             'message' => $mensaje,
         ],$code);
     }
+
+    public function apuntesUsuario($id){
+        $mis_apuntes = Apunte::where('user_id', $id)->with('user:name,apellidos,img_perfil')->orderBy('created_at', 'DESC')->paginate(4);
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $mis_apuntes,
+        ],200);
+    }
 }
