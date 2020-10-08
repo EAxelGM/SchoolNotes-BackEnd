@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Validaciones;
 use App\Traits\Reacciones;
+use App\Apunte;
 use App\Publicacion;
 use App\Comentario;
 use App\Respuesta;
