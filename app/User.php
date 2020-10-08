@@ -37,6 +37,7 @@ class User extends MongoModel implements Authenticatable,JWTSubject
         'etiquetas_ids',
         'clips',
         'diamond_clips',
+        'apuntes_comprados',
         'tipo',
         'activo',
     ];

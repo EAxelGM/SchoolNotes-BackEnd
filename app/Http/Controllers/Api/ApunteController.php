@@ -150,4 +150,36 @@ class ApunteController extends Controller
             'data' => $mis_apuntes,
         ],200);
     }
+
+    public function comprarApunte(Request $request){
+        
+        $apunte = Apunte::find($request->apunte_id);
+        $user = User::find($request->user_id);
+
+        if(!$apunte || !$user){
+            return response()->json([
+                'message' => 'apunte o usuario no existen'
+            ],404);
+        }
+        
+        /**Validar clips */
+
+
+        $apuntes_comprados = $user->apuntes_comprados;
+        if(in_array($apunte->_id, $apuntes_comprados)){
+            return response()->json([
+                'message' => 'Ya has comprado -'.$apunte->titulo.'- anteriormente',
+            ],421);
+        }                                                                                                                                                                                                                  
+        array_push($apuntes_comprados, $apunte->_id);
+
+        $user->apuntes_comprados = $apuntes_comprados;
+        $user->save();        
+
+        return response()->json([
+            'message' => 'Apunte comprado.',
+        ]);
+    }
+
+
 }

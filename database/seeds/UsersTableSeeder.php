@@ -24,9 +24,10 @@ class UsersTableSeeder extends Seeder
             'img_perfil' => 'https://launcher.galaxylifereborn.com/uploads/avatars/70432.png',
             'seguidos' => [],
             'seguidores' => [],
-            'etiquetas_ids' => [],
+            'etiquetas_ids' => [App\Etiqueta::pluck('_id')->first()],
             'clips' => 99999,
             'diamond_clips' => 9999,
+            'apuntes_comprados' => [],
             'tipo' => 'adminsitrador',
             'activo' => 1,
         ]);
@@ -44,9 +45,10 @@ class UsersTableSeeder extends Seeder
             'img_perfil' => 'https://launcher.galaxylifereborn.com/uploads/avatars/198.png',
             'seguidos' => [],
             'seguidores' => [],
-            'etiquetas_ids' => [],
+            'etiquetas_ids' => [App\Etiqueta::pluck('_id')->first()],
             'clips' => 9999,
             'diamond_clips' => 999,
+            'apuntes_comprados' => [],
             'tipo' => 'usuario',
             'activo' => 1,
         ]);
