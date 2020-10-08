@@ -74,4 +74,8 @@ class User extends MongoModel implements Authenticatable,JWTSubject
     public function publicaciones(){
         return $this->hasMany('App\Publicacion');
     }
+
+    public function apuntes(){
+        return $this->hasMany('App\Apunte');
+    }
 }

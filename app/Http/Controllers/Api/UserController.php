@@ -201,7 +201,6 @@ class UserController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
         }
         $user->publicaciones;
-        $user->apuntes;
         $etiquetas = [];
         foreach($user->etiquetas_ids as $etiqueta_id){
             $etiqueta = Etiqueta::find($etiqueta_id);
