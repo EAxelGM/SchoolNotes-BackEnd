@@ -8,6 +8,7 @@ use App\Traits\Funciones;
 use App\Traits\Validaciones;
 use App\User;
 use App\Apunte;
+use App\Etiqueta;
 
 class ApunteController extends Controller
 {
@@ -45,7 +46,7 @@ class ApunteController extends Controller
                 array_push($apuntes, $i);
             }
         }
-
+        
         $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
         return response()->json([
             'message' => 'Success',
@@ -143,8 +144,9 @@ class ApunteController extends Controller
     }
 
     public function apuntesUsuario($id){
-        $mis_apuntes = Apunte::where('user_id', $id)->with('user:name,apellidos,img_perfil')->orderBy('created_at', 'DESC')->paginate(4);
-
+        $mis_apuntes = Apunte::where([['user_id', $id],['activo', 1]])
+        ->with('user:name,apellidos,img_perfil')->paginate(4);
+        
         return response()->json([
             'message' => 'success',
             'data' => $mis_apuntes,

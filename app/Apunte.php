@@ -30,4 +30,9 @@ class Apunte extends MongoModel
     {
         return $this->hasMany('App\Comentario');
     }
+
+    public function etiqueta()
+    {
+        return $this->belongsTo('App\Etiqueta');
+    }
 }
