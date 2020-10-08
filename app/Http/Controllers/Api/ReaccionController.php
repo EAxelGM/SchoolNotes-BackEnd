@@ -61,8 +61,16 @@ class ReaccionController extends Controller
     }
 
     public function apunte($apunte_id, $user){
-        $data['mensaje'] = 'Los apuntes aun estan en desarrollo, no se puede reaccionar.';
-        $data['code'] = 421;
+        $apunte = Apunte::find($apunte_id);
+        $data = $this->apunteActivo($apunte);
+        if($data['code'] != 200){
+            return $data;
+        }
+        if(in_array($user->_id,$apunte->reacciones)){
+            $data = $this->quitarReaccion($apunte, $user);
+        }else{
+            $data = $this->darReaccion($apunte, $user);
+        }
         return $data;
     }
 
