@@ -66,6 +66,9 @@ Route::group(['namespace' => 'Api'], function() {
     /**RESPUESTAS */
     Route::post('valida-respuesta', 'RespuestaController@validaRespuesta');
 
+    /**CLIPS */
+    Route::post('comprar-clips', 'ClipsController@compraClips');
+    
 });
 
 Route::resource('categorias', 'Api\CategoriaController');

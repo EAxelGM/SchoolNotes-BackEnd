@@ -13,6 +13,5 @@ class CompraClips extends Model
         'user_id',
         'clips_recibidos',
         'plan',
-
     ];
 }

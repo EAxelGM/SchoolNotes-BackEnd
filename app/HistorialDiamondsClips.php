@@ -4,10 +4,10 @@ namespace App;
 
 use Jenssegers\Mongodb\Eloquent\Model as MongoModel;
 
-class HistorialClips extends MongoModel
+class HistorialDiamondsClips extends MongoModel
 {
     protected $primaryKey="_id";
-    protected $table='historial_clips';
+    protected $table='historial_diamonds_clips';
 
     protected $fillable = [
         'user_paga',

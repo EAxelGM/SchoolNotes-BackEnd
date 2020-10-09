@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Funciones;
 use App\Traits\Validaciones;
+use App\Traits\Transacciones;
 use App\User;
 use App\Apunte;
 use App\Etiqueta;
 
 class ApunteController extends Controller
 {
-    use Funciones, Validaciones;
+    use Funciones, Validaciones, Transacciones;
 
     public function index()
     {
@@ -85,7 +86,10 @@ class ApunteController extends Controller
         $apunte->activo = 1;
         $apunte->save();
         $apunte->user;
-
+    
+        //Se le dan 25 clips por subir un apunte
+        $this->pagoApunte($user,$apunte, 25);
+        
         return response()->json([
             'message' => $subir['message'],
             'data' => $apunte,
@@ -165,22 +169,11 @@ class ApunteController extends Controller
         }
         
         /**Validar clips */
-
-
-        $apuntes_comprados = $user->apuntes_comprados;
-        if(in_array($apunte->_id, $apuntes_comprados)){
-            return response()->json([
-                'message' => 'Ya has comprado -'.$apunte->titulo.'- anteriormente',
-            ],421);
-        }                                                                                                                                                                                                                  
-        array_push($apuntes_comprados, $apunte->_id);
-
-        $user->apuntes_comprados = $apuntes_comprados;
-        $user->save();        
+        $valida = $this->desbloquearApunte($user,$apunte, 25, 10); 
 
         return response()->json([
-            'message' => 'Apunte comprado.',
-        ]);
+            'message' => $valida['mensaje'],
+        ],$valida['code']);
     }
 
 

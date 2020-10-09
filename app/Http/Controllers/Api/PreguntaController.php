@@ -9,10 +9,11 @@ use App\Etiqueta;
 use App\User;
 use App\Traits\Validaciones;
 use App\Traits\Funciones;
+use App\Traits\Transacciones;
 
 class PreguntaController extends Controller
 {
-    use Validaciones, Funciones;
+    use Validaciones, Funciones,Transacciones;
 
     public function index()
     {
@@ -92,7 +93,6 @@ class PreguntaController extends Controller
     
     public function store(Request $request)
     {
-        //return $request->all();
         $validator = $this->datosPregunta($request->all());
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
@@ -105,7 +105,7 @@ class PreguntaController extends Controller
                 'message' => $data['mensaje'],
             ],$data['code']);
         }
-        
+
         $pregunta = new Pregunta;
         $pregunta->pregunta = $request->pregunta;
         $pregunta->descripcion = $request->descripcion;
@@ -114,11 +114,13 @@ class PreguntaController extends Controller
         $pregunta->reacciones = [];
         $pregunta->etiquetas_ids = $request->etiquetas_ids;
         $pregunta->save();
-        
+
+        $valida = $this->creacionPregunta($user,$pregunta, 15);
+
         return response()->json([
-            'message' => 'Pregunta creada.',
+            'message' => $valida['mensaje'],
             'data' => $pregunta
-        ],201);
+        ],$valida['code']);
     }
     
     public function show($id)

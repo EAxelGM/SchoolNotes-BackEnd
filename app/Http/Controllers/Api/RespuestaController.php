@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Validaciones;
+use App\Traits\Transacciones;
 use App\Respuesta;
 use App\Pregunta;
 use App\User;
 
 class RespuestaController extends Controller
 {
-    use Validaciones;
+    use Validaciones,Transacciones;
 
     public function index()
     {
@@ -144,6 +145,7 @@ class RespuestaController extends Controller
                         'message' => 'al parecer ya existe una respuesta verificada para esta pregunta. ',
                     ],403);
                 }
+                $this->verificacionRespuesta($respuesta,$pregunta, 5);
                 $respuesta->verificado = 1;
                 $pregunta->verificado = 1;
                 $mensaje = 'La respuesta se ha verificado';
