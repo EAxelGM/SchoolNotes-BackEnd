@@ -176,5 +176,35 @@ class ApunteController extends Controller
         ],$valida['code']);
     }
 
+    public function apuntesGuardados($id){
+        $page = isset($_GET['page']);
+        if(!$page){
+            return response()->json([
+                'message' => 'La ruta esta mal escrita.',
+            ],405);
+        }
+        $page = $_GET['page'];
+
+        $user = User::find($id);
+        if(!$user){
+            return response()->json([
+                'message' => 'Este usuario no existe',
+            ],404);
+        }
+        $apuntes = [];
+
+        foreach($user->apuntes_comprados as $id){
+            $note = Apunte::where('_id', $id)->with('user:name,apellidos,img_perfil')->first();
+            array_push($apuntes,$note);
+        }
+        
+        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $apuntes,
+        ],200);
+    }
+
 
 }

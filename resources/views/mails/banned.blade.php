@@ -1,51 +1,21 @@
-@extends('layouts.mail')
-
-@section('pestana1')
-    Sitio Oficial
-@endsection
-
-@section('pestana2')
-    <a href="#" class="view" target="_blank" style="font-family: 'arial', 'helvetica neue', 'helvetica', 'sans-serif';">
-        SchoolNotes
-    </a>
-@endsection
-
-@section('logo')
-    <a href="#" target="_blank">
-        <img src="{{$imagenes['large']}}" alt style="display: block;" width="150">
-    </a>
-@endsection
-
-@section('titulo')
-    BIENVENIDO <br /> {{$data->name}} {{$data->apellidos}} 
-@endsection
-
-@section('descripcion')
-    Gracias por registrarte, solo falta activar tu cuenta  <br /> {{$data->email}} ✔
-@endsection
-
-@section('boton')
-    <!--a href="{{ url('/validar/'.$data->id.'/'.$data->email) }}" class="es-button" target="_blank" style="background: #00cba0 none repeat scroll 0% 0%; border-color: #00cba0;">
-        Verificar Correo
-    </a-->
-@endsection
+@extends('layouts.mailWarnBan')
 
 @section('asunto')
-    ¡TU CUENTA NO ESTA ACTIVA! 🚧
+    ¡TU CUENTA HA SIDO BANEADA (SUSPENDIDA)! 🚧
 @endsection
 
 @section('cuerpo1')
-    ¿Que pasaria si no activo mi cuenta? 😲
+    ¿Por que suspendimos tu cuenta? 😲
 @endsection
 
 @section('cuerpo2')
-    No tendrias acceso a tu cuenta <strong>{{$data->email}}</strong>, No podras ver apuntes y publicaciones dentro de la plataforma. 😰<br />
-    Por favor activa tu cuenta y muchas gracias por registrarte en SchoolNotes. 🥺 <br><br>
-    La validacion de este email expira en un dia. Si ya ha pasado mas de un dia y no verificaste tu correo, entra a SchoolNotes y reenvia el correo electronico. Tenemos protegida tu cuenta para que no entre cualquier intruso 👮🏼‍♂️.
+    Tu cuenta ha recibido {{$data['warnings']}} warnings, lo cual 3 warnings es un <strong>Baneo Automatico</strong>, esto quiere decir muchas cosas, archivos vacios, ofenzas a la comunidad, contenido 🔞, etc. por eso mismo tu baneo ha sido automatico.
+    <br><br>
+    Igual manera si piensas que tu ultimo warning o los demas warnings han sido un error, puedes contactarnos para solucionar o reactivar tu cuenta, siempre y cuando sea con honestidad y respeto.
 @endsection
 
 @section('despedida')
-    Te damos las gracias el equipo de SchoolNotes 🥳
+    El equipo de SchoolNotes.
 @endsection
 
 @section('iconoEmpresa')
@@ -60,20 +30,6 @@
 
 @section('descripcionEmpresa')
     schoolnotes.info@gmail.com
-@endsection
-
-@section('titulo2')
-    ACTIVA TU CORREO ELETRONICO <br /> {{$data->email}}
-@endsection
-
-@section('descripcion2')
-    👇🏼 Activa tu cuenta 👇🏼 
-@endsection
-
-@section('boton2')
-    <a href="{{ url('/validar/'.$data->id.'/'.$data->token_verificacion['token']) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
-        ACTIVAR CUENTA ➡
-    </a>
 @endsection
 
 @section('facebook')

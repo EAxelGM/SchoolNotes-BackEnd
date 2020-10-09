@@ -1,51 +1,31 @@
-@extends('layouts.mail')
-
-@section('pestana1')
-    Sitio Oficial
-@endsection
-
-@section('pestana2')
-    <a href="#" class="view" target="_blank" style="font-family: 'arial', 'helvetica neue', 'helvetica', 'sans-serif';">
-        SchoolNotes
-    </a>
-@endsection
-
-@section('logo')
-    <a href="#" target="_blank">
-        <img src="{{$imagenes['large']}}" alt style="display: block;" width="150">
-    </a>
-@endsection
-
-@section('titulo')
-    BIENVENIDO <br /> {{$data->name}} {{$data->apellidos}} 
-@endsection
-
-@section('descripcion')
-    Gracias por registrarte, solo falta activar tu cuenta  <br /> {{$data->email}} ✔
-@endsection
-
-@section('boton')
-    <!--a href="{{ url('/validar/'.$data->id.'/'.$data->email) }}" class="es-button" target="_blank" style="background: #00cba0 none repeat scroll 0% 0%; border-color: #00cba0;">
-        Verificar Correo
-    </a-->
-@endsection
+@extends('layouts.mailWarnBan')
 
 @section('asunto')
-    ¡TU CUENTA NO ESTA ACTIVA! 🚧
+    ¡HAS RECIBIDO UN WARNING! 🚧
 @endsection
 
 @section('cuerpo1')
-    ¿Que pasaria si no activo mi cuenta? 😲
+    ¿Que es un Warning? 😲
 @endsection
 
 @section('cuerpo2')
-    No tendrias acceso a tu cuenta <strong>{{$data->email}}</strong>, No podras ver apuntes y publicaciones dentro de la plataforma. 😰<br />
-    Por favor activa tu cuenta y muchas gracias por registrarte en SchoolNotes. 🥺 <br><br>
-    La validacion de este email expira en un dia. Si ya ha pasado mas de un dia y no verificaste tu correo, entra a SchoolNotes y reenvia el correo electronico. Tenemos protegida tu cuenta para que no entre cualquier intruso 👮🏼‍♂️.
+    Un warning son advertencias que manejamos en SchoolNotes para mantener la plataforma lo mas segura posible gracias a la comunidad,
+    @if($warning['total_warnings'] == 1)
+        al parecer has recibido tu primer warning, 
+    @else
+        podemos observar que ya tienes {{$warning['total_warnings']}} warnings en tu cuenta,
+    @endif
+    pero debemos advertirte que si llegas a 3 tu cuenta podria llegar a ser baneada (prohibida) y nunca jamas podras utilizar SchoolNotes 
+    <br><br><br>
+    <strong>Motivo nadarrado por un administrador</strong>
+    <p>{{$warning->motivo}}</p>
+    <br><br>
+    Si crees que esto es un error. <br>
+    Puedes contactar al correo electronico oficial schoolnotes.info@gmail.com para tratar asuntos sobre tu warning y ver que podemos solucionar en tu caso
 @endsection
 
 @section('despedida')
-    Te damos las gracias el equipo de SchoolNotes 🥳
+    Sin mas que decir {{$data->name}} {{$data->apellidos}}, te agradecemos el equipo de SchoolNotes por usar nuestros servicios 🥳.
 @endsection
 
 @section('iconoEmpresa')
@@ -60,20 +40,6 @@
 
 @section('descripcionEmpresa')
     schoolnotes.info@gmail.com
-@endsection
-
-@section('titulo2')
-    ACTIVA TU CORREO ELETRONICO <br /> {{$data->email}}
-@endsection
-
-@section('descripcion2')
-    👇🏼 Activa tu cuenta 👇🏼 
-@endsection
-
-@section('boton2')
-    <a href="{{ url('/validar/'.$data->id.'/'.$data->token_verificacion['token']) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
-        ACTIVAR CUENTA ➡
-    </a>
 @endsection
 
 @section('facebook')

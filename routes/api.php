@@ -42,6 +42,7 @@ Route::group(['namespace' => 'Api'], function() {
     /**APUNTES */
     Route::resource('apuntes', 'ApunteController');
     Route::get('apuntes/{id}/usuario', 'ApunteController@apuntesUsuario');
+    Route::get('apuntes/{id}/documentos-guardados', 'ApunteController@apuntesGuardados');
     Route::post('upload-file', 'ApunteController@uploadFile');
     Route::post('comprar-apunte', 'ApunteController@comprarApunte');
     
@@ -68,6 +69,9 @@ Route::group(['namespace' => 'Api'], function() {
 
     /**CLIPS */
     Route::post('comprar-clips', 'ClipsController@compraClips');
+
+    /**WARNINGS */
+    Route::resource('warning', 'WarningController');
     
 });
 

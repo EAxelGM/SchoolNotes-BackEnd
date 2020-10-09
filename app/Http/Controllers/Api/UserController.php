@@ -239,7 +239,7 @@ class UserController extends Controller
 
         //Envia correo para verificar el correo electronico
         $this->enviarCorreo($user->_id);
-
+        
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('user','token'),201);
     }
