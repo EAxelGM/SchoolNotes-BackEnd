@@ -230,7 +230,7 @@ class UserController extends Controller
             'img_perfil' => asset('img_perfiles/default.png'),
             'seguidos' => [],
             'seguidores' => [],
-            'etiquetas' => [],
+            'etiquetas_ids' => $request->get('etiquetas'),
             'clips' => 0,
             'diamond_clips' => 0,
             'tipo' => 'usuario',
