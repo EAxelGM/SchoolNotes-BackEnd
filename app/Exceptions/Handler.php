@@ -52,8 +52,8 @@ class Handler extends ExceptionHandler
     {
         if(!config('app.debug')){
             return response()->json([
-                'mensaje' => 'Al parecer hubo un error...',
-                'message' => $exception->getMessage(),
+                'message' => 'Oops... Al parecer hubo un error, envia imagenes o video a schoolnotes.info@gmail.com de como se provoca o explicando como salio ese error. Gracias',
+                'mensaje' => $exception->getMessage(),
                 'headers' => $exception->getHeaders(),
                 'code' => $exception->getStatusCode(),
             ],$exception->getStatusCode());
