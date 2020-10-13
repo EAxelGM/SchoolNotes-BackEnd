@@ -15,7 +15,7 @@ class Cors
      */
     public function handle($request, Closure $next) {
         return $next($request)
-        ->header('Access-Control-Allow-Origin','https://schoolnotes.live')
+        ->header('Access-Control-Allow-Origin','https://www.schoolnotes')
         ->header('Access-Control-Allow-Methods','GET, POST, PUT, PATCH, DELETE, OPTIONS')
         ->header('Access-Control-Allow-Headers','Content-Type, Authorization');
         
