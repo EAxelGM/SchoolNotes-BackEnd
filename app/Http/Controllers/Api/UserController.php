@@ -51,7 +51,7 @@ class UserController extends Controller
     public function store(Request $request){
         //
     }
-    
+
     public function show($id){
         $user = User::find($id);
         $mensaje = $user ? 'Usuario encontrado con exito' : 'No existe ningun usuario con ese ID';
@@ -72,7 +72,7 @@ class UserController extends Controller
             'message' => $mensaje,
             'data' => $user,
         ],$code);
-    } 
+    }
 
     public function update(Request $request, $id){
         $user = User::find($id);
@@ -80,6 +80,8 @@ class UserController extends Controller
         $code = $user ? 200 : 404;
 
         if($code >= 200 && 299 >= $code){
+
+
             $user->fill($request->all());
             if($user->isClean()){
                 return response()->json(['message'=>'Especifica al menos un valor diferente'],421);
@@ -102,7 +104,7 @@ class UserController extends Controller
     public function imgPerfil(Request $request){
         $user = User::find($request->id);
         $code = $user ? 200 : 404;
-
+        $mensaje_clip = '';
         if($code == 200){
             //foto de perfil
             $validator = Validator::make($request->all(), [
@@ -111,19 +113,23 @@ class UserController extends Controller
             if($validator->fails()){
                 return response()->json($validator->errors()->toJson(), 400);
             }
+            if($user->img_perfil == asset('img_perfiles/default.png')){
+              $user->clips = $user->clips+10;
+              $mensaje_clip = ', Se te han añadido 10 clips a tu cuenta.';
+            }
             if($request->file('img_perfil')){
                 $path = Storage::disk('fotos_perfiles')->put('img_perfiles', $request->file('img_perfil'));
                 $user->fill(['img_perfil' => asset($path)])->save();
             }
         }
-        $mensaje = $user ? 'Foto de perfil modificada con exito' : 'No existe ningun usuario con ese ID';
-        
+        $mensaje = $user ? 'Foto de perfil modificada con exito'.$mensaje_clip : 'No existe ningun usuario con ese ID';
+
         return response()->json([
             'message' => $mensaje,
             'data' => $user,
         ],$code);
     }
-    
+
     public function destroy($id){
         $user = User::find($id);
         $code = $user ? 200 : 404;
@@ -140,7 +146,7 @@ class UserController extends Controller
                     $mensaje = 'Usuario activado con exito';
                     $user->save();
                 break;
-                
+
                 default:
                     $mensaje = 'Oops... hubo un error con este usuario: '.$user->_id;
                 break;
@@ -148,7 +154,7 @@ class UserController extends Controller
         }else{
             $mensaje = 'No pudimos encontrar a este usuario para poder eliminarlo.';
         }
-        
+
         return response()->json([
             'message' => $mensaje,
             'data' => $user,
@@ -187,7 +193,7 @@ class UserController extends Controller
             ], 500);
         }
     }
-    
+
     public function getAuthenticatedUser(){
         try {
             if (!$user = JWTAuth::parseToken()->authenticate()) {
@@ -243,7 +249,7 @@ class UserController extends Controller
 
         //Envia correo para verificar el correo electronico
         $this->enviarCorreo($user->_id);
-        
+
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('user','token'),201);
     }
@@ -282,7 +288,7 @@ class UserController extends Controller
         if($code == 200){
             $expiracion = Carbon::parse($user->token_verificacion['expira']);
             $expiracion = Carbon::now()->diffInHours($expiracion,false);
-            
+
             if($expiracion >= 0){
                 if($user->token_verificacion['token'] == $token){
                     $mensaje = !$user->correo_verificado ? 'Se ha verificado con exito el Correo Electronico '.$user->email : 'Este Correo electronico ya habia sido verificado.';
@@ -316,7 +322,7 @@ class UserController extends Controller
                     return response()->json([
                         'message' => 'La contraseña se ha modifificado con exito.',
                     ], 200);
-                    
+
                 }else{
                     return response()->json([
                         'message' => 'Las contrseñas no coinciden',
@@ -333,7 +339,7 @@ class UserController extends Controller
                 'message' => 'Este usuario no existe.',
             ], 421);
         }
-        
+
         return response()->json([
             'message' => 'Ha ocurrido un error.',
         ], 500);
@@ -352,7 +358,7 @@ class UserController extends Controller
             }else{
                 $expiracion = Carbon::parse($user->token_verificacion['expira']);
                 $expiracion = Carbon::now()->diffInHours($expiracion,false);
-                
+
                 if($expiracion >= 0){
                     if($user->token_verificacion['token'] == $token){
                         $mensaje = 'Hemos comprobado, que tu solicitaste este cambio, porfavor continua con tu cambio de contraseña.';
