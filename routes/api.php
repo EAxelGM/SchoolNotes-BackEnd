@@ -16,17 +16,19 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['namespace' => 'Api'], function() {
+    
+    //Login y Register para JWT
+    Route::post('register', 'UserController@register');
+    Route::post('login', 'UserController@authenticate');
+    Route::get('profile', 'UserController@getAuthenticatedUser');
+    Route::post('loggout', 'UserController@loggout');
+});
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     /*AÑADE AQUI LAS RUTAS QUE QUIERAS PROTEGER CON JWT*/
     Route::group(['namespace' => 'Api'], function() {
         // Rutas de los controladores dentro del Namespace "App\Http\Controllers\Api"
-    
-        //Login y Register para JWT
-        Route::post('register', 'UserController@register');
-        Route::post('login', 'UserController@authenticate');
-        Route::get('profile', 'UserController@getAuthenticatedUser');
-        Route::post('loggout', 'UserController@loggout');
         
         /** USUARIOS */
         Route::resource('usuarios', 'UserController');
