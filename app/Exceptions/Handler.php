@@ -50,6 +50,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if(!config('app.debug')){
+            return response()->json([
+                'mensaje' => 'Al parecer hubo un error...',
+                'message' => $exception->getMessage(),
+                'headers' => $exception->getHeaders(),
+                'code' => $exception->getStatusCode(),
+            ],$exception->getStatusCode());
+        }
         return parent::render($request, $exception);
     }
 }
