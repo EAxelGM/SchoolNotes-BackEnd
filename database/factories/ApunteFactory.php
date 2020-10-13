@@ -18,7 +18,7 @@ $factory->define(Apunte::class, function (Faker $faker) {
     return [
         'titulo' => $titulo,
         'slug' => Str::slug($titulo),
-        'archivo' => 'https://www.redalyc.org/pdf/325/32510017.pdf',
+        'archivo' => asset('documentos-bienvenida/bienvenida.pdf'),
         'descripcion' => '',
         'user_id' => User::where('activo',1)->get()->random()->_id,
         'etiquetas_ids' => $faker->randomElements($etiquetas_ids, rand(1, 3)),

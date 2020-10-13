@@ -112,7 +112,7 @@ class UserController extends Controller
                 return response()->json($validator->errors()->toJson(), 400);
             }
             if($request->file('img_perfil')){
-                $path = Storage::disk('public')->put('img_perfiles', $request->file('img_perfil'));
+                $path = Storage::disk('fotos_perfiles')->put('img_perfiles', $request->file('img_perfil'));
                 $user->fill(['img_perfil' => asset($path)])->save();
             }
         }
@@ -216,7 +216,7 @@ class UserController extends Controller
     public function register(Request $request){
         $validator = $this->datosUser($request->all());
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $user = User::create([
@@ -233,9 +233,13 @@ class UserController extends Controller
             'etiquetas_ids' => $request->get('etiquetas'),
             'clips' => 0,
             'diamond_clips' => 0,
+            'apuntes_comprados' => [],
             'tipo' => 'usuario',
             'activo' => 1,
         ]);
+
+        //crea primera publicacion y apunte + bonificacion de clips gratis!
+        $this->bienvenida($user, 10);
 
         //Envia correo para verificar el correo electronico
         $this->enviarCorreo($user->_id);

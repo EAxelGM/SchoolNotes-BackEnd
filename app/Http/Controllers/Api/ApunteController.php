@@ -87,8 +87,9 @@ class ApunteController extends Controller
         $apunte->save();
         $apunte->user;
     
-        //Se le dan 25 clips por subir un apunte
+        //Se le dan 25 clips por subir un apunte y se le desbloquea igual manera
         $this->pagoApunte($user,$apunte, 25);
+        $this->desbloquearApunte($user, $apunte, 0, 0);
         
         return response()->json([
             'message' => $subir['message'],

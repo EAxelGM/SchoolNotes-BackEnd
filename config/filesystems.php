@@ -79,6 +79,11 @@ return [
             'root' => public_path().'/documentos-pdf',
         ],
 
+        'imagenes' => [
+            'driver' => 'local',
+            'root' => public_path().'/documentos-imagenes',
+        ],
+
         'fotos_perfiles' => [
             'driver' => 'local',
             'root' => public_path().'/img_perfiles',
