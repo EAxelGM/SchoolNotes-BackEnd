@@ -66,27 +66,27 @@ return [
 
         'word' => [
             'driver' => 'local',
-            'root' => public_path().'/documentos-word',
+            'root' => env('APP_PATHURL').'/documentos-word',
         ],
 
         'power_point' => [
             'driver' => 'local',
-            'root' => public_path().'/documentos-power-point',
+            'root' => env('APP_PATHURL').'/documentos-power-point',
         ],
 
         'pdf' => [
             'driver' => 'local',
-            'root' => public_path().'/documentos-pdf',
+            'root' => env('APP_PATHURL').'/documentos-pdf',
         ],
 
         'imagenes' => [
             'driver' => 'local',
-            'root' => public_path().'/documentos-imagenes',
+            'root' => env('APP_PATHURL').'/documentos-imagenes',
         ],
 
         'fotos_perfiles' => [
             'driver' => 'local',
-            'root' => public_path().'/img_perfiles',
+            'root' => env('APP_PATHURL'),
         ],
     ],
 
