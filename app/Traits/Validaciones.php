@@ -169,7 +169,6 @@ trait Validaciones {
     public function datosPregunta($data){
         $validator = Validator::make($data, [
             'pregunta' => 'required', 
-            'descripcion' => 'required', 
             'user_id' => 'required',
         ]);
         return $validator;
