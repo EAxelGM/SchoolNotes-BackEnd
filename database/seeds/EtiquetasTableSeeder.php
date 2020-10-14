@@ -18,6 +18,6 @@ class EtiquetasTableSeeder extends Seeder
             'activo' => 0,
         ]);
 
-        factory(App\Etiqueta::class, 150)->create();
+        //factory(App\Etiqueta::class, 150)->create();
     }
 }

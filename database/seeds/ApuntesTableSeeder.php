@@ -11,6 +11,6 @@ class ApuntesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Apunte::class, 200)->create();
+        //factory(App\Apunte::class, 200)->create();
     }
 }

@@ -11,6 +11,6 @@ class PreguntasTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Pregunta::class, 100)->create();
+        //factory(App\Pregunta::class, 100)->create();
     }
 }

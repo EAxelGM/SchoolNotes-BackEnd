@@ -15,13 +15,13 @@ class UsersTableSeeder extends Seeder
         App\User::create([
             'name' => 'Celso',
             'apellidos' => 'Cardenas Macias',
-            'email' => 'celso@buxod.com',
+            'email' => 'cardenascelso9@gmail.com',
             'password' => Hash::make('123456789'),
             'correo_verificado' => true,
-            'descripcion_perfil' => 'Soy desarrollador Front End y lider de proyecto en SchoolNotes',
+            'descripcion_perfil' => '',
             'fecha_nacimiento' => '1997-08-02',
             //'img_perfil' => asset('img_perfiles/default.png'),
-            'img_perfil' => 'https://launcher.galaxylifereborn.com/uploads/avatars/70432.png',
+            'img_perfil' => 'https://schoolnotes.live/020040sn897200/img_perfiles/default3.png',
             'seguidos' => [],
             'seguidores' => [],
             'etiquetas_ids' => [App\Etiqueta::pluck('_id')->first()],
@@ -36,13 +36,13 @@ class UsersTableSeeder extends Seeder
         App\User::create([
             'name' => 'Edgar Axel',
             'apellidos' => 'Gonzalez Martinez',
-            'email' => 'axel@buxod.com',
+            'email' => 'axel-canelo@hotmail.com',
             'password' => Hash::make('123456789'),
             'correo_verificado' => true,
-            'descripcion_perfil' => 'Soy desarrollador Back End, Desarrollador de SchoolNotes, me gusta jugar videojuegos, y uno de mis juegos favoritos es Galaxy Life Reborn, espero les guste la plataforma',
+            'descripcion_perfil' => '',
             'fecha_nacimiento' => '2000-02-04',
             //'img_perfil' => asset('img_perfiles/default.png'),
-            'img_perfil' => 'https://launcher.galaxylifereborn.com/uploads/avatars/198.png',
+            'img_perfil' => 'https://schoolnotes.live/020040sn897200/img_perfiles/default3.png',
             'seguidos' => [],
             'seguidores' => [],
             'etiquetas_ids' => [App\Etiqueta::pluck('_id')->first()],
@@ -53,6 +53,6 @@ class UsersTableSeeder extends Seeder
             'activo' => 1,
         ]);
 
-        factory(App\User::class, 150)->create();
+        //factory(App\User::class, 150)->create();
     }
 }
