@@ -73,6 +73,10 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         /**WARNINGS */
         Route::resource('warning', 'WarningController');
 
+        /**BUSQUEDAS */
+        Route::post('buscar', 'BusquedasController@busqueda');
+        Route::post('buscar-etiqueta', 'BusquedasController@etiquetas');
+
     });
 });
 
