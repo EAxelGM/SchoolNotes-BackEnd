@@ -30,6 +30,7 @@ class UserController extends Controller
     public $paginate = 5;
 
     public function index(){
+        //return view('layouts.mail');
         if(!isset($_GET['search']) || $_GET['search'] == ''){
             $users = User::where('activo', 1)->paginate($this->paginate);
             return response()->json([
@@ -249,7 +250,6 @@ class UserController extends Controller
 
         //Envia correo para verificar el correo electronico
         $this->enviarCorreo($user->_id);
-
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('user','token'),201);
     }
@@ -291,24 +291,18 @@ class UserController extends Controller
 
             if($expiracion >= 0){
                 if($user->token_verificacion['token'] == $token){
-                    $mensaje = !$user->correo_verificado ? 'Se ha verificado con exito el Correo Electronico '.$user->email : 'Este Correo electronico ya habia sido verificado.';
                     $user->correo_verificado = true;
                     $user->save();
+                    return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=true&razon=success");
                 }else{
-                    $mensaje = 'Al parecer este token es invalido. ';
+                    return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=false&razon=invalid");
                 }
             }else{
-                $mensaje = 'Lo sentimos pero este token ha expirado, porfavor solicita un reenvio para verificar tu correo electronico.';
-                $code = 403;
+                return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=false&razon=expiration");
             }
         }else{
-            $mensaje = 'Al parecer esta validacion es incorrecta, vuelve a intentarlo o envia un correo electronico a schoolnotes.info@gmail.com ';
+            return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=false&razon=notfound");
         }
-
-        return response()->json([
-            'message' => $mensaje,
-            'data' => $user,
-        ],$code);
     }
 
     public function cambiarContrasena(Request $request){

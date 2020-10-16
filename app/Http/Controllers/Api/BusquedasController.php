@@ -44,12 +44,12 @@ class BusquedasController extends Controller
     }
 
     public function apuntes($name){
-        $data = Apunte::where('titulo', 'LIKE', '%'.$name.'%')->paginate($this->paginate);
+        $data = Apunte::where('titulo', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->paginate($this->paginate);
         return $data;
     }
 
     public function preguntas($name){
-        $data = Pregunta::where('pregunta', 'LIKE', '%'.$name.'%')->paginate($this->paginate);
+        $data = Pregunta::where('pregunta', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->paginate($this->paginate);
         return $data;
     }
 
@@ -68,11 +68,11 @@ class BusquedasController extends Controller
             break;
 
             case 'apuntes':
-                $data = Apunte::where('etiquetas_ids', $etiqueta->_id)->paginate($this->paginate);
+                $data = Apunte::where('etiquetas_ids', $etiqueta->_id)->with('user:name,img_perfil')->paginate($this->paginate);
             break;
 
             case 'preguntas':
-                $data = Pregunta::where('etiquetas_ids', $etiqueta->_id)->paginate($this->paginate);
+                $data = Pregunta::where('etiquetas_ids', $etiqueta->_id)->with('user:name,img_perfil')->paginate($this->paginate);
             break;
 
             default:

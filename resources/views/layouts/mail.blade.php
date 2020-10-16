@@ -909,51 +909,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table class="es-content" cellspacing="0" cellpadding="0" align="center">
-                            <tbody>
-                                <tr>
-                                    <td class="esd-stripe" esd-custom-block-id="7392" align="center">
-                                        <table class="es-content-body" style="background-color: #00cba0;" width="600" cellspacing="0" cellpadding="0" bgcolor="#00cba0" align="center">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="esd-structure es-p40t es-p20b es-p40r es-p40l" style="background-color: #00cba0;" bgcolor="#00cba0" align="left">
-                                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="esd-container-frame" width="520" valign="top" align="center">
-                                                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td class="esd-block-text es-m-txt-c" align="center">
-                                                                                        <h2 style="color: #ffffff;">@yield('titulo2')<br></h2>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td class="esd-block-text es-p5t es-p10b" align="center">
-                                                                                        <p style="color: #aad4ea; font-size: 17px;">@yield('descripcion2')<br></p>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td class="esd-block-button es-p10" align="center">
-                                                                                        <span class="es-button-border" style="background: #ffffff none repeat scroll 0% 0%;">
-                                                                                            @yield('boton2')
-                                                                                        </span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <hr>
                         <table class="es-content" cellspacing="0" cellpadding="0" align="center">
                             <tbody>
                                 <tr>

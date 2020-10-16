@@ -17,11 +17,11 @@
 @endsection
 
 @section('titulo')
-    BIENVENIDO <br /> {{$data->name}} {{$data->apellidos}} 
+    ¡{{$data['name']}} ha creado una nueva pregunta!
 @endsection
 
 @section('descripcion')
-    Gracias por registrarte, solo falta activar tu cuenta  <br /> {{$data->email}} ✔
+    
 @endsection
 
 @section('boton')
@@ -31,39 +31,39 @@
 @endsection
 
 @section('asunto')
-    ¡YA CASI TERMINAS! 🚧
+    {{$pregunta['pregunta']}}
 @endsection
 
 @section('cuerpo1')
-    Para activar tu cuenta da clic en este siguiente boton 😋
+    ¿Quieres responderla? solo da clic aca abajo para ir a la pregunta
 @endsection
 
 @section('cuerpo2')
     <center>
-        <a href="{{ url('/validar/'.$data->id.'/'.$data->token_verificacion['token']) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
+        <a href="{{ url('https://schoolnotes.live/pregunta/'.$pregunta->id) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
             <button style="background: #C5C5C5 none repeat scroll 0% 0%; border-color: #00cba0;">
-                ACTIVAR CUENTA ➡            
+                Ver Pregunta Completa         
             </button>
         </a>
     </center>
 @endsection
 
 @section('despedida')
-    Gracias por registrarte en nuestra plataforma, esperemos te diviertas, mucha suerte te desea el equipo de SchoolNotes 🥳
+
 @endsection
 
 @section('iconoEmpresa')
     <a target="_blank">
-        <img src="{{$imagenes['icono']}}" alt style="display: block;" width="40">
+        <img src="{{$data['img_perfil']}}" alt style="display: block;" width="40">
     </a>
 @endsection
 
 @section('nombreEmpresa')
-    SchooNotes
+    {{$data['name']}}
 @endsection
 
 @section('descripcionEmpresa')
-    schoolnotes.info@gmail.com
+    {{$data['email']}}
 @endsection
 
 @section('facebook')

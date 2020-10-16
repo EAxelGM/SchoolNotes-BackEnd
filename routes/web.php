@@ -17,11 +17,11 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     /*AÑADE AQUI LAS RUTAS QUE QUIERAS PROTEGER CON JWT*/
-    Route::group(['namespace' => 'Api'], function() {
-        Route::get('/layout-email', 'UserController@index')->name('layout');
-    });
     
 });
+        Route::group(['namespace' => 'Api'], function() {
+            Route::get('/layout-email', 'UserController@index')->name('layout');
+        });
 
 Route::group(['namespace' => 'Api'], function() {
     Route::get('/validar/{id}/{token}', 'UserController@validarCorreo')->name('validarCorreo');

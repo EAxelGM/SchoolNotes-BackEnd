@@ -10,10 +10,11 @@ use App\User;
 use App\Traits\Validaciones;
 use App\Traits\Funciones;
 use App\Traits\Transacciones;
+use App\Traits\EnviarCorreos;
 
 class PreguntaController extends Controller
 {
-    use Validaciones, Funciones,Transacciones;
+    use Validaciones, Funciones,Transacciones, EnviarCorreos;
 
     public function index()
     {
@@ -116,6 +117,9 @@ class PreguntaController extends Controller
         $pregunta->save();
 
         $valida = $this->creacionPregunta($user,$pregunta, 15);
+
+        //Enviar correos a seguidores
+        $this->avisaSeguidoresPregunta($user, $pregunta);
 
         return response()->json([
             'message' => $valida['mensaje'],
