@@ -112,6 +112,7 @@ class PreguntaController extends Controller
         $pregunta->descripcion = $request->descripcion;
         $pregunta->user_id = $request->user_id;
         $pregunta->verificado = 0;
+        $pregunta->activo = 1;
         $pregunta->reacciones = [];
         $pregunta->etiquetas_ids = $request->etiquetas_ids;
         $pregunta->save();
