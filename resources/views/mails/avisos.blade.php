@@ -40,7 +40,7 @@
 
 @section('cuerpo2')
     <center>
-        <a href="{{ url('https://schoolnotes.live/pregunta/'.$pregunta->id) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
+        <a href="{{ url('https://schoolnotes.live/preguntas/'.$pregunta->id) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
             <button style="background: #C5C5C5 none repeat scroll 0% 0%; border-color: #00cba0;">
                 Ver Pregunta Completa         
             </button>

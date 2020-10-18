@@ -54,13 +54,8 @@ trait Validaciones {
     public function publicacionActivo($publicacion){
         $code = $publicacion ? true : false;
         if($code){
-            if($publicacion->activo == 1){
-                $data['mensaje'] = 'Publicacion Encontrada';
-                $data['code'] = 200;
-            }else{
-                $data['mensaje'] = 'La publicacion ha sido borrada.';
-                $data['code'] = 421;
-            }
+            $data['mensaje'] = 'Publicacion Encontrada';
+            $data['code'] = 200;
         }else{
             $data['mensaje'] = 'Oops... no pudimos localizar la publicacion... vuelve a intentarlo.';
             $data['code'] = 404;
@@ -71,13 +66,8 @@ trait Validaciones {
     public function preguntaActivo($pregunta){
         $code = $pregunta ? true : false;
         if($code){
-            if($pregunta->activo == 1){
-                $data['mensaje'] = 'pregunta Encontrada';
-                $data['code'] = 200;
-            }else{
-                $data['mensaje'] = 'La pregunta ha sido borrada.';
-                $data['code'] = 421;
-            }
+            $data['mensaje'] = 'pregunta Encontrada';
+            $data['code'] = 200;
         }else{
             $data['mensaje'] = 'Oops... no pudimos localizar la pregunta... vuelve a intentarlo.';
             $data['code'] = 404;
@@ -88,8 +78,13 @@ trait Validaciones {
     public function comentarioActivo($comentario){
         $code = $comentario ? true : false;
         if($code){
-            $data['mensaje'] = 'Comentario Encontrado';
-            $data['code'] = 200;
+            if($comentario->activo == 1){
+                $data['mensaje'] = 'Comentario Encontrado';
+                $data['code'] = 200;
+            }else{
+                $data['mensaje'] = 'Al parecer este comentario fue borrado';
+                $data['code'] = 404;
+            }
         }else{
             $data['mensaje'] = 'Oops... no pudimos localizar el comentario o no existe... vuelve a intentarlo.';
             $data['code'] = 404;
@@ -100,8 +95,13 @@ trait Validaciones {
     public function respuestaActivo($respuesta){
         $code = $respuesta ? true : false;
         if($code){
-            $data['mensaje'] = 'Respuesta Encontrada';
-            $data['code'] = 200;
+            if($respuesta->activo == 1){
+                $data['mensaje'] = 'Respuesta Encontrada';
+                $data['code'] = 200;
+            }else{
+                $data['mensaje'] = 'Al parecer esta respuesta fue borrada';
+                $data['code'] = 404;
+            }
         }else{
             $data['mensaje'] = 'Oops... no pudimos localizar la respuesta o no existe... vuelve a intentarlo.';
             $data['code'] = 404;
@@ -112,13 +112,8 @@ trait Validaciones {
     public function apunteActivo($apunte){
         $code = $apunte ? true : false;
         if($code){
-            if($apunte->activo == 1){
-                $data['mensaje'] = 'Apunte Encontrado';
-                $data['code'] = 200;
-            }else{
-                $data['mensaje'] = 'El apunte ha sido borrada.';
-                $data['code'] = 421;
-            }
+            $data['mensaje'] = 'Apunte Encontrado';
+            $data['code'] = 200;
         }else{
             $data['mensaje'] = 'Oops... no pudimos localizar el apunte... vuelve a intentarlo.';
             $data['code'] = 404;
