@@ -66,6 +66,8 @@ class ApunteController extends Controller
         }
 
         $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
+        $img = $this->subirFile($user, $request->file('img_destacada'), $request->titulo);
+
         
         if($subir['path'] == null){
             return response()->json([
@@ -80,6 +82,7 @@ class ApunteController extends Controller
         $apunte->slug = $slug[0];
         $apunte->descripcion = $request->descripcion;
         $apunte->archivo = $subir['path'];
+        $apunte->img_destacada = $img['path'];
         $apunte->user_id = $user->_id;
         $apunte->etiquetas_ids = $request->etiquetas_ids;
         $apunte->reacciones = [];

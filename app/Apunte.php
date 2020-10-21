@@ -15,6 +15,7 @@ class Apunte extends MongoModel
         'slug',  
         'descripcion',  
         'archivo',
+        'img_destacada',
         'reacciones',
         'activo', 
         'user_id',

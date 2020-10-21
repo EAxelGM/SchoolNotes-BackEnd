@@ -34,10 +34,9 @@ trait Funciones{
         $archivo = $file->getClientOriginalName();
         $separacion = explode(".", $archivo);
         $extension = end($separacion);
-        $nombre_usuario = $user->name.' '.$user->apellidos;
 
         if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'gif' || $extension == 'png'){
-            $nombre = Str::slug($nombre_usuario).'_'.Str::slug($user->_id).'_'.time().'.'.$extension;
+            $nombre = Str::slug($user->name).'_'.Str::slug($user->_id).'_'.time().'.'.$extension;
         }else{
             $nombre = Str::slug($title).'_'.time().'.'.$extension;
         }
