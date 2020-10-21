@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Pregunta;
+use App\Respuesta;
 use App\Etiqueta;
 use App\User;
 use App\Traits\Validaciones;
@@ -185,23 +186,9 @@ class PreguntaController extends Controller
         $pregunta = Pregunta::find($id);
         $code = $pregunta ? 200 : 404;
         if($code == 200){
-            switch ($pregunta->activo) {
-                case 1:
-                    $pregunta->activo = 0;
-                    $pregunta->save();
-                    $mensaje= 'pregunta Borrada con exito!';
-                break;
-                case 0:
-                    $pregunta->activo = 1;
-                    $pregunta->save();
-                    $mensaje= 'pregunta activada con exito!';
-                break;
-                
-                default:
-                    $mensaje= 'Oops... Al parecer hubo un error al eliminar.';
-                break;
-            }
-            
+            $respuestas = Respuesta::where('pregunta_id', $pregunta->_id)->delete();
+            $this->borrarObjeto('pregunta_id',$pregunta->_id);
+            $mensaje = 'Preguntas y respuestas borradas con exito.';
         }else{
             $mensaje = 'No pudimos encontrar la pregunta.';
         }

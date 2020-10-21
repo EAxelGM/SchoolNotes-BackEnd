@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Publicacion;
 use App\User;
+use App\Comentario;
 use App\Traits\EnviarCorreos;
 use App\Traits\Validaciones;
 use App\Traits\Funciones;
@@ -143,23 +144,8 @@ class PublicacionController extends Controller
         $publicacion = Publicacion::find($id);
         $code = $publicacion ? 200 : 404;
         if($code == 200){
-            switch ($publicacion->activo) {
-                case 1:
-                    $publicacion->activo = 0;
-                    $publicacion->save();
-                    $mensaje= 'Publicacion Borrada con exito!';
-                break;
-                case 0:
-                    $publicacion->activo = 1;
-                    $publicacion->save();
-                    $mensaje= 'Publicacion activada con exito!';
-                break;
-                
-                default:
-                    $mensaje= 'Oops... Al parecer hubo un error al eliminar.';
-                break;
-            }
-            
+            $comentarios = Comentario::where('publicacion_id', $publicacion->_id)->delete();
+            $mensaje = 'Publicacion y comentarios borrados.';
         }else{
             $mensaje = 'No pudimos encontrar la publicacion.';
         }

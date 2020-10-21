@@ -35,6 +35,7 @@ trait Transacciones{
                     'descripcion' => 'Compra de un apunte',
                     'pregunta_id' => null,
                     'apunte_id' => $apunte->_id,
+                    'borrado' => 0,
                 ]);
             }else{
                 Clip::create([
@@ -46,6 +47,7 @@ trait Transacciones{
                     'descripcion' => 'Compra de un apunte',
                     'pregunta_id' => null,
                     'apunte_id' => $apunte->_id,
+                    'borrado' => 0,
                 ]);
             }
             
@@ -77,6 +79,7 @@ trait Transacciones{
             'descripcion' => 'Subir un apunte',
             'pregunta_id' => null,
             'apunte_id' => $apunte->_id,
+            'borrado' => 0,
         ]);
         
     }
@@ -95,6 +98,7 @@ trait Transacciones{
                 'descripcion' => 'Creo una Pregunta',
                 'pregunta_id' => $pregunta->_id,
                 'apunte_id' => null,
+                'borrado' => 0,
             ]);
 
             $data = [
@@ -122,6 +126,14 @@ trait Transacciones{
             $clip->user_recibe = $$user_recibe->_id;
             $clip->cantidad_recibe = $cantidad;
             $clip->save();
+        }
+    }
+
+    public function borrarObjeto($relacion, $idObjeto){
+        $historial = Clip::where($relacion, $idObjeto)->first();
+        if($historial){
+            $historial->borrado = 1;
+            $historial->save();
         }
     }
 }

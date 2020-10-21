@@ -122,23 +122,9 @@ class ApunteController extends Controller
         $apunte = Apunte::find($id);
         $code = $apunte ? 200 : 404;
         if($code == 200){
-            switch ($apunte->activo) {
-                case 1:
-                    $apunte->activo = 0;
-                    $apunte->save();
-                    $mensaje= 'Apunte Borrado con exito!';
-                break;
-                case 0:
-                    $apunte->activo = 1;
-                    $apunte->save();
-                    $mensaje= 'Apunte Activado con exito!';
-                break;
-                
-                default:
-                    $mensaje= 'Oops... Al parecer hubo un error al eliminar.';
-                break;
-            }
-            
+            $comentarios = Comentario::where('apunte_id', $apunte->_id)->delete();
+            $this->borrarObjeto('apunte_id',$apunte->_id);
+            $mensaje = 'Apunte y comentarios borrados.';            
         }else{
             $mensaje = 'No pudimos encontrar el Apunte.';
         }
@@ -196,7 +182,16 @@ class ApunteController extends Controller
 
         foreach($user->apuntes_comprados as $id){
             $note = Apunte::where('_id', $id)->with('user:name,apellidos,img_perfil')->first();
-            array_push($apuntes,$note);
+            if($note){
+                array_push($apuntes,$note);
+            }else{
+                $compras = $user->apuntes_comprados;
+                $clave = array_search($$id, $compras);
+                unset($compras[$clave]);
+                $compras = array_values($reacciones);
+                $user->apuntes_comprados = $compras;
+                $user->save();
+            }
         }
         
         $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');

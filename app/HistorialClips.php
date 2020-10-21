@@ -18,5 +18,6 @@ class HistorialClips extends MongoModel
         'descripcion',
         'pregunta_id',
         'apunte_id',
+        'borrado',
     ];
 }

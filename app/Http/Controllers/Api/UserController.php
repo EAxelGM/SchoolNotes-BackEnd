@@ -81,7 +81,10 @@ class UserController extends Controller
         $code = $user ? 200 : 404;
 
         if($code >= 200 && 299 >= $code){
-
+            /* if($user->descripcion == '' && $request->descripcion != ''){
+                $user->clips = $user->clips+5;
+                $user->save();
+            } */
 
             $user->fill($request->all());
             if($user->isClean()){
