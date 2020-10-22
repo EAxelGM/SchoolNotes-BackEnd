@@ -26,7 +26,7 @@ class ApunteController extends Controller
         }
         $id = $_GET['user_id'];
         $page = $_GET['page'];
-        
+
         $user = User::find($id);
         if(!$user){
             return response()->json([
@@ -47,14 +47,14 @@ class ApunteController extends Controller
                 array_push($apuntes, $i);
             }
         }
-        
+
         $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
         return response()->json([
             'message' => 'Success',
             'data' => $apuntes,
         ],200);
     }
-    
+
     public function store(Request $request)
     {
         $user = User::find($request->user_id);
@@ -72,7 +72,7 @@ class ApunteController extends Controller
                 'data' => $img['path'],
             ],$img['code']);
         }
-        
+
         $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
         if($subir['path'] == null){
             return response()->json([
@@ -95,17 +95,17 @@ class ApunteController extends Controller
         $apunte->activo = 1;
         $apunte->save();
         $apunte->user;
-    
+
         //Se le dan 25 clips por subir un apunte y se le desbloquea igual manera
         $this->pagoApunte($user,$apunte, 25);
         $this->desbloquearApunte($user, $apunte, 0, 0);
-        
+
         return response()->json([
             'message' => $subir['message'],
             'data' => $apunte,
         ],$subir['code']);
     }
-    
+
     public function show($id)
     {
         $apunte = Apunte::where([['slug', $id],['activo', 1]])
@@ -120,12 +120,12 @@ class ApunteController extends Controller
             'data' => $apunte,
         ],200);
     }
-    
+
     public function update(Request $request, $id)
     {
         return response()->json(['message' => 'Por el momento esta cancelado editar apuntes'],404);
     }
-    
+
     public function destroy($id)
     {
         $apunte = Apunte::find($id);
@@ -134,7 +134,7 @@ class ApunteController extends Controller
             $comentarios = Comentario::where('apunte_id', $apunte->_id)->delete();
             $this->borrarObjeto('apunte_id',$apunte->_id);
             //$apunte->delete();
-            $mensaje = 'Apunte y comentarios borrados.';            
+            $mensaje = 'Apunte y comentarios borrados.';
         }else{
             $mensaje = 'No pudimos encontrar el Apunte.';
         }
@@ -147,7 +147,7 @@ class ApunteController extends Controller
     public function apuntesUsuario($id){
         $mis_apuntes = Apunte::where([['user_id', $id],['activo', 1]])
         ->with('user:name,apellidos,img_perfil')->paginate(4);
-        
+
         return response()->json([
             'message' => 'success',
             'data' => $mis_apuntes,
@@ -155,7 +155,7 @@ class ApunteController extends Controller
     }
 
     public function comprarApunte(Request $request){
-        
+
         $apunte = Apunte::find($request->apunte_id);
         $user = User::find($request->user_id);
 
@@ -164,9 +164,9 @@ class ApunteController extends Controller
                 'message' => 'apunte o usuario no existen'
             ],404);
         }
-        
+
         /**Validar clips */
-        $valida = $this->desbloquearApunte($user,$apunte, 25, 10); 
+        $valida = $this->desbloquearApunte($user,$apunte, 25, 10);
 
         return response()->json([
             'message' => $valida['mensaje'],
@@ -203,7 +203,7 @@ class ApunteController extends Controller
                 $user->save();
             }
         }
-        
+
         $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
 
         return response()->json([

@@ -11,7 +11,7 @@ trait Funciones{
     public function paginacionPersonalizada($page, $data, $data_for_page, $objectOrder){
         /*Orden por defecto (ASCendente)*/
         //usort($data, $this->object_sorter($objectOrder));
-        
+
         /*Orden DESCendente (indicándolo en parámetro)*/
         usort($data, $this->object_sorter($objectOrder,'DESC'));
 
@@ -34,8 +34,7 @@ trait Funciones{
         $archivo = $file->getClientOriginalName();
         $separacion = explode(".", $archivo);
         $extension = end($separacion);
-
-        if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'gif' || $extension == 'png'){
+        if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'gif' || $extension == 'png' || $extension == 'PNG'){
             $nombre = Str::slug($user->name).'_'.Str::slug($user->_id).'_'.time().'.'.$extension;
         }else{
             $nombre = Str::slug($title).'_'.time().'.'.$extension;
@@ -53,14 +52,14 @@ trait Funciones{
             $path = Storage::disk('pdf')->put($nombre, \File::get($file));
             $data = ['message' => 'Archivo PDF subido con exito', 'path' => asset('documentos-pdf/'.$nombre), 'code' => 200, 'casi_slug' => $nombre];
         }
-        else if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'gif' || $extension == 'png'){
+        else if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'gif' || $extension == 'png' || $extension == 'PNG'){
             $path = Storage::disk('imagenes')->put($nombre, \File::get($file));
             $data = ['message' => 'Imagen subida con exito', 'path' => asset('documentos-imagenes/'.$nombre), 'code' => 200, 'casi_slug' => $nombre];
         }
         else{
             $data = ['message' => 'Fallo al subir el Archivo', 'path' => null, 'code' => 421, 'casi_slug' => $nombre];
         }
-        
+
         return $data;
     }
 }
