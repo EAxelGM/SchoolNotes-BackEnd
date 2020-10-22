@@ -55,7 +55,7 @@ trait Funciones{
         }
         else if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'gif' || $extension == 'png'){
             $path = Storage::disk('imagenes')->put($nombre, \File::get($file));
-            $data = ['message' => 'Imagen subida con exito', 'path' => asset('img_perfiles/'.$nombre), 'code' => 200, 'casi_slug' => $nombre];
+            $data = ['message' => 'Imagen subida con exito', 'path' => asset('documentos-imagenes/'.$nombre), 'code' => 200, 'casi_slug' => $nombre];
         }
         else{
             $data = ['message' => 'Fallo al subir el Archivo', 'path' => null, 'code' => 421, 'casi_slug' => $nombre];

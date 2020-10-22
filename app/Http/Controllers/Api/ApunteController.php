@@ -68,12 +68,19 @@ class ApunteController extends Controller
         $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
         $img = $this->subirFile($user, $request->file('img_destacada'), $request->titulo);
 
+        return $img;
         
         if($subir['path'] == null){
             return response()->json([
                 'message' => $subir['message'],
                 'data' => $subir['path'],
             ],$subir['code']);
+        }
+        if($img['path'] == null){
+            return response()->json([
+                'message' => $img['message'],
+                'data' => $img['path'],
+            ],$img['code']);
         }
         $slug = explode(".", $subir['casi_slug']);
 
@@ -127,6 +134,7 @@ class ApunteController extends Controller
         if($code == 200){
             $comentarios = Comentario::where('apunte_id', $apunte->_id)->delete();
             $this->borrarObjeto('apunte_id',$apunte->_id);
+            //$apunte->delete();
             $mensaje = 'Apunte y comentarios borrados.';            
         }else{
             $mensaje = 'No pudimos encontrar el Apunte.';

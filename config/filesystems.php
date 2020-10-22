@@ -66,27 +66,27 @@ return [
 
         'word' => [
             'driver' => 'local',
-            'root' => env('APP_PATHURL').'/documentos-word',
+            'root' => env('APP_DEBUG') ? public_path().'/documentos-word' : env('APP_PATHURL').'/documentos-word'
         ],
 
         'power_point' => [
             'driver' => 'local',
-            'root' => env('APP_PATHURL').'/documentos-power-point',
+            'root' => env('APP_DEBUG') ? public_path().'/documentos-power-point' : env('APP_PATHURL').'/documentos-power-point'
         ],
 
         'pdf' => [
             'driver' => 'local',
-            'root' => env('APP_PATHURL').'/documentos-pdf',
+            'root' => env('APP_DEBUG') ? public_path().'/documentos-pdf' : env('APP_PATHURL').'/documentos-pdf'
         ],
 
         'imagenes' => [
             'driver' => 'local',
-            'root' => env('APP_PATHURL').'/documentos-imagenes',
+            'root' => env('APP_DEBUG') ? public_path().'/documentos-imagenes' : env('APP_PATHURL').'/documentos-imagenes'
         ],
 
         'fotos_perfiles' => [
             'driver' => 'local',
-            'root' => env('APP_PATHURL'),
+            'root' => env('APP_DEBUG') ? public_path() : env('APP_PATHURL')
         ],
     ],
 

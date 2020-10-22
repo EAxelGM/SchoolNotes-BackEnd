@@ -188,6 +188,7 @@ class PreguntaController extends Controller
         if($code == 200){
             $respuestas = Respuesta::where('pregunta_id', $pregunta->_id)->delete();
             $this->borrarObjeto('pregunta_id',$pregunta->_id);
+            $pregunta->delete();
             $mensaje = 'Preguntas y respuestas borradas con exito.';
         }else{
             $mensaje = 'No pudimos encontrar la pregunta.';

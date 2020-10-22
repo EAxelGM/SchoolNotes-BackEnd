@@ -145,6 +145,7 @@ class PublicacionController extends Controller
         $code = $publicacion ? 200 : 404;
         if($code == 200){
             $comentarios = Comentario::where('publicacion_id', $publicacion->_id)->delete();
+            $publicacion->delete();
             $mensaje = 'Publicacion y comentarios borrados.';
         }else{
             $mensaje = 'No pudimos encontrar la publicacion.';

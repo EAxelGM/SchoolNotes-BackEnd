@@ -122,10 +122,12 @@ trait Transacciones{
             $user_recibe->clips = $user_recibe->clips + $cantidad;
             $user_recibe->save();
 
-            $clip = Clip::where([['publicacion_id', $publicacion->_id],['user_paga', $publicacion->user_id]])->first();
-            $clip->user_recibe = $$user_recibe->_id;
-            $clip->cantidad_recibe = $cantidad;
-            $clip->save();
+            $clip = Clip::where([['pregunta_id', $pregunta->_id],['user_paga', $pregunta->user_id]])->first();
+            if($clip){
+                $clip->user_recibe = $user_recibe->_id;
+                $clip->cantidad_recibe = $cantidad;
+                $clip->save();
+            }
         }
     }
 
