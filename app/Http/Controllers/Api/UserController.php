@@ -115,7 +115,7 @@ class UserController extends Controller
                 'img_perfil' => 'mimes:jpeg,jpg,png', //Permitimos estos tipos de archivos
             ]);
             if($validator->fails()){
-                return response()->json($validator->errors()->toJson(), 400);
+                return response()->json($validator->errors(), 400);
             }
             if($user->img_perfil == asset('img_perfiles/default.png')){
               $user->clips = $user->clips+10;

@@ -67,8 +67,6 @@ class ApunteController extends Controller
 
         $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
         $img = $this->subirFile($user, $request->file('img_destacada'), $request->titulo);
-
-        return $img;
         
         if($subir['path'] == null){
             return response()->json([
