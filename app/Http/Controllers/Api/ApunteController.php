@@ -65,21 +65,22 @@ class ApunteController extends Controller
             ],$valida['code']);
         }
 
-        $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
         $img = $this->subirFile($user, $request->file('img_destacada'), $request->titulo);
-        
-        if($subir['path'] == null){
-            return response()->json([
-                'message' => $subir['message'],
-                'data' => $subir['path'],
-            ],$subir['code']);
-        }
         if($img['path'] == null){
             return response()->json([
                 'message' => $img['message'],
                 'data' => $img['path'],
             ],$img['code']);
         }
+        
+        $subir = $this->subirFile($user, $request->file('file'), $request->titulo);
+        if($subir['path'] == null){
+            return response()->json([
+                'message' => $subir['message'],
+                'data' => $subir['path'],
+            ],$subir['code']);
+        }
+
         $slug = explode(".", $subir['casi_slug']);
 
         $apunte = new Apunte;
