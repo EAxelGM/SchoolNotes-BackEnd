@@ -88,5 +88,23 @@ class BusquedasController extends Controller
         ]);
     }
 
+    public function meSiguen($id){
+        $user = User::find($id);
+        if(!$user){
+            return response()->json([
+                'message' => 'Usuario no existente'
+            ],404);
+        }
+        return $user;
+    }
+    public function yoSigo($id){
+        $user = User::find($id);
+        if(!$user){
+            return response()->json([
+                'message' => 'Usuario no existente'
+            ],404);
+        }
+        return $user;
+    }
     
 }

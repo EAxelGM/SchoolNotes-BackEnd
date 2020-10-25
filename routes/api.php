@@ -38,6 +38,8 @@ Route::group(['namespace' => 'Api'], function() {
         Route::post('cambiar-contrasena', 'UserController@cambiarContrasena');
         Route::post('usuario-img-perfil', 'UserController@imgPerfil');
         Route::get('re-enviar-correo-verificacion/{id}', 'UserController@enviarCorreo');
+        Route::get('yo-sigo/{id}', 'BusquedasController@yoSigo');
+        Route::get('me-siguen/{id}', 'BusquedasController@meSiguen');
 
         /**pUBLICACIONES */
         Route::resource('publicaciones', 'PublicacionController');
