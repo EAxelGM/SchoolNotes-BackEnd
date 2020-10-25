@@ -8,10 +8,13 @@ use App\User;
 use App\Apunte;
 use App\Pregunta;
 use App\Etiqueta;
+use App\Traits\Funciones;
 
 class BusquedasController extends Controller
 {
+    use Funciones;
     public $paginate = 4;
+
     public function busqueda(Request $request){
         $code = 200;
         switch($request->tipo){
@@ -90,21 +93,53 @@ class BusquedasController extends Controller
 
     public function meSiguen($id){
         $user = User::find($id);
-        if(!$user){
+        
+        if(!$user || !isset($_GET['page'])){
             return response()->json([
                 'message' => 'Usuario no existente'
             ],404);
         }
-        return $user;
+
+        $meSiguen = [];
+        $page = $_GET['page'];
+
+        foreach($user->seguidos as $id){
+            $seguidor = User::select('name','img_perfil')->find($id);
+            if($seguidor){
+                array_push($meSiguen, $seguidor);
+            }
+        }
+
+        $seguidores = $this->paginacionPersonalizada($page, $meSiguen, 10, '_id');
+        return response()->json([
+            'message' => 'Success',
+            'data' => $seguidores,
+        ],200);
     }
     public function yoSigo($id){
         $user = User::find($id);
-        if(!$user){
+        
+        if(!$user || !isset($_GET['page'])){
             return response()->json([
                 'message' => 'Usuario no existente'
             ],404);
         }
-        return $user;
+
+        $yoSigo = [];
+        $page = $_GET['page'];
+
+        foreach($user->seguidos as $id){
+            $sigo = User::select('name','img_perfil')->find($id);
+            if($sigo){
+                array_push($yoSigo, $sigo);
+            }
+        }
+
+        $siguiendo = $this->paginacionPersonalizada($page, $yoSigo, 10, '_id');
+        return response()->json([
+            'message' => 'Success',
+            'data' => $siguiendo,
+        ],200);
     }
     
 }
