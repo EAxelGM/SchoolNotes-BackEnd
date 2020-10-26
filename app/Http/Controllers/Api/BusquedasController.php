@@ -104,7 +104,7 @@ class BusquedasController extends Controller
         $page = $_GET['page'];
 
         foreach($user->seguidos as $id){
-            $seguidor = User::select('name','img_perfil')->find($id);
+            $seguidor = User::find($id);
             if($seguidor){
                 array_push($meSiguen, $seguidor);
             }
@@ -129,7 +129,7 @@ class BusquedasController extends Controller
         $page = $_GET['page'];
 
         foreach($user->seguidos as $id){
-            $sigo = User::select('name','img_perfil')->find($id);
+            $sigo = User::find($id);
             if($sigo){
                 array_push($yoSigo, $sigo);
             }
