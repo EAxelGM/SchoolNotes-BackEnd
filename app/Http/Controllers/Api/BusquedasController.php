@@ -21,15 +21,15 @@ class BusquedasController extends Controller
             case 'usuarios':
                 $data = $this->nombres($request->data);
             break;
-            
+
             case 'apuntes':
                 $data = $this->apuntes($request->data);
             break;
-            
+
             case 'preguntas':
                 $data = $this->preguntas($request->data);
             break;
-            
+
             default:
                 $data = [];
                 $code = 421;
@@ -40,9 +40,9 @@ class BusquedasController extends Controller
             'data' => $data,
         ],$code);
     }
-    
+
     public function nombres($name){
-        $data = User::where('name', 'LIKE', '%'.$name.'%')->paginate($this->paginate); 
+        $data = User::where('name', 'LIKE', '%'.$name.'%')->paginate($this->paginate);
         return $data;
     }
 
@@ -93,7 +93,7 @@ class BusquedasController extends Controller
 
     public function meSiguen($id){
         $user = User::find($id);
-        
+
         if(!$user || !isset($_GET['page'])){
             return response()->json([
                 'message' => 'Usuario no existente'
@@ -103,7 +103,7 @@ class BusquedasController extends Controller
         $meSiguen = [];
         $page = $_GET['page'];
 
-        foreach($user->seguidos as $id){
+        foreach($user->seguidores as $id){
             $seguidor = User::find($id);
             if($seguidor){
                 array_push($meSiguen, $seguidor);
@@ -118,7 +118,7 @@ class BusquedasController extends Controller
     }
     public function yoSigo($id){
         $user = User::find($id);
-        
+
         if(!$user || !isset($_GET['page'])){
             return response()->json([
                 'message' => 'Usuario no existente'
@@ -141,5 +141,5 @@ class BusquedasController extends Controller
             'data' => $siguiendo,
         ],200);
     }
-    
+
 }
