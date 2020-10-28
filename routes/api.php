@@ -71,6 +71,8 @@ Route::group(['namespace' => 'Api'], function() {
 
         /**CLIPS */
         Route::post('comprar-clips', 'ClipsController@compraClips');
+        Route::post('intercambio-clips-a-diamonds', 'ClipsController@intercambioClipsADiamonds');
+        Route::post('intercambio-diamonds-a-clips', 'ClipsController@intercambioDiamondsAClips');
 
         /**WARNINGS */
         Route::resource('warning', 'WarningController');
