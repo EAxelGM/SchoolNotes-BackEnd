@@ -35,14 +35,18 @@ $factory->define(User::class, function (Faker $faker) {
 
     return [
         'name' => $faker->name,
-        'apellidos' => $faker->lastName,
         'email' => $faker->email,
         'password' => Hash::make('123'),
         'correo_verificado' => $faker->randomElement([true, false]),
         'descripcion_perfil' => $faker->text(rand(20,200)),
         'fecha_nacimiento' => $anio.'-'.$mes.'-'.$dia,
-        //'img_perfil' => asset('img_perfiles/default.png'),
-        'img_perfil' => $faker->imageUrl(600,600),
+        'img_perfil' => $faker->randomElement([
+            'https://schoolnotes.live/020040sn897200/img_perfiles/default.png',
+            'https://schoolnotes.live/020040sn897200/img_perfiles/default1.png',
+            'https://schoolnotes.live/020040sn897200/img_perfiles/default2.png',
+            'https://schoolnotes.live/020040sn897200/img_perfiles/default3.png',
+            'https://schoolnotes.live/020040sn897200/img_perfiles/default4.png',
+        ]),
         'seguidos' => [],
         'seguidores' => [],
         'etiquetas_ids' => $faker->randomElements($etiquetas_ids, rand(1, 3)),
