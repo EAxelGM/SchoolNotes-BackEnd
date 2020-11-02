@@ -13,6 +13,7 @@ class Etiqueta extends MongoModel
     protected $fillable = [
         'nombre', 
         'slug',
+        'created_by',
         'activo', 
     ];
 }

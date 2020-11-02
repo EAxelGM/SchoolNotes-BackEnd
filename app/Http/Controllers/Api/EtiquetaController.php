@@ -33,6 +33,7 @@ class EtiquetaController extends Controller
         $etiqueta = new Etiqueta;
         $etiqueta->nombre = $request->nombre;
         $etiqueta->slug = Str::slug($request->nombre);
+        $etiqueta->created_by = $request->user_id;
         $etiqueta->activo = 1;
         $etiqueta->save();
         $mensaje = 'Etiqueta Creada.';
