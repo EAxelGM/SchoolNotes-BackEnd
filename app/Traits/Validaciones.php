@@ -114,7 +114,6 @@ trait Validaciones {
     public function datosUser($data){
         $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);

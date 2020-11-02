@@ -48,7 +48,7 @@ class ClipsController extends Controller
                 'user_recibe' => $user->_id,
                 'cantidad_recibe' => $compra,
                 'clips_empresa' => -$compra,
-                'descripcion' => 'El usuario '.$user->name.' '.$user->apellidos.', compro '.$compra.' diamond clips',
+                'descripcion' => 'El usuario '.$user->name.', compro '.$compra.' diamond clips',
                 'pregunta_id' => null,
                 'apunte_id' => null,
             ]);

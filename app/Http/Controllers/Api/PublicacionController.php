@@ -38,8 +38,8 @@ class PublicacionController extends Controller
 
         $publicaciones_mias = Publicacion::where([['user_id', $user->id],['activo', 1]])
         ->with([
-            'user:name,apellidos,img_perfil',
-            'comentarios.user:name,apellidos,img_perfil'
+            'user:name,img_perfil',
+            'comentarios.user:name,img_perfil'
         ])
         ->get();
         foreach($publicaciones_mias as $publicacion){
@@ -49,8 +49,8 @@ class PublicacionController extends Controller
         foreach($user->seguidos as $seguido_id){
             $todas_publicaciones = Publicacion::where([['user_id', $seguido_id],['activo', 1]])
             ->with([
-                'user:name,apellidos,img_perfil',
-                'comentarios.user:name,apellidos,img_perfil'
+                'user:name,img_perfil',
+                'comentarios.user:name,img_perfil'
             ])->get();
             if(!empty($todas_publicaciones)){
                 foreach($todas_publicaciones as $publicacion){

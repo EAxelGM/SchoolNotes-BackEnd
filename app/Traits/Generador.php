@@ -39,7 +39,7 @@ trait Generador{
                 {
                     "type":"header",
                     "data":{
-                        "text":"Bienvenido '.$user->name.' '.$user->apellidos.' 🥳",
+                        "text":"Bienvenido '.$user->name.' 🥳",
                         "level":2
                     }
                 },
@@ -101,7 +101,7 @@ trait Generador{
         ]);
 
         $publicacion = Publicacion::create([
-            'contenido' => 'Bienvenido '.$user->name.' '.$user->apellidos.', muchas gracias por registrarte en SchoolNotes 🥳🥳',  
+            'contenido' => 'Bienvenido '.$user->name.', muchas gracias por registrarte en SchoolNotes 🥳🥳',  
             'reacciones' => [],
             'activo' => 1, 
             'user_id' => $user->_id,

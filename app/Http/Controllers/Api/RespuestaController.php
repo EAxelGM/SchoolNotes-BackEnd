@@ -16,7 +16,7 @@ class RespuestaController extends Controller
 
     public function index()
     {
-        $respuestas = Respuesta::with('user:name,apellidos,img_perfil')->orderBy('created_at', 'DESC')->paginate(4);
+        $respuestas = Respuesta::with('user:name,img_perfil')->orderBy('created_at', 'DESC')->paginate(4);
         return response()->json([
             'message' => 'Success',
             'data' => $respuestas,
@@ -54,7 +54,7 @@ class RespuestaController extends Controller
     
     public function show($id)
     {
-        $respuesta = Respuesta::with(['user:name,apellidos,img_perfil','pregunta.user:name,apellidos,img_perfil'])->find($id);
+        $respuesta = Respuesta::with(['user:name,img_perfil','pregunta.user:name,img_perfil'])->find($id);
         if(!$respuesta){
             return response()->json([
                 'message' => 'No se encontre esta respuesta',

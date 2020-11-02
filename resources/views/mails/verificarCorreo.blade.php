@@ -17,7 +17,7 @@
 @endsection
 
 @section('titulo')
-    BIENVENIDO <br /> {{$data->name}} {{$data->apellidos}} 
+    BIENVENIDO <br /> {{$data->name}}
 @endsection
 
 @section('descripcion')

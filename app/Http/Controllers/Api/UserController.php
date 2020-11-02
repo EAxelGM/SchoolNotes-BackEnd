@@ -231,7 +231,6 @@ class UserController extends Controller
 
         $user = User::create([
             'name' => $request->get('name'),
-            'apellidos' => $request->get('apellidos'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
             'correo_verificado' => false,
@@ -241,13 +240,19 @@ class UserController extends Controller
             'seguidos' => [],
             'seguidores' => [],
             'etiquetas_ids' => $request->get('etiquetas'),
-            'clips' => 999,
-            'diamond_clips' => 50,
+            'clips' => 10,
+            'diamond_clips' => 0,
             'apuntes_comprados' => [],
             'tipo' => 'usuario',
             'activo' => 1,
         ]);
 
+        //usuarios tester Temporal
+        $user->clips = 9999;
+        $user->diamond_clips = 100;
+        $user->tipo = 'tester';
+        $user->save();
+        
         //crea primera publicacion y apunte + bonificacion de clips gratis!
         $this->bienvenida($user, 10);
 

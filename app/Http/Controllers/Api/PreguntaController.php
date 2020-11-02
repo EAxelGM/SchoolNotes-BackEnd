@@ -27,7 +27,7 @@ class PreguntaController extends Controller
                     $user_id = isset($_GET['user_id']);
                     if($user_id){
                         $user_id = $_GET['user_id'];
-                        $preguntas = Pregunta::where('user_id', $user_id)->with(['user:name,apellidos,img_perfil','respuestas.user:name,apellidos,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
+                        $preguntas = Pregunta::where('user_id', $user_id)->with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
                         $code = 200;
                     }else{
                         $preguntas = 'porfavor introduce el parametro faltante';
@@ -37,7 +37,7 @@ class PreguntaController extends Controller
 
                 case 'sin_responder':
                     $data = [];
-                    $preguntas = Pregunta::with('user:name,apellidos,img_perfil')->get();
+                    $preguntas = Pregunta::with('user:name,img_perfil')->get();
                     foreach($preguntas as $pregunta){
                         if($pregunta->respuestas()->count() == 0){
                             array_push($data, $pregunta);
@@ -55,7 +55,7 @@ class PreguntaController extends Controller
 
                 case 'sin_verificar':
                     $data = [];
-                    $preguntas = Pregunta::where('verificado', 0)->with(['user:name,apellidos,img_perfil','respuestas'])->get();
+                    $preguntas = Pregunta::where('verificado', 0)->with(['user:name,img_perfil','respuestas'])->get();
                     foreach($preguntas as $pregunta){
                         if($pregunta->respuestas()->count() != 0){
                             array_push($data, $pregunta);
@@ -72,7 +72,7 @@ class PreguntaController extends Controller
                 break;
 
                 case 'verificadas':
-                    $preguntas = Pregunta::where('verificado', 1)->with(['user:name,apellidos,img_perfil','respuestas.user:name,apellidos,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
+                    $preguntas = Pregunta::where('verificado', 1)->with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
                     $code = 200;
                 break;
 
@@ -83,7 +83,7 @@ class PreguntaController extends Controller
 
             }
         }else{
-            $preguntas = Pregunta::with(['user:name,apellidos,img_perfil','respuestas.user:name,apellidos,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
+            $preguntas = Pregunta::with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
             $code = 200;
         }
         
@@ -131,7 +131,7 @@ class PreguntaController extends Controller
     
     public function show($id)
     {
-        $pregunta = Pregunta::with(['user:name,apellidos,img_perfil','respuestas.user:name,apellidos,img_perfil'])->find($id);
+        $pregunta = Pregunta::with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->find($id);
         if(!$pregunta){
             return response()->json([
                 'message' => 'No se encontro esta pregunta',

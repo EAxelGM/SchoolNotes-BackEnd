@@ -25,7 +25,7 @@
 @endsection
 
 @section('despedida')
-    Sin mas que decir {{$data->name}} {{$data->apellidos}}, te agradecemos el equipo de SchoolNotes por usar nuestros servicios 🥳.
+    Sin mas que decir {{$data->name}} , te agradecemos el equipo de SchoolNotes por usar nuestros servicios 🥳.
 @endsection
 
 @section('iconoEmpresa')

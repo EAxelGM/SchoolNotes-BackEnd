@@ -41,7 +41,7 @@ class ApunteController extends Controller
                 ['etiquetas_ids', $etiqueta],
                 ['activo', 1],
             ])
-            ->with('user:name,apellidos,img_perfil')->get();
+            ->with('user:name,img_perfil')->get();
 
             foreach($apuntes_for as $i){
                 array_push($apuntes, $i);
@@ -109,7 +109,7 @@ class ApunteController extends Controller
     public function show($id)
     {
         $apunte = Apunte::where([['slug', $id],['activo', 1]])
-        ->with('user:name,apellidos,img_perfil','comentarios.user:name,apellidos,img_perfil')->first();
+        ->with('user:name,img_perfil','comentarios.user:name,img_perfil')->first();
         if(!$apunte){
             return response()->json([
                 'message' => 'No encontramos el apunte',
@@ -146,7 +146,7 @@ class ApunteController extends Controller
 
     public function apuntesUsuario($id){
         $mis_apuntes = Apunte::where([['user_id', $id],['activo', 1]])
-        ->with('user:name,apellidos,img_perfil')->paginate(4);
+        ->with('user:name,img_perfil')->paginate(4);
 
         return response()->json([
             'message' => 'success',
@@ -191,7 +191,7 @@ class ApunteController extends Controller
         $apuntes = [];
 
         foreach($user->apuntes_comprados as $id){
-            $note = Apunte::where('_id', $id)->with('user:name,apellidos,img_perfil')->first();
+            $note = Apunte::where('_id', $id)->with('user:name,img_perfil')->first();
             if($note){
                 array_push($apuntes,$note);
             }else{

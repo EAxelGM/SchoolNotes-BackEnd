@@ -23,8 +23,7 @@ class User extends MongoModel implements Authenticatable,JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name',   
-        'apellidos', 
+        'name',
         'email', 
         'password',
         'correo_verificado',
