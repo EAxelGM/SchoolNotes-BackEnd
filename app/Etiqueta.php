@@ -16,4 +16,11 @@ class Etiqueta extends MongoModel
         'created_by',
         'activo', 
     ];
+
+    public function setNombreAttribute($valor){
+        $this->attributes['nombre'] = strtolower($valor);
+    }
+    public function getNombreAttribute($valor){
+        return ucwords($valor);
+    }
 }
