@@ -84,7 +84,7 @@ class UsersTableSeeder extends Seeder
             'clips' => 999999999,
             'diamond_clips' => 999999999,
             'apuntes_comprados' => [],
-            'tipo' => 'adminsitrador',
+            'tipo' => 'administrador',
             'activo' => 1,
         ]);
 
@@ -103,7 +103,7 @@ class UsersTableSeeder extends Seeder
             'clips' => 99999,
             'diamond_clips' => 9999,
             'apuntes_comprados' => [],
-            'tipo' => 'adminsitrador',
+            'tipo' => 'administrador',
             'activo' => 1,
         ]);
 
@@ -167,7 +167,7 @@ class UsersTableSeeder extends Seeder
             'clips' => 9999,
             'diamond_clips' => 99999,
             'apuntes_comprados' => [],
-            'tipo' => 'adminsitrador',
+            'tipo' => 'administrador',
             'activo' => 1,
         ]);
 
