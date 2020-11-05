@@ -135,6 +135,7 @@ class ApunteController extends Controller
             $comentarios = Comentario::where('apunte_id', $apunte->_id)->delete();
             $this->borrarObjeto('apunte_id',$apunte->_id);
             $apunte->delete();
+            
             $mensaje = 'Apunte y comentarios borrados.';
         }else{
             $mensaje = 'No pudimos encontrar el Apunte.';
