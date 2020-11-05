@@ -10,6 +10,7 @@ use App\Traits\Transacciones;
 use App\User;
 use App\Apunte;
 use App\Etiqueta;
+use App\Comentario;
 
 class ApunteController extends Controller
 {
@@ -133,7 +134,7 @@ class ApunteController extends Controller
         if($code == 200){
             $comentarios = Comentario::where('apunte_id', $apunte->_id)->delete();
             $this->borrarObjeto('apunte_id',$apunte->_id);
-            //$apunte->delete();
+            $apunte->delete();
             $mensaje = 'Apunte y comentarios borrados.';
         }else{
             $mensaje = 'No pudimos encontrar el Apunte.';
