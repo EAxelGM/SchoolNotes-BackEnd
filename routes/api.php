@@ -24,6 +24,9 @@ Route::group(['namespace' => 'Api'], function() {
     Route::get('profile', 'UserController@getAuthenticatedUser');
     Route::post('loggout', 'UserController@loggout');
 
+    //Rutas para sitemap
+    Route::get('slug-apuntes', 'ApunteController@aputnesSiteMap');
+
     /**ETIQUETAS */
     Route::resource('etiquetas', 'EtiquetaController');
 
