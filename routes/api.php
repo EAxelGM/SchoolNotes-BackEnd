@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::post('recuperar-password/{email}/{token}','UserController@recuperarPassword2');
 });
 
-//Route::group(['middleware' => ['jwt.verify']], function() {
+Route::group(['middleware' => ['jwt.verify']], function() {
     /*AÑADE AQUI LAS RUTAS QUE QUIERAS PROTEGER CON JWT*/
     Route::group(['namespace' => 'Api'], function() {
         // Rutas de los controladores dentro del Namespace "App\Http\Controllers\Api"
@@ -94,7 +94,7 @@ Route::group(['namespace' => 'Api'], function() {
         
 
     });
-//});
+});
 
 
 Route::resource('categorias', 'Api\CategoriaController');
