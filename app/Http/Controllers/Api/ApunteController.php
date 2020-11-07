@@ -203,7 +203,6 @@ class ApunteController extends Controller
                 $compras = array_values($compras);
                 $user->apuntes_comprados = $compras;
                 $user->save();
-                return 'entro'
             }
         }
 
