@@ -198,7 +198,7 @@ class ApunteController extends Controller
                 array_push($apuntes,$note);
             }else{
                 $compras = $user->apuntes_comprados;
-                $clave = array_search($$id, $compras);
+                $clave = array_search($id, $compras);
                 unset($compras[$clave]);
                 $compras = array_values($reacciones);
                 $user->apuntes_comprados = $compras;
