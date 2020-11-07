@@ -30,6 +30,10 @@ Route::group(['namespace' => 'Api'], function() {
     /**CODIGOS CREADORES */
     Route::resource('codigo-creador', 'CodigoCreadorController');
     Route::get('codigo-creador-id/{id}', 'CodigoCreadorController@idCodigo');
+    /**REENVIAR CORREO */
+    Route::get('reenviar-correo-verificacion/{id}','UserController@enviarCorreo');
+    Route::get('recuperar-password/{email}/{token}','UserController@recuperarPassword');
+    Route::post('recuperar-password/{email}/{token}','UserController@recuperarPassword2');
 });
 
 //Route::group(['middleware' => ['jwt.verify']], function() {

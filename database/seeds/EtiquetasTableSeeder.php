@@ -181,7 +181,15 @@ class EtiquetasTableSeeder extends Seeder
                 "created_by" => App\User::first()->_id,
                 "activo" => 1,
         ]);
-        
+
+        $users = App\User::all();
+        $etiqueta = App\Etiqueta::first();
+        foreach($users as $user){
+            $compras = $user->etiquetas_ids;
+            array_push($compras,$etiqueta->_id);
+            $user->etiquetas_ids = $compras;
+            $user->save();
+        }
 
         //factory(App\Etiqueta::class, 150)->create();
     }

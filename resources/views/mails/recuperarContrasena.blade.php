@@ -41,10 +41,18 @@
 @section('cuerpo2')
     Si has solicitado este restablecimiento de contraseña solo tienes que darle clic al boton que dice "Restablecer Contraseña", y te enviara a un formulario para ingresar tu nueva contraseña. <br><br>
     Recuerda que tu cuenta y contraseña son muy importantes, recomendamos no pasarle tu contraseña a tus amigos.
+    <br><br>
+    <center>
+        <a href="{{ url('https://schoolnotes.live/recuperar-password?email='.$data->email.'&token='.$data->token_verificacion['token']) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
+            <button style="background: #C5C5C5 none repeat scroll 0% 0%; border-color: #00cba0;">
+                Recuperar Password            
+            </button>
+        </a>
+    </center>
 @endsection
 
 @section('despedida')
-    Te damos las gracias por confiar. El equipo de SchoolNotes
+Te damos las gracias por confiar. El equipo de SchoolNotes
 @endsection
 
 @section('iconoEmpresa')
@@ -59,20 +67,6 @@
 
 @section('descripcionEmpresa')
     schoolnotes.info@gmail.com
-@endsection
-
-@section('titulo2')
-    RESTABLECE TU CONTRASEÑA AQUI
-@endsection
-
-@section('descripcion2')
-    ¡Da clic al boton de aqui abajo!
-@endsection
-
-@section('boton2')
-    <a href="{{ url('/recuperar-contrasena/'.$data->id.'/'.$data->token_verificacion['token']) }}" class="es-button" target="_blank" style="background: #ffffff none repeat scroll 0% 0%; border-color: #ffffff; color: #00cba0; border-width: 15px 25px;">
-        RESTABLECER CONTRASEÑA
-    </a>
 @endsection
 
 @section('facebook')
@@ -100,7 +94,7 @@
 @endsection
 
 @section('footer1')
-    schoolnotes.info@gmail.com
+    <!--schoolnotes.info@gmail.com -->
 @endsection
 
 @section('footer2')
@@ -123,5 +117,3 @@
         <img src="{{$imagenes['book']}}" alt width="125">
     </a>
 @endsection
-
-

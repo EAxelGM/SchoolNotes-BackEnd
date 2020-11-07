@@ -82,10 +82,10 @@ class UserController extends Controller
         $code = $user ? 200 : 404;
 
         if($code >= 200 && 299 >= $code){
-            /* if($user->descripcion == '' && $request->descripcion != ''){
+            if($user->descripcion_perfil == '' && $request->descripcion_perfil != ''){
                 $user->clips = $user->clips+5;
                 $user->save();
-            } */
+            } 
 
             $user->fill($request->all());
             if($user->isClean()){
@@ -282,8 +282,8 @@ class UserController extends Controller
 
         if($user->correo_verificado){
             return response()->json([
-                'message' => 'El correo ya ha sido verificado antes.',
-            ],200);
+                'message' => 'El correo ya ha sido verificado antes. Porfavor solo actualice la página',
+            ],421);
         }
 
         //Generar el token
@@ -308,10 +308,12 @@ class UserController extends Controller
             $expiracion = Carbon::now()->diffInHours($expiracion,false);
 
             if($expiracion >= 0){
-                if($user->token_verificacion['token'] == $token){
+                if($user->token_verificacion['token'] == $token && !$user->correo_verificado){
+                    $clips = 20;
                     $user->correo_verificado = true;
+                    $user->clips = $user->clips+$clips;
                     $user->save();
-                    return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=true&razon=success");
+                    return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=true&razon=success&clips=$clips");
                 }else{
                     return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=false&razon=invalid");
                 }
@@ -357,8 +359,32 @@ class UserController extends Controller
         ], 500);
     }
 
-    public function recuperarPassword($id, $token){
-        $user = User::find($id);
+    public function recuperarPassword2(Request $request,$email, $token){
+        $user = User::where('email', $email)->first();
+        if(!$user){
+            return response()->json([
+                'message' => 'La cuenta no existe',
+            ],404);
+        }
+        $valida = $this->recuperarPassword($email,$token);
+        if($valida['code'] == 200){
+            if($request->password == $request->password_confirmation){
+                $user->password = Hash::make($request->password);
+                $user->save();
+            }else{
+                $valida['mensaje'] = 'Las contraseñas no coinciden';
+                $valida['code'] = 421;
+            }
+        }
+        
+        return response()->json([
+            'message' => $valida['mensaje'],
+            'code' => $valida['code'],
+        ],$valida['code']);
+    }
+
+    public function recuperarPassword($email, $token){
+        $user = User::where('email', $email)->first();
         if($user){
             if($token == 'enviar-mail'){
                 //Generar el token
@@ -373,19 +399,20 @@ class UserController extends Controller
 
                 if($expiracion >= 0){
                     if($user->token_verificacion['token'] == $token){
-                        $mensaje = 'Hemos comprobado, que tu solicitaste este cambio, porfavor continua con tu cambio de contraseña.';
-                        $code = 200;
+                        $data['mensaje'] = 'Tu contraseña se ha modificado con exito!';
+                        $data['code'] = 200;
                     }else{
-                        $mensaje = 'Al parecer este token es invalido. ';
-                        $code = 421;
+                        $data['mensaje'] = 'Al parecer este token es invalido. ';
+                        $data['code'] = 421;
                     }
                 }else{
-                    $mensaje = 'Lo sentimos pero este token ha expirado, porfavor solicita un reenvio para verificar tu correo electronico.';
-                    $code = 403;
+                    $data['mensaje'] = 'Lo sentimos pero este token ha expirado, porfavor solicita un reenvio para verificar tu correo electronico.';
+                    $data['code'] = 403;
                 }
+                return $data;
             }
         }else{
-            $mensaje = 'No encontramos ningun usuario.';
+            $mensaje = 'No encontramos ninguna cuenta relacionada con '.$email;
             $code = 404;
         }
         return response()->json([
