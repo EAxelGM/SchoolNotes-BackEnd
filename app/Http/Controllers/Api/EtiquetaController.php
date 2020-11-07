@@ -14,7 +14,7 @@ class EtiquetaController extends Controller
     use Validaciones;
 
     public function index(){
-        $etiquetas = Etiqueta::where('activo',1)->get();
+        $etiquetas = Etiqueta::where('activo',1)->orderBy('nombre','ASC')->get();
         $mensaje = 'Success';
         $code = 200;
         return response()->json([
