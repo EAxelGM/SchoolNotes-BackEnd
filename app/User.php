@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\Model as MongoModel;
 //JWT
 use Tymon\JWTAuth\Contracts\JWTSubject;
- 
+
 class User extends MongoModel implements Authenticatable,JWTSubject
 {
     //use Notifiable;
@@ -24,7 +24,7 @@ class User extends MongoModel implements Authenticatable,JWTSubject
      */
     protected $fillable = [
         'name',
-        'email', 
+        'email',
         'password',
         'correo_verificado',
         'token_verificacion',
@@ -77,5 +77,9 @@ class User extends MongoModel implements Authenticatable,JWTSubject
 
     public function apuntes(){
         return $this->hasMany('App\Apunte');
+    }
+
+    public function codigoCreador(){
+        return $this->hasOne('App\CodigoCreador');
     }
 }

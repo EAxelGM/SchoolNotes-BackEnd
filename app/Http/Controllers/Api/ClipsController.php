@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\CompraClips;
 use App\User;
+use App\CodigoCreador as Codigo;
 use App\HistorialDiamondsClips as DiamondClips;
 use App\HistorialClips as Clip;
 
@@ -18,47 +19,35 @@ class ClipsController extends Controller
                 'message' => 'Este usuario no existe',
             ],404);
         }
-        $code = 200;
-        switch($request->plan){
-            case 1:
-                $compra = 50;
-            break;
-
-            case 2:
-                $compra = 100;
-            break;
-
-            case 3:
-                $compra = 150;
-            break;
-
-            default:
-                $compra = 0;
-                $mensaje = 'Al parecer tuvimos un error... no se han añadido diamonds clips a tu cuenta';
-                $code = 421;
-            break;
-        }
+        $compra = $request->clips_diamond_compra;
         $user->diamond_clips = $user->diamond_clips + $compra;
         $user->save();
 
-        if($code == 200){
-            $historial = DiamondClips::create([
-                'user_paga' => null,
-                'cantidad_paga' => 0,
-                'user_recibe' => $user->_id,
-                'cantidad_recibe' => $compra,
-                'clips_empresa' => -$compra,
-                'descripcion' => 'El usuario '.$user->name.', compro '.$compra.' diamond clips',
-                'pregunta_id' => null,
-                'apunte_id' => null,
-            ]);
-            $mensaje = 'Comprar exitosa, se han añadido '.$compra.' diamonds clips a tu cuenta.';
+        $historial = DiamondClips::create([
+            'user_paga' => null,
+            'cantidad_paga' => 0,
+            'user_recibe' => $user->_id,
+            'cantidad_recibe' => $compra,
+            'clips_empresa' => -$compra,
+            'descripcion' => 'El usuario '.$user->name.', compro '.$compra.' diamond clips',
+            'pregunta_id' => null,
+            'apunte_id' => null,
+        ]);
+
+        $codigo_dueno = Codigo::where('codigo', $request->codigo_creador)->first();
+        $creador = User::find($codigo_dueno->user_id);
+        if($creador){
+            $creador->clips = $creador->clips+5;
+            $creador->save();
         }
 
+        $historial->descripcion = $historial->descripcion.' usando el codigo de creador: '. $request->codigo_creador;
+        $historial->save();
+
         return response()->json([
-            'message' => $mensaje,
+            'message' => 'Tu pago de $'.$request->total_pagar.' fue exitoso, se han añadido '.$compra.' diamonds clips a tu cuenta.',
             'data' => $user,
-        ],$code);
+        ],200);
     }
 
     public function intercambioDiamondsAClips(Request $request){

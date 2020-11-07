@@ -26,6 +26,10 @@ Route::group(['namespace' => 'Api'], function() {
 
     /**ETIQUETAS */
     Route::resource('etiquetas', 'EtiquetaController');
+
+    /**CODIGOS CREADORES */
+    Route::resource('codigo-creador', 'CodigoCreadorController');
+    Route::get('codigo-creador-id/{id}', 'CodigoCreadorController@idCodigo');
 });
 
 //Route::group(['middleware' => ['jwt.verify']], function() {
@@ -80,6 +84,7 @@ Route::group(['namespace' => 'Api'], function() {
         /**BUSQUEDAS */
         Route::post('buscar', 'BusquedasController@busqueda');
         Route::post('buscar-etiqueta', 'BusquedasController@etiquetas');
+        
 
     });
 //});

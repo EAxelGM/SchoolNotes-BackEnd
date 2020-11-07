@@ -4,6 +4,7 @@ namespace App\Traits;
 use App\HistorialDiamondsClips as DiamondClip;
 use App\HistorialClips as Clip;
 use App\User;
+use App\CodigoCreador as Codigo;
 
 trait Transacciones{
 
@@ -137,5 +138,30 @@ trait Transacciones{
             $historial->borrado = 1;
             $historial->save();
         }
+    }
+
+    public function registroCodigoCreador($user, $codigo){
+        $codigo = Codigo::where([['codigo', $codigo],['activo', 1]])->first();
+        if($codigo){
+            $user->clips = $user->clips + $codigo->clips_registro;
+            $user->save();
+
+            $user_beneficiado = User::find($codigo->user_id);
+            if($user_beneficiado){
+                $user_beneficiado->clips = $user_beneficiado->clips + 5;
+                $user_beneficiado->save();
+            }
+            $data = [
+                'message' => 'Success',
+                'code' => 200,
+            ];
+        }else{
+            $data = [
+                'message' => 'codigo no encontrado',
+                'code' => 404,
+            ];
+        }
+
+        return $data;
     }
 }

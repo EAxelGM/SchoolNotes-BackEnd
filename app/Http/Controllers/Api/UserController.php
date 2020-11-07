@@ -11,6 +11,7 @@ use App\Traits\EnviarCorreos;
 use App\Traits\Validaciones;
 use App\Traits\Generador;
 use App\Traits\Imagenes;
+use App\Traits\Transacciones;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    use EnviarCorreos, Imagenes, Validaciones, Generador;
+    use EnviarCorreos, Imagenes, Validaciones, Generador, Transacciones;
 
     public $paginate = 5;
 
@@ -211,6 +212,7 @@ class UserController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
         }
         $user->publicaciones;
+        $user->codigoCreador;
         $etiquetas = [];
         foreach($user->etiquetas_ids as $etiqueta_id){
             $etiqueta = Etiqueta::find($etiqueta_id);
@@ -248,13 +250,21 @@ class UserController extends Controller
         ]);
 
         //usuarios tester Temporal
-        $user->clips = 9999;
+        $user->clips = 999;
         $user->diamond_clips = 100;
         $user->tipo = 'tester';
         $user->save();
-        
-        //crea primera publicacion y apunte + bonificacion de clips gratis!
-        $this->bienvenida($user, 10);
+
+        //Validacion del codigo 
+        if($request->codigo != null){
+            $codigo = $this->registroCodigoCreador($user, $request->codigo);
+            if($codigo['code'] > 400){
+                return response()->json(['message' => $codigo['message']],$codigo['code']);
+            }
+        }
+
+        //Empareja con la primer publicacion gratis
+        $this->bienvenida($user, 0);
 
         //Envia correo para verificar el correo electronico
         $this->enviarCorreo($user->_id);

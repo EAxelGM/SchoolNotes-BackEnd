@@ -174,4 +174,12 @@ trait Validaciones {
         ]);
         return $validator;
     }
+
+    public function datosCodigoCreador($data){
+        $validator = Validator::make($data, [
+            'codigo' => 'required|unique:codigos_creadores|min:5|max:15', 
+            'user_id' => 'required',
+        ]);
+        return $validator;
+    }
 }
