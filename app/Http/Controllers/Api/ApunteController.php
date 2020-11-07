@@ -214,5 +214,13 @@ class ApunteController extends Controller
         ],200);
     }
 
+    public function aputnesSiteMap() {
+        $slugs = Apunte::all()->pluck('slug');
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $slugs
+        ],200);
+    }
 
 }
