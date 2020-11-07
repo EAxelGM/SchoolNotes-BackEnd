@@ -33,12 +33,13 @@ class ClipsController extends Controller
             'pregunta_id' => null,
             'apunte_id' => null,
         ]);
-
-        $codigo_dueno = Codigo::where('codigo', $request->codigo_creador)->first();
-        $creador = User::find($codigo_dueno->user_id);
-        if($creador){
-            $creador->clips = $creador->clips+5;
-            $creador->save();
+        if($request->codigo_creador){
+            $codigo_dueno = Codigo::where('codigo', $request->codigo_creador)->first();
+            $creador = User::find($codigo_dueno->user_id);
+            if($creador){
+                $creador->clips = $creador->clips+5;
+                $creador->save();
+            }
         }
 
         $historial->descripcion = $historial->descripcion.' usando el codigo de creador: '. $request->codigo_creador;
