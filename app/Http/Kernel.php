@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         //Proteger Rutas con Middleware JWT
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
+        "cors" => \App\Http\Middleware\Cors::class,
     ];
 
     /**

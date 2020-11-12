@@ -4,10 +4,13 @@ namespace App\Traits;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\EnviarCorreos;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 trait Funciones{
+    use EnviarCorreos;
+
     public function paginacionPersonalizada($page, $data, $data_for_page, $objectOrder){
         /*Orden por defecto (ASCendente)*/
         //usort($data, $this->object_sorter($objectOrder));
@@ -61,5 +64,12 @@ trait Funciones{
         }
 
         return $data;
+    }
+
+    public function clipsMultiplo($user,$multiplo){
+      $residuo = $user->clips % $multiplo;
+      if($residuo == 0){
+        $this->notificaMultiploClips($user);
+      }
     }
 }

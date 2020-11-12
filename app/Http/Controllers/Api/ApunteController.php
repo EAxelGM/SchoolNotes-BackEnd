@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Traits\Funciones;
 use App\Traits\Validaciones;
 use App\Traits\Transacciones;
+use App\Traits\EnviarCorreos;
 use App\User;
 use App\Apunte;
 use App\Etiqueta;
@@ -14,7 +15,7 @@ use App\Comentario;
 
 class ApunteController extends Controller
 {
-    use Funciones, Validaciones, Transacciones;
+    use Funciones, Validaciones, Transacciones, EnviarCorreos;
 
     public function index()
     {
@@ -101,6 +102,9 @@ class ApunteController extends Controller
         $this->pagoApunte($user,$apunte, 25);
         $this->desbloquearApunte($user, $apunte, 0, 0);
 
+        //Notificar a sus seguidores
+        $this->notificarApunteNuevo($apunte);
+
         return response()->json([
             'message' => $subir['message'],
             'data' => $apunte,
@@ -135,7 +139,7 @@ class ApunteController extends Controller
             $comentarios = Comentario::where('apunte_id', $apunte->_id)->delete();
             $this->borrarObjeto('apunte_id',$apunte->_id);
             $apunte->delete();
-            
+
             $mensaje = 'Apunte y comentarios borrados.';
         }else{
             $mensaje = 'No pudimos encontrar el Apunte.';

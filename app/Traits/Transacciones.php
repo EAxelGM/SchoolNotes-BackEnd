@@ -4,9 +4,11 @@ namespace App\Traits;
 use App\HistorialDiamondsClips as DiamondClip;
 use App\HistorialClips as Clip;
 use App\User;
+use App\Traits\Funciones;
 use App\CodigoCreador as Codigo;
 
 trait Transacciones{
+    use Funciones;
 
     public function desbloquearApunte($user_paga, $apunte, $costo_apunte, $user_recibe_clips){
         if($user_paga->clips >= $costo_apunte){
@@ -16,17 +18,18 @@ trait Transacciones{
                     'mensaje' => 'Ya has comprado -'.$apunte->titulo.'- anteriormente',
                     'code' => 403,
                 ];
-            }                                                                                                                                                                                                                  
+            }
             array_push($apuntes_comprados, $apunte->_id);
 
             $user_paga->apuntes_comprados = $apuntes_comprados;
             $user_paga->clips = $user_paga->clips - $costo_apunte;
-            $user_paga->save(); 
+            $user_paga->save();
 
             $user_recibe = User::find($apunte->user_id);
             if($user_recibe){
                 $user_recibe->clips = $user_recibe->clips + $user_recibe_clips;
                 $user_recibe->save();
+                $this->clipsMultiplo($user_recibe, 100);
                 Clip::create([
                     'user_paga' => $user_paga->_id,
                     'cantidad_paga' => $costo_apunte,
@@ -51,7 +54,7 @@ trait Transacciones{
                     'borrado' => 0,
                 ]);
             }
-            
+
             $data = [
                 'mensaje' => 'Compra realizada con exito!',
                 'code' => 200,
@@ -70,7 +73,7 @@ trait Transacciones{
     public function pagoApunte($user,$apunte,$cantidad){
         $user->clips = $user->clips+$cantidad;
         $user->save();
-        
+
         Clip::create([
             'user_paga' => null,
             'cantidad_paga' => 0,
@@ -82,14 +85,14 @@ trait Transacciones{
             'apunte_id' => $apunte->_id,
             'borrado' => 0,
         ]);
-        
+
     }
 
     public function creacionPregunta($user, $pregunta, $costo_pregunta){
         if($user->clips >= $costo_pregunta){
             $user->clips = $user->clips - $costo_pregunta;
             $user->save();
-            
+
             Clip::create([
                 'user_paga' => $user->_id,
                 'cantidad_paga' => $costo_pregunta,

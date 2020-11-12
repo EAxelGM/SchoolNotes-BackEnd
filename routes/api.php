@@ -17,7 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['namespace' => 'Api'], function() {
-
     //Login y Register para JWT
     Route::post('register', 'UserController@register');
     Route::post('login', 'UserController@authenticate');
@@ -31,7 +30,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::resource('etiquetas', 'EtiquetaController');
 
     /**APUNTES */
-    
+
     Route::resource('apuntes', 'ApunteController');
 
     /**CODIGOS CREADORES */
@@ -42,6 +41,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::get('reenviar-correo-verificacion/{id}','UserController@enviarCorreo');
     Route::get('recuperar-password/{email}/{token}','UserController@recuperarPassword');
     Route::post('recuperar-password/{email}/{token}','UserController@recuperarPassword2');
+
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
@@ -74,15 +74,13 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
         /**RESPUESTAS */
         Route::resource('respuestas', 'RespuestaController');
+        Route::post('valida-respuesta', 'RespuestaController@validaRespuesta');
 
         /**SEGUIMIENTOS */
         Route::post('seguir', 'SeguirController@seguir');
 
         /**REACCIONES */
         Route::post('reaccion', 'ReaccionController@index');
-
-        /**RESPUESTAS */
-        Route::post('valida-respuesta', 'RespuestaController@validaRespuesta');
 
         /**CLIPS */
         Route::post('comprar-clips', 'ClipsController@compraClips');
@@ -95,7 +93,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         /**BUSQUEDAS */
         Route::post('buscar', 'BusquedasController@busqueda');
         Route::post('buscar-etiqueta', 'BusquedasController@etiquetas');
-        
+
 
     });
 });

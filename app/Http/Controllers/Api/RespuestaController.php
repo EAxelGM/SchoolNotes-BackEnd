@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Validaciones;
 use App\Traits\Transacciones;
+use App\Traits\EnviarCorreos;
 use App\Respuesta;
 use App\Pregunta;
 use App\User;
 
 class RespuestaController extends Controller
 {
-    use Validaciones,Transacciones;
+    use Validaciones,Transacciones,EnviarCorreos;
 
     public function index()
     {
@@ -22,7 +23,7 @@ class RespuestaController extends Controller
             'data' => $respuestas,
         ],200);
     }
-    
+
     public function store(Request $request)
     {
         $validator = $this->datosRespuesta($request->all());
@@ -46,12 +47,16 @@ class RespuestaController extends Controller
         $respuesta->reacciones = [];
         $respuesta->save();
         $respuesta->user;
+
+        //Notifica al propietario de la pregunta cuando alguien ya halla respondido su pregunta.
+        $this->notificarRespuesta($user, $respuesta);
+
         return response()->json([
             'message' => 'Respuesta creada',
             'data' => $respuesta,
         ],200);
     }
-    
+
     public function show($id)
     {
         $respuesta = Respuesta::with(['user:name,img_perfil','pregunta.user:name,img_perfil'])->find($id);
@@ -69,7 +74,7 @@ class RespuestaController extends Controller
 
 
     }
-    
+
     public function update(Request $request, $id)
     {
         $respuesta = Respuesta::find($id);
@@ -83,7 +88,7 @@ class RespuestaController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        
+
         if($respuesta->user_id != $request->user_id){
             return response()->json([
                 'message' => 'Lo sentimos pero no eres dueño de esta respuesta',
@@ -101,7 +106,7 @@ class RespuestaController extends Controller
             'data' => $respuesta,
         ],200);
     }
-    
+
     public function destroy($id)
     {
         $respuesta = Respuesta::find($id);
