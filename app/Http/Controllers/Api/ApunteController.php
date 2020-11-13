@@ -32,11 +32,11 @@ class ApunteController extends Controller
 
         //$user = User::find($id);
         $user = Auth::user();
-        if(!$user){
+        /* if(!$user){
             return response()->json([
                 'message' => 'Este ID '. $id .' no existe',
             ],404);
-        }
+        } */
 
         $apuntes = [];
 
