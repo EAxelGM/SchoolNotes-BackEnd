@@ -28,7 +28,6 @@ class PublicacionController extends Controller
         
         //$user = User::find($id);
         $user = Auth::user();
-        return response()->json(['data' => $user],400);
         if(!$user){
             return response()->json([
                 'message' => 'Este ID '. $id .' no existe',

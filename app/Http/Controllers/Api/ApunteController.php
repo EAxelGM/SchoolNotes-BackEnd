@@ -20,26 +20,24 @@ class ApunteController extends Controller
 
     public function index()
     {
-        //$id = isset($_GET['user_id']);
+        $id = isset($_GET['user_id']);
         $page = isset($_GET['page']);
-        if(!$page){
+        if(!$id || !$page){
             return response()->json([
                 'message' => 'La ruta esta mal escrita.',
             ],405);
         }
-        //$id = $_GET['user_id'];
+        $id = $_GET['user_id'];
         $page = $_GET['page'];
 
-        //$user = User::find($id);
-        $user = Auth::user();
-        /* if(!$user){
+        $user = User::find($id);
+        if(!$user){
             return response()->json([
                 'message' => 'Este ID '. $id .' no existe',
             ],404);
-        } */
+        }
 
         $apuntes = [];
-        return response()->json(['data' => $user],400);
         foreach($user->etiquetas_ids as $etiqueta){
             $apuntes_for = Apunte::where([
                 ['etiquetas_ids', $etiqueta],
@@ -61,8 +59,7 @@ class ApunteController extends Controller
 
     public function store(Request $request)
     {
-        //$user = User::find($request->user_id);
-        $user = Auth::user();
+        $user = User::find($request->user_id);
         $valida = $this->userActivoVerificado($user);
         if($valida['code'] != 200){
             return response()->json([
@@ -166,8 +163,7 @@ class ApunteController extends Controller
     public function comprarApunte(Request $request){
 
         $apunte = Apunte::find($request->apunte_id);
-        //$user = User::find($request->user_id);
-        $user = Auth::user();
+        $user = User::find($request->user_id);
 
         if(!$apunte || !$user){
             return response()->json([

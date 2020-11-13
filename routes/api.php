@@ -30,7 +30,6 @@ Route::group(['namespace' => 'Api'], function() {
     Route::resource('etiquetas', 'EtiquetaController');
 
     /**APUNTES */
-
     Route::resource('apuntes', 'ApunteController');
 
     /**CODIGOS CREADORES */
