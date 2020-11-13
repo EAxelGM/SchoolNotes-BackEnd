@@ -31,7 +31,8 @@ class ApunteController extends Controller
         //$id = $_GET['user_id'];
         $page = $_GET['page'];
 
-        $user = User::find($id);
+        //$user = User::find($id);
+        $user = Auth::user();
         if(!$user){
             return response()->json([
                 'message' => 'Este ID '. $id .' no existe',
