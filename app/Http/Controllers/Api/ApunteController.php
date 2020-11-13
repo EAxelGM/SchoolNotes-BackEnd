@@ -39,7 +39,7 @@ class ApunteController extends Controller
         } */
 
         $apuntes = [];
-
+        return response()->json(['data' => $user],400);
         foreach($user->etiquetas_ids as $etiqueta){
             $apuntes_for = Apunte::where([
                 ['etiquetas_ids', $etiqueta],
