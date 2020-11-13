@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use App\Apunte;
@@ -13,7 +14,7 @@ use App\Traits\Funciones;
 class BusquedasController extends Controller
 {
     use Funciones;
-    public $paginate = 4;
+    public $paginate = 12;
 
     public function busqueda(Request $request){
         $code = 200;

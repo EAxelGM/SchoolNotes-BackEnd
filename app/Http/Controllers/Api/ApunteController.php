@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\Funciones;
 use App\Traits\Validaciones;
@@ -19,14 +20,15 @@ class ApunteController extends Controller
 
     public function index()
     {
-        $id = isset($_GET['user_id']);
+        //$id = isset($_GET['user_id']);
+        $id = Auth::user()->_id;
         $page = isset($_GET['page']);
-        if(!$id || !$page){
+        if(!$page){
             return response()->json([
                 'message' => 'La ruta esta mal escrita.',
             ],405);
         }
-        $id = $_GET['user_id'];
+        //$id = $_GET['user_id'];
         $page = $_GET['page'];
 
         $user = User::find($id);
@@ -59,7 +61,8 @@ class ApunteController extends Controller
 
     public function store(Request $request)
     {
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         $valida = $this->userActivoVerificado($user);
         if($valida['code'] != 200){
             return response()->json([
@@ -163,7 +166,8 @@ class ApunteController extends Controller
     public function comprarApunte(Request $request){
 
         $apunte = Apunte::find($request->apunte_id);
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
 
         if(!$apunte || !$user){
             return response()->json([

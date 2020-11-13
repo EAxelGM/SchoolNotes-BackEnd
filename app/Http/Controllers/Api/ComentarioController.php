@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -22,14 +23,14 @@ class ComentarioController extends Controller
         $comentario = null;
         $validator = Validator::make($request->all(), [
             'comentario' => 'required|string',
-            'user_id' => 'required|string',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
 
         $activo = $this->userActivoVerificado($user);
         if($activo['code'] == 200){
@@ -38,7 +39,7 @@ class ComentarioController extends Controller
             $comentario->publicacion_id = $request->publicacion_id;
             $comentario->comentario = $request->comentario;
             $comentario->reacciones = [];
-            $comentario->user_id = $request->user_id;
+            $comentario->user_id = $user->_id;
             $comentario->save();
             $comentario->user;
             $activo['mensaje'] = 'Comentario Creada';
@@ -68,24 +69,20 @@ class ComentarioController extends Controller
     }
     
     public function update(Request $request, $id){
+        $user = Auth::user();
         $comentario = Comentario::find($id);
         $code = $comentario ? 200 : 404;
         $code==200 ? $comentario->user : $comentario;
         if($code == 200){
-            if($comentario->user_id == $request->user_id){
-                $user = User::find($request->user_id);
-                $valida = $this->userActivoVerificado($user);
-                if($valida['code'] == 200){
-                    $comentario->comentario = $request->comentario;
-                    $comentario->save();
-                    $mensaje= 'Comentario actualizado';
-                }else{
-                    $mensaje = $valida['mensaje'];
-                    $code = $valida['code'];
-                }
+            //$user = User::find($request->user_id);
+            $valida = $this->userActivoVerificado($user);
+            if($valida['code'] == 200){
+                $comentario->comentario = $request->comentario;
+                $comentario->save();
+                $mensaje= 'Comentario actualizado';
             }else{
-                $mensaje = 'Al parecer no eres dueño de este comentario.';
-                $code = 421;
+                $mensaje = $valida['mensaje'];
+                $code = $valida['code'];
             }
         }else{
             $mensaje = 'No pudimos encontrar el comentario.';

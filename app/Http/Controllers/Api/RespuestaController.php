@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\Validaciones;
 use App\Traits\Transacciones;
@@ -31,7 +32,8 @@ class RespuestaController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         $valida = $this->userActivo($user);
         if($valida['code'] != 200){
             return response()->json([
@@ -41,7 +43,7 @@ class RespuestaController extends Controller
 
         $respuesta = new Respuesta;
         $respuesta->contenido = $request->contenido;
-        $respuesta->user_id = $request->user_id;
+        $respuesta->user_id = $user->_id;
         $respuesta->pregunta_id = $request->pregunta_id;
         $respuesta->verificado = 0;
         $respuesta->reacciones = [];
@@ -89,7 +91,7 @@ class RespuestaController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        if($respuesta->user_id != $request->user_id){
+        if($respuesta->user_id != Auth::user()->_id){
             return response()->json([
                 'message' => 'Lo sentimos pero no eres dueño de esta respuesta',
             ],421);

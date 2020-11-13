@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Publicacion;
@@ -17,17 +18,16 @@ class PublicacionController extends Controller
     use EnviarCorreos, Validaciones, Funciones;
     
     public function index(){
-        $id = isset($_GET['user_id']);
         $page = isset($_GET['page']);
-        if(!$id || !$page){
+        if(!$page){
             return response()->json([
                 'message' => 'La ruta esta mal escrita.',
             ],405);
         }
-        $id = $_GET['user_id'];
         $page = $_GET['page'];
         
-        $user = User::find($id);
+        //$user = User::find($id);
+        $user = Auth::user();
         if(!$user){
             return response()->json([
                 'message' => 'Este ID '. $id .' no existe',
@@ -36,7 +36,7 @@ class PublicacionController extends Controller
 
         $publicaciones = [];
 
-        $publicaciones_mias = Publicacion::where([['user_id', $user->id],['activo', 1]])
+        $publicaciones_mias = Publicacion::where([['user_id', $user->_id],['activo', 1]])
         ->with([
             'user:name,img_perfil',
             'comentarios.user:name,img_perfil'
@@ -74,7 +74,8 @@ class PublicacionController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
 
         $activo = $this->userActivoVerificado($user);
         if($activo['code'] == 200){
@@ -82,7 +83,7 @@ class PublicacionController extends Controller
             $publicacion->contenido = $request->contenido;
             $publicacion->reacciones = [];
             $publicacion->activo = 1;
-            $publicacion->user_id = $request->user_id;
+            $publicacion->user_id = $user->_id;
             $publicacion->save();
             $publicacion->user;
             $activo['mensaje'] = 'Publicacion Creada';
@@ -111,12 +112,13 @@ class PublicacionController extends Controller
     }
     
     public function update(Request $request, $id){
+        $user = Auth::user();
         $publicacion = Publicacion::find($id);
         $code = $publicacion ? 200 : 404;
         $code==200 ? $publicacion->user : $publicacion;
         if($code == 200){
-            if($publicacion->user_id == $request->user_id){
-                $user = User::find($request->user_id);
+            if($publicacion->user_id == $user->_id){
+                //$user = User::find($user->_id);
                 $valida = $this->userActivoVerificado($user);
                 if($valida['code'] == 201){
                     $publicacion->contenido = $request->contenido;

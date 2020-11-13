@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\Validaciones;
 use App\User;
@@ -14,7 +15,8 @@ class SeguirController extends Controller
 
     public function seguir(Request $request){
         //Validamos el usuario este activo.
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         $activo = $this->userActivoVerificado($user);
         if($activo['code'] != 200){
             return response()->json([

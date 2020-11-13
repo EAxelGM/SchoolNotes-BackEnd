@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\CodigoCreador as Codigo;
 use App\Traits\Validaciones;
@@ -18,12 +19,13 @@ class CodigoCreadorController extends Controller
     
     public function store(Request $request)
     {   
+        $user = Auth::user();
         $valida = $this->datosCodigoCreador($request->all());
         if($valida->fails()){
             return response()->json($valida->errors(), 400);
         }
 
-        $codigo = Codigo::where([['user_id', $request->user_id],['activo', 1]])->first();
+        $codigo = Codigo::where([['user_id', $user->_id],['activo', 1]])->first();
         if($codigo){
             return response()->json([
                 'message' => 'Ya cuentas con un codigo de creador: '.$codigo->codigo,
@@ -42,7 +44,7 @@ class CodigoCreadorController extends Controller
             'codigo' => $request->codigo,
             'descuento_compra' => $request->descuento_compra ? $request->descuento_compra : 10, //10%
             'clips_registro' => $request->clips_registro ? $request->clips_registro : 20, //5 clips gratis
-            'user_id' => $request->user_id,
+            'user_id' => $user->_id,
             'activo' => 1,
         ]);
 

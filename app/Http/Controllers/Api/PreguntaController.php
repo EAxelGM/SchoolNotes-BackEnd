@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Pregunta;
 use App\Respuesta;
@@ -24,15 +25,8 @@ class PreguntaController extends Controller
             $opc = $_GET['opc'];
             switch($opc){
                 case 'mis_preguntas':
-                    $user_id = isset($_GET['user_id']);
-                    if($user_id){
-                        $user_id = $_GET['user_id'];
-                        $preguntas = Pregunta::where('user_id', $user_id)->with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
+                        $preguntas = Pregunta::where('user_id', Auth::user()->_id)->with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
                         $code = 200;
-                    }else{
-                        $preguntas = 'porfavor introduce el parametro faltante';
-                        $code = 405;
-                    }
                 break;
 
                 case 'sin_responder':
@@ -100,7 +94,8 @@ class PreguntaController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         $data = $this->userActivo($user);
         if($data['code'] != 200){
             return response()->json([
@@ -111,7 +106,7 @@ class PreguntaController extends Controller
         $pregunta = new Pregunta;
         $pregunta->pregunta = $request->pregunta;
         $pregunta->descripcion = $request->descripcion;
-        $pregunta->user_id = $request->user_id;
+        $pregunta->user_id = $user->_id;
         $pregunta->verificado = 0;
         $pregunta->activo = 1;
         $pregunta->reacciones = [];
@@ -163,7 +158,7 @@ class PreguntaController extends Controller
             return response()->json($validator->errors(), 400);
         }
         //return [$request->all(), $pregunta];
-        if($pregunta->user_id != $request->user_id){
+        if($pregunta->user_id != Auth::user()->_id){
             return response()->json([
                 'message' => 'Lo sentimos pero no eres dueño de esta pregunta',
             ],421);

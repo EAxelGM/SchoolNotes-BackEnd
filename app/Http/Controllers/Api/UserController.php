@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 use App\User;
 use App\Etiqueta;
@@ -107,7 +108,8 @@ class UserController extends Controller
     }
 
     public function imgPerfil(Request $request){
-        $user = User::find($request->id);
+        //$user = User::find($request->id);
+        $user = Auth::user();
         $code = $user ? 200 : 404;
         $mensaje_clip = '';
         if($code == 200){
@@ -326,7 +328,8 @@ class UserController extends Controller
     }
 
     public function cambiarContrasena(Request $request){
-        $user = User::find($request->id);
+        //$user = User::find($request->id);
+        $user = Auth::user();
 
         if($user){
             if(Hash::check($request->vieja_contrasena, $user->password)){

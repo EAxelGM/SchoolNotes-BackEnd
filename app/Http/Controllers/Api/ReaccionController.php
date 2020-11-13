@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\Validaciones;
 use App\Traits\Reacciones;
@@ -20,7 +21,8 @@ class ReaccionController extends Controller
     public function index(Request $request){
         $tipo = $request->tipo;
 
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         $data = $this->userActivoVerificado($user);
         if($data['code'] != 200){
             return response()->json([

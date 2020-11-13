@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\CompraClips;
 use App\User;
@@ -13,7 +14,8 @@ use App\HistorialClips as Clip;
 class ClipsController extends Controller
 {
     public function compraClips(Request $request){
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         if(!$user){
             return response()->json([
                 'message' => 'Este usuario no existe',
@@ -52,7 +54,8 @@ class ClipsController extends Controller
     }
 
     public function intercambioDiamondsAClips(Request $request){
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         if(!$user){
             return response()->json([
                 'message' => 'No se encontro al usuario.',
@@ -107,7 +110,8 @@ class ClipsController extends Controller
     }
 
     public function intercambioClipsADiamonds(Request $request){
-        $user = User::find($request->user_id);
+        //$user = User::find($request->user_id);
+        $user = Auth::user();
         if(!$user){
             return response()->json([
                 'message' => 'No se encontro al usuario.',

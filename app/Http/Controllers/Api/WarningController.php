@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\EnviarCorreos;
 use App\Warning;
@@ -23,6 +24,13 @@ class WarningController extends Controller
     
     public function store(Request $request)
     {
+        //Validamos que la person quien mande el warning sea un admin.
+        if(Auth::user()->tipo != 'administrador'){
+            return response()->json([
+                'message' => 'No tienes permitido realizar esta accion'
+            ],421);
+        }
+        
         $user = User::find($request->user_id);
         $warning = Warning::where('user_id', $request->user_id)->count();
         if($warning >= 3){

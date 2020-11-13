@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Etiqueta;
 use Illuminate\Support\Str;
@@ -33,7 +34,7 @@ class EtiquetaController extends Controller
         $etiqueta = new Etiqueta;
         $etiqueta->nombre = $request->nombre;
         $etiqueta->slug = Str::slug($request->nombre);
-        $etiqueta->created_by = $request->user_id;
+        $etiqueta->created_by = Auth::user()->_id;
         $etiqueta->activo = 1;
         $etiqueta->save();
         $mensaje = 'Etiqueta Creada.';
