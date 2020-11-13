@@ -21,7 +21,7 @@ class ApunteController extends Controller
     public function index()
     {
         //$id = isset($_GET['user_id']);
-        $id = Auth::user()->_id;
+        $id = Auth::user()->id;
         $page = isset($_GET['page']);
         if(!$page){
             return response()->json([
@@ -31,8 +31,7 @@ class ApunteController extends Controller
         //$id = $_GET['user_id'];
         $page = $_GET['page'];
 
-        //$user = User::find($id);
-        $user = Auth::user();
+        $user = User::find($id);
         if(!$user){
             return response()->json([
                 'message' => 'Este ID '. $id .' no existe',
