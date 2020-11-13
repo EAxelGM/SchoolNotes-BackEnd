@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::get('slug-apuntes', 'ApunteController@aputnesSiteMap');
 
     /**ETIQUETAS */
-    Route::resource('etiquetas', 'EtiquetaController');
+    Route::resource('etiquetas', 'EtiquetaController')->only(['index']);
 
     /**APUNTES */
     Route::resource('apuntes', 'ApunteController');
@@ -55,6 +55,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         Route::get('re-enviar-correo-verificacion/{id}', 'UserController@enviarCorreo');
         Route::get('yo-sigo/{id}', 'BusquedasController@yoSigo');
         Route::get('me-siguen/{id}', 'BusquedasController@meSiguen');
+
+        /**ETIQUETAS */
+        Route::resource('etiquetas', 'EtiquetaController')->except(['index']);
 
         /**pUBLICACIONES */
         Route::resource('publicaciones', 'PublicacionController');
