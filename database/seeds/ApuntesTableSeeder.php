@@ -72,7 +72,7 @@ class ApuntesTableSeeder extends Seeder
                 }
             
             ]', 
-            'archivo' => asset('documentos-bienvenida/bienvenida.pdf'),
+            'archivo' => 'https://schoolnotes.live/020040sn897200/documentos-bienvenida/bienvenida.pdf',
             'reacciones' => [],
             'activo' => 1, 
             'user_id' => App\User::first()->_id,

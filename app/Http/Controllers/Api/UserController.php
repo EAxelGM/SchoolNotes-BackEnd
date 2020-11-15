@@ -244,7 +244,7 @@ class UserController extends Controller
             'seguidos' => [],
             'seguidores' => [],
             'etiquetas_ids' => $request->get('etiquetas'),
-            'clips' => 10,
+            'clips' => 0,
             'diamond_clips' => 0,
             'apuntes_comprados' => [],
             'tipo' => 'usuario',
@@ -252,8 +252,7 @@ class UserController extends Controller
         ]);
 
         //usuarios tester Temporal
-        $user->clips = 999;
-        $user->diamond_clips = 100;
+        $user->diamond_clips = 10;
         $user->tipo = 'tester';
         $user->save();
 

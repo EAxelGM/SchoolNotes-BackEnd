@@ -81,8 +81,8 @@ class UsersTableSeeder extends Seeder
             'seguidos' => [],
             'seguidores' => [],
             'etiquetas_ids' => [App\Etiqueta::pluck('_id')->first()],
-            'clips' => 999999999,
-            'diamond_clips' => 999999999,
+            'clips' => 999999,
+            'diamond_clips' => 999999,
             'apuntes_comprados' => [],
             'tipo' => 'administrador',
             'activo' => 1,
@@ -100,8 +100,8 @@ class UsersTableSeeder extends Seeder
             'seguidos' => [],
             'seguidores' => [],
             'etiquetas_ids' => [App\Etiqueta::pluck('_id')->first()],
-            'clips' => 99999,
-            'diamond_clips' => 9999,
+            'clips' => 100,
+            'diamond_clips' => 100,
             'apuntes_comprados' => [],
             'tipo' => 'administrador',
             'activo' => 1,
@@ -154,7 +154,7 @@ class UsersTableSeeder extends Seeder
                 {
                     "type":"paragraph",
                     "data":{
-                        "text":"PD. Feliz Halloween :D"
+                        "text":"PD. Feliz Navidad 😋💞 :D"
                     }
                 }
             
@@ -164,8 +164,8 @@ class UsersTableSeeder extends Seeder
             'seguidos' => [],
             'seguidores' => [],
             'etiquetas_ids' => [App\Etiqueta::pluck('_id')->first()],
-            'clips' => 9999,
-            'diamond_clips' => 99999,
+            'clips' => 100,
+            'diamond_clips' => 100,
             'apuntes_comprados' => [],
             'tipo' => 'administrador',
             'activo' => 1,
