@@ -25,8 +25,15 @@ class PreguntaController extends Controller
             $opc = $_GET['opc'];
             switch($opc){
                 case 'mis_preguntas':
-                        $preguntas = Pregunta::where('user_id', Auth::user()->_id)->with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
+                    $user_id = isset($_GET['user_id']);
+                    if($user_id){
+                        $user_id = $_GET['user_id'];
+                        $preguntas = Pregunta::where('user_id', $user_id)->with(['user:name,img_perfil','respuestas.user:name,img_perfil'])->orderBy('created_at','DESC')->paginate(4);
                         $code = 200;
+                    }else{
+                        $preguntas = 'porfavor introduce el parametro faltante';
+                        $code = 405;
+                    }
                 break;
 
                 case 'sin_responder':
