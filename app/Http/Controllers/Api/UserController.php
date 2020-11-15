@@ -302,7 +302,6 @@ class UserController extends Controller
         $user = User::where([
             ['_id',$id],
         ])->first();
-            return $user;
         $code = $user ? 200 : 421;
         if($code == 200){
             $expiracion = Carbon::parse($user->token_verificacion['expira']);
