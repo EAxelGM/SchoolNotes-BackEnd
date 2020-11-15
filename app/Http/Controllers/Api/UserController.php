@@ -302,7 +302,7 @@ class UserController extends Controller
         $user = User::where([
             ['_id',$id],
         ])->first();
-
+            return $user;
         $code = $user ? 200 : 421;
         if($code == 200){
             $expiracion = Carbon::parse($user->token_verificacion['expira']);
@@ -322,7 +322,7 @@ class UserController extends Controller
                 return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=false&razon=expiration");
             }
         }else{
-            return redirect("https://schoolnotes.live/login?correo=".$user->email."&verificacion=false&razon=notfound");
+            return redirect("https://schoolnotes.live/login?correo=null&verificacion=false&razon=notfound");
         }
     }
 
