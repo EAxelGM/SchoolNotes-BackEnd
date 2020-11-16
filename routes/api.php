@@ -33,7 +33,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::resource('apuntes', 'ApunteController');
 
     /**CODIGOS CREADORES */
-    Route::resource('codigo-creador', 'CodigoCreadorController');
+    Route::resource('codigo-creador', 'CodigoCreadorController')->only(['show']);
     Route::get('codigo-creador-id/{id}', 'CodigoCreadorController@idCodigo');
 
     /**REENVIAR CORREO */
@@ -55,6 +55,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         Route::get('re-enviar-correo-verificacion/{id}', 'UserController@enviarCorreo');
         Route::get('yo-sigo/{id}', 'BusquedasController@yoSigo');
         Route::get('me-siguen/{id}', 'BusquedasController@meSiguen');
+
+        /**CODIGOS CREADORES */
+        Route::resource('codigo-creador', 'CodigoCreadorController')->except(['show']);
 
         /**ETIQUETAS */
         Route::resource('etiquetas', 'EtiquetaController')->except(['index']);
