@@ -252,7 +252,6 @@ class UserController extends Controller
         ]);
 
         //usuarios tester Temporal
-        $user->diamond_clips = 10;
         $user->tipo = 'tester';
         $user->save();
 
