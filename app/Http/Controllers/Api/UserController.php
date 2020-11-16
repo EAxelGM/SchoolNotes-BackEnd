@@ -251,10 +251,6 @@ class UserController extends Controller
             'activo' => 1,
         ]);
 
-        //usuarios tester Temporal
-        $user->tipo = 'tester';
-        $user->save();
-
         //Validacion del codigo 
         if($request->codigo != null){
             $codigo = $this->registroCodigoCreador($user, $request->codigo);
