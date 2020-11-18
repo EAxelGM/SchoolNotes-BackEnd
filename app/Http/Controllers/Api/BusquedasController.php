@@ -51,17 +51,17 @@ class BusquedasController extends Controller
     }
 
     public function nombres($name){
-        $data = User::where('name', 'LIKE', '%'.$name.'%')->with('universidad:nombre,img','carrera:nombre,img')->paginate($this->paginate);
+        $data = User::where('name', 'LIKE', '%'.$name.'%')->with('universidad:nombre,img','carrera:nombre,img')->orderBy('created_at', 'DESC')->paginate($this->paginate);
         return $data;
     }
 
     public function apuntes($name){
-        $data = Apunte::where('titulo', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->paginate($this->paginate);
+        $data = Apunte::where('titulo', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->orderBy('created_at', 'DESC')->paginate($this->paginate);
         return $data;
     }
 
     public function preguntas($name){
-        $data = Pregunta::where('pregunta', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->paginate($this->paginate);
+        $data = Pregunta::where('pregunta', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->orderBy('created_at', 'DESC')->paginate($this->paginate);
         return $data;
     }
 
@@ -69,7 +69,7 @@ class BusquedasController extends Controller
         $data = User::where([
             ['activo', 1],
             ['universidad_id', $id]
-        ])->with('universidad:nombre,img','carrera:nombre,img')->paginate($this->paginate);
+        ])->with('universidad:nombre,img','carrera:nombre,img')->orderBy('created_at', 'DESC')->paginate($this->paginate);
         return $data;
     }
 
