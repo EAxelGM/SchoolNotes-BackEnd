@@ -99,6 +99,11 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         Route::post('buscar', 'BusquedasController@busqueda');
         Route::post('buscar-etiqueta', 'BusquedasController@etiquetas');
 
+        /**UNIVERSIDADES */
+        Route::resource('universidad', 'UniversidadController');
+
+        /**CARRERAS */
+        Route::resource('carrera', 'CarreraController');
 
     });
 });

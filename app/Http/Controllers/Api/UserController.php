@@ -62,6 +62,8 @@ class UserController extends Controller
         if($code == 200){
             $user->publicaciones;
             $user->apuntes;
+            $user->universidad;
+            $user->carrera;
             $etiquetas = [];
             foreach($user->etiquetas_ids as $etiqueta_id){
                 $etiqueta = Etiqueta::find($etiqueta_id);
@@ -247,6 +249,8 @@ class UserController extends Controller
             'clips' => 0,
             'diamond_clips' => 0,
             'apuntes_comprados' => [],
+            'universidad_id' => null,
+            'carrera_id' => null,
             'tipo' => 'usuario',
             'activo' => 1,
         ]);

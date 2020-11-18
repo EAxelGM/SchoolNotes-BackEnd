@@ -37,6 +37,8 @@ class User extends MongoModel implements Authenticatable,JWTSubject
         'clips',
         'diamond_clips',
         'apuntes_comprados',
+        'universidad_id',
+        'carrera_id',
         'tipo',
         'activo',
     ];
@@ -82,4 +84,13 @@ class User extends MongoModel implements Authenticatable,JWTSubject
     public function codigoCreador(){
         return $this->hasOne('App\CodigoCreador');
     }
+
+    public function universidad(){
+        return $this->belongsTo('App\Universidad', 'universidad_id');
+    }
+
+    public function carrera(){
+        return $this->belongsTo('App\Carrera', 'carrera_id');
+    }
+
 }
