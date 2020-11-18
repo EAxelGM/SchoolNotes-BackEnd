@@ -87,7 +87,26 @@ class UniversidadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = Auth::user();
+        $uni = Uni::find($id);
+        if($uni){
+            if($user->tipo == 'administrador' || $uni->created_by == $user->_id){
+                $uni->fill($request->all());
+                if($uni->isClean()){
+                    return response()->json(['message'=>'Especifica al menos un valor diferente'],421);
+                }
+                $uni->save();
+
+                return response()->json([
+                    'message' => 'Universidad modificada con exito.',
+                    'data' => $uni,
+                ],200);
+            }
+        }
+
+        return response()->json([
+            'message' => 'No encontramos la Universidad y/o no eres propietario de esta creacion.',
+        ],404);
     }
 
     /**

@@ -31,6 +31,14 @@ class BusquedasController extends Controller
                 $data = $this->preguntas($request->data);
             break;
 
+            case 'usuarios_por_universidad';
+                $data = $this->userUniversidades($request->data);
+            break;
+
+            case 'usuarios_por_carrera';
+                $data = $this->userCarreras($request->data);
+            break;            
+
             default:
                 $data = [];
                 $code = 421;
@@ -43,7 +51,7 @@ class BusquedasController extends Controller
     }
 
     public function nombres($name){
-        $data = User::where('name', 'LIKE', '%'.$name.'%')->paginate($this->paginate);
+        $data = User::where('name', 'LIKE', '%'.$name.'%')->with('universidad:nombre,img','carrera:nombre,img')->paginate($this->paginate);
         return $data;
     }
 
@@ -54,6 +62,22 @@ class BusquedasController extends Controller
 
     public function preguntas($name){
         $data = Pregunta::where('pregunta', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->paginate($this->paginate);
+        return $data;
+    }
+
+    public function userUniversidades($id){
+        $data = User::where([
+            ['activo', 1],
+            ['universidad_id', $id]
+        ])->with('universidad:nombre,img','carrera:nombre,img')->paginate($this->paginate);
+        return $data;
+    }
+
+    public function userCarreras($id){
+        $data = User::where([
+            ['activo', 1],
+            ['carrera_id', $id]
+        ])->with('universidad:nombre,img','carrera:nombre,img')->paginate($this->paginate);
         return $data;
     }
 
@@ -117,6 +141,7 @@ class BusquedasController extends Controller
             'data' => $seguidores,
         ],200);
     }
+
     public function yoSigo($id){
         $user = User::find($id);
 

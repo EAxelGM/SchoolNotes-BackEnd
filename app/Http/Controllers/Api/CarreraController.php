@@ -88,7 +88,26 @@ class CarreraController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Proximamente
+        $user = Auth::user();
+        $carrera = Carrera::find($id);
+        if($carrera){
+            if($user->tipo == 'administrador' || $carrera->created_by == $user->_id){
+                $carrera->fill($request->all());
+                if($carrera->isClean()){
+                    return response()->json(['message'=>'Especifica al menos un valor diferente'],421);
+                }
+                $carrera->save();
+
+                return response()->json([
+                    'message' => 'Carrera modificada con exito.',
+                    'data' => $carrera,
+                ],200);
+            }
+        }
+        
+        return response()->json([
+            'message' => 'No encontramos la Carrera y/o no eres propietario de esta creacion.',
+        ],404);
     }
 
     /**
