@@ -123,10 +123,10 @@ class ApunteController extends Controller
 
         $etiquetas = [];
         if(count($apunte->etiquetas_ids) != 0){
-            foreach($apunte->etiquetas_id as $etiqueta){
+            foreach($apunte->etiquetas_ids as $etiqueta){
                 $et = Etiqueta::find($etiqueta);
                 if($et){
-                    array_push($et,$etiquetas);
+                    array_push($etiquetas,$et);
                 }
             }
         }
