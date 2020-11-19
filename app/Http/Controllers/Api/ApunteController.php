@@ -92,7 +92,7 @@ class ApunteController extends Controller
         $apunte->archivo = $subir['path'];
         $apunte->img_destacada = $img['path'];
         $apunte->user_id = $user->_id;
-        $apunte->etiquetas_ids = $request->etiquetas_ids;
+        $apunte->etiquetas_ids = $request->etiquetas_ids; 
         $apunte->reacciones = [];
         $apunte->activo = 1;
         $apunte->save();
@@ -121,7 +121,7 @@ class ApunteController extends Controller
             ],404);
         }
 
-        /* $etiquetas = [];
+        $etiquetas = [];
         if(count($apunte->etiquetas_ids) != 0){
             foreach($apunte->etiquetas_ids as $etiqueta){
                 $et = Etiqueta::find($etiqueta);
@@ -130,7 +130,7 @@ class ApunteController extends Controller
                 }
             }
         }
-        $apunte['etiquetas'] = $etiquetas; */
+        $apunte['etiquetas'] = $etiquetas; 
 
         return response()->json([
             'message' => 'Success',
