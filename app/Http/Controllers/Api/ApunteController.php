@@ -50,7 +50,7 @@ class ApunteController extends Controller
             }
         }
 
-        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
+        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 12, 'created_at');
         return response()->json([
             'message' => 'Success',
             'data' => $apuntes,
@@ -120,6 +120,18 @@ class ApunteController extends Controller
                 'message' => 'No encontramos el apunte',
             ],404);
         }
+
+        $etiquetas = [];
+        if(count($apunte->etiquetas_ids) != 0){
+            foreach($apunte->etiquetas_id as $etiqueta){
+                $et = Etiqueta::find($etiqueta);
+                if($et){
+                    array_push($et,$etiquetas);
+                }
+            }
+        }
+        $apunte['etiquetas'] = $etiquetas;
+
         return response()->json([
             'message' => 'Success',
             'data' => $apunte,
@@ -210,7 +222,7 @@ class ApunteController extends Controller
             }
         }
 
-        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
+        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 12, 'created_at');
 
         return response()->json([
             'message' => 'success',
