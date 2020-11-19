@@ -121,7 +121,7 @@ class ApunteController extends Controller
             ],404);
         }
 
-        $etiquetas = [];
+        /* $etiquetas = [];
         if(count($apunte->etiquetas_ids) != 0){
             foreach($apunte->etiquetas_ids as $etiqueta){
                 $et = Etiqueta::find($etiqueta);
@@ -130,7 +130,7 @@ class ApunteController extends Controller
                 }
             }
         }
-        $apunte['etiquetas'] = $etiquetas;
+        $apunte['etiquetas'] = $etiquetas; */
 
         return response()->json([
             'message' => 'Success',
