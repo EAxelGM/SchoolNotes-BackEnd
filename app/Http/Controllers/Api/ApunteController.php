@@ -92,7 +92,7 @@ class ApunteController extends Controller
         $apunte->archivo = $subir['path'];
         $apunte->img_destacada = $img['path'];
         $apunte->user_id = $user->_id;
-        $apunte->etiquetas_ids = $request->etiquetas_ids; 
+        $apunte->etiquetas_ids = json_decode($request->etiquetas_ids); 
         $apunte->reacciones = [];
         $apunte->activo = 1;
         $apunte->save();
