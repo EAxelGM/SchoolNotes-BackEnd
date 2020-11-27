@@ -44,7 +44,7 @@ class PortafolioController extends Controller
         }
         $user = Auth::user();
 
-        $img = $this->subirFile($user, $request->file('img_destacada'), $request->titulo);
+        $img = $this->subirFile($user, $request->file('img_destacada'), $request->nombre);
         if($img['path'] == null){
             return response()->json([
                 'message' => $img['message'],
