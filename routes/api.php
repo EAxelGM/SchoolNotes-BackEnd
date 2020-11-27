@@ -101,6 +101,12 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
         /**PORTAFOLIOS */
         Route::resource('portafolios', 'PortafolioController');
+        
+        /**UNIVERSIDADES */
+        Route::resource('universidad', 'UniversidadController');
+
+        /**CARRERAS */
+        Route::resource('carrera', 'CarreraController');
 
     });
 });

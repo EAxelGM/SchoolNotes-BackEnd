@@ -50,7 +50,7 @@ class ApunteController extends Controller
             }
         }
 
-        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
+        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 12, 'created_at');
         return response()->json([
             'message' => 'Success',
             'data' => $apuntes,
@@ -92,7 +92,7 @@ class ApunteController extends Controller
         $apunte->archivo = $subir['path'];
         $apunte->img_destacada = $img['path'];
         $apunte->user_id = $user->_id;
-        $apunte->etiquetas_ids = $request->etiquetas_ids;
+        $apunte->etiquetas_ids = json_decode($request->etiquetas_ids); 
         $apunte->reacciones = [];
         $apunte->activo = 1;
         $apunte->save();
@@ -120,6 +120,18 @@ class ApunteController extends Controller
                 'message' => 'No encontramos el apunte',
             ],404);
         }
+
+        $etiquetas = [];
+        if(count($apunte->etiquetas_ids) != 0){
+            foreach($apunte->etiquetas_ids as $etiqueta){
+                $et = Etiqueta::find($etiqueta);
+                if($et){
+                    array_push($etiquetas,$et);
+                }
+            }
+        }
+        $apunte['etiquetas'] = $etiquetas; 
+
         return response()->json([
             'message' => 'Success',
             'data' => $apunte,
@@ -210,7 +222,7 @@ class ApunteController extends Controller
             }
         }
 
-        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 4, 'created_at');
+        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 12, 'created_at');
 
         return response()->json([
             'message' => 'success',

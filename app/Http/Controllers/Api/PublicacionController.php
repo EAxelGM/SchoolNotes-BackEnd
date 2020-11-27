@@ -58,7 +58,7 @@ class PublicacionController extends Controller
                 }
             }
         } 
-        $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 4, 'created_at');
+        $publicaciones = $this->paginacionPersonalizada($page, $publicaciones, 12, 'created_at');
 
         return response()->json([
             'message' => 'success',

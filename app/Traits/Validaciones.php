@@ -182,4 +182,11 @@ trait Validaciones {
         ]);
         return $validator;
     }
+
+    public function datosUniversidad($data){
+        $validator = Validator::make($data, [
+            'nombre' => 'required|unique:universidades', 
+        ]);
+        return $validator;
+    }
 }

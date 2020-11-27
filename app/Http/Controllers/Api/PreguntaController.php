@@ -50,7 +50,7 @@ class PreguntaController extends Controller
                             'data' => 'error',
                         ],405);
                     }
-                    $preguntas = $this->paginacionPersonalizada($_GET['page'], $data, 4, 'created_at');
+                    $preguntas = $this->paginacionPersonalizada($_GET['page'], $data, 12, 'created_at');
                     $code = 200;
                 break;
 
@@ -68,7 +68,7 @@ class PreguntaController extends Controller
                             'data' => 'error',
                         ],405);
                     }
-                    $preguntas = $this->paginacionPersonalizada($_GET['page'], $data, 4, 'created_at');
+                    $preguntas = $this->paginacionPersonalizada($_GET['page'], $data, 12, 'created_at');
                     $code = 200;
                 break;
 
