@@ -10,9 +10,7 @@ class Pregunta extends MongoModel
     protected $primaryKey="_id";
     protected $table='preguntas';
     //protected $appends = ['respuestas_count'];
-
-
-
+    
     protected $fillable = [
         'pregunta', 
         'descripcion', 

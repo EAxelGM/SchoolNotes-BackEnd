@@ -99,6 +99,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         Route::post('buscar', 'BusquedasController@busqueda');
         Route::post('buscar-etiqueta', 'BusquedasController@etiquetas');
 
+        /**PORTAFOLIOS */
+        Route::resource('portafolios', 'PortafolioController');
 
     });
 });
