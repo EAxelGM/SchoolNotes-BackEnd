@@ -249,6 +249,7 @@ class UserController extends Controller
             'clips' => 0,
             'diamond_clips' => 0,
             'apuntes_comprados' => [],
+            'portafolios_comprados' => [],
             'universidad_id' => null,
             'carrera_id' => null,
             'tipo' => 'usuario',
