@@ -14,7 +14,13 @@ class Portafolio extends MongoModel
         'nombre', 
         'descripcion', 
         'img',
-        'apuntes_id',
+        'user_id',
+        'apuntes_ids',
         'etiquetas_ids',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
