@@ -64,6 +64,9 @@ class PortafolioController extends Controller
         ]);
         $portafolio->user;
 
+        /**Validar clips */
+        $valida = $this->desbloquearPortafolio($user,$portafolio, 0, 0);
+
         return response()->json([
             'message' => 'Portafolio Creado',
             'data' => $portafolio,
@@ -95,7 +98,7 @@ class PortafolioController extends Controller
         }
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $apuntes = $this->paginacionPersonalizada($page, $apuntes, 12, 'created_at');
+        //$apuntes = $this->paginacionPersonalizada($page, $apuntes, 12, 'created_at');
         $portafolio['apuntes'] = $apuntes;
 
         return response()->json([
