@@ -101,6 +101,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
         /**PORTAFOLIOS */
         Route::resource('portafolios', 'PortafolioController');
+        Route::post('comprar-portafolio', 'PortafolioController@comprarPorta');
+        Route::get('mis-portafolios/{id}', 'PortafolioController@misPorta');
         
         /**UNIVERSIDADES */
         Route::resource('universidad', 'UniversidadController');

@@ -70,6 +70,66 @@ trait Transacciones{
 
     }
 
+    public function desbloquearPortafolio($user_paga, $portafolio, $costo_apunte, $user_recibe_clips){
+        if($user_paga->clips >= $costo_apunte){
+            $portafolios_comprados = $user_paga->portafolios_comprados;
+            if(in_array($portafolio->_id, $portafolios_comprados)){
+                return $data = [
+                    'mensaje' => 'Ya has comprado -'.$portafolio->nombre.'- anteriormente',
+                    'code' => 403,
+                ];
+            }
+            array_push($portafolios_comprados, $portafolio->_id);
+
+            $user_paga->portafolios_comprados = $portafolios_comprados;
+            $user_paga->clips = $user_paga->clips - $costo_apunte;
+            $user_paga->save();
+
+            $user_recibe = User::find($portafolio->user_id);
+            if($user_recibe){
+                $user_recibe->clips = $user_recibe->clips + $user_recibe_clips;
+                $user_recibe->save();
+                $this->clipsMultiplo($user_recibe, 100);
+                Clip::create([
+                    'user_paga' => $user_paga->_id,
+                    'cantidad_paga' => $costo_apunte,
+                    'user_recibe' => $user_recibe->_id,
+                    'cantidad_recibe' => $user_recibe_clips,
+                    'clips_empresa' => $costo_apunte - $user_recibe_clips,
+                    'descripcion' => 'Compra de un portafolio',
+                    'pregunta_id' => null,
+                    'apunte_id' => $portafolio->_id,
+                    'borrado' => 0,
+                ]);
+            }else{
+                Clip::create([
+                    'user_paga' => $user_paga->_id,
+                    'cantidad_paga' => $costo_apunte,
+                    'user_recibe' => null,
+                    'cantidad_recibe' => 0,
+                    'clips_empresa' => $costo_apunte,
+                    'descripcion' => 'Compra de un portafolio',
+                    'pregunta_id' => null,
+                    'apunte_id' => $portafolio->_id,
+                    'borrado' => 0,
+                ]);
+            }
+
+            $data = [
+                'mensaje' => 'Compra realizada con exito!',
+                'code' => 200,
+            ];
+        }else{
+            $data = [
+                'mensaje' => 'No cuentas con los suficientes clips para comprar este portafolio',
+                'code' => 421,
+            ];
+        }
+        return $data;
+
+
+    }
+
     public function pagoApunte($user,$apunte,$cantidad){
         $user->clips = $user->clips+$cantidad;
         $user->save();

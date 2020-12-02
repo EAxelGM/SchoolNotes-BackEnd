@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Portafolio;
 use App\Apunte;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\Funciones;
 use App\Traits\Validaciones;
+use App\Traits\Transacciones;
 
 
 class PortafolioController extends Controller
 {
-    use Funciones, Validaciones;
+    use Funciones, Validaciones, Transacciones;
 
     public function index()
     {
@@ -153,5 +155,58 @@ class PortafolioController extends Controller
         return response()->json([
             'message' => 'Portafolio Eliminado.',
         ],403);
+    }
+
+    public function misPorta($id){
+        $user = User::find($id);
+        if(!$user){
+            return response()->json([
+                'message' => 'No se encontro el usuario.',
+            ],404);
+        }
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $portafolios = [];
+
+        foreach($user->portafolios_comprados as $id){
+            $note = Portafolio::where('_id', $id)->with('user:name,img_perfil')->first();
+            if($note){
+                array_push($portafolios,$note);
+            }else{
+                $compras = $user->portafolios_comprados;
+                $clave = array_search($id, $compras);
+                unset($compras[$clave]);
+                $compras = array_values($compras);
+                $user->portafolios_comprados = $compras;
+                $user->save();
+            }
+        }
+
+        $portafolios = $this->paginacionPersonalizada($page, $portafolios, 12, 'created_at');
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $portafolios,
+        ],200);
+    }
+
+    public function comprarPorta(){
+        $user = Auth::user();
+        $portafolio = Apunte::find($request->apunte_id);
+
+        if(!$portafolio){
+            return response()->json([
+                'message' => 'Portafolio no encotrado'
+            ],404);
+        }
+
+        $precio_porta = count($portafolio->apuntes_ids) * 0.90;
+        $paga_user = $precio_porta * 0.50;
+        
+        /**Validar clips */
+        $valida = $this->desbloquearPortafolio($user,$portafolio, $precio_porta, $paga_user);
+
+        return response()->json([
+            'message' => $valida['mensaje'],
+        ],$valida['code']);
     }
 }
