@@ -191,7 +191,7 @@ class PortafolioController extends Controller
 
     public function comprarPorta(){
         $user = Auth::user();
-        $portafolio = Apunte::find($request->apunte_id);
+        $portafolio = Portafolio::find($request->portafolio_id);
 
         if(!$portafolio){
             return response()->json([
@@ -201,7 +201,7 @@ class PortafolioController extends Controller
 
         $precio_porta = count($portafolio->apuntes_ids) * 0.90;
         $paga_user = $precio_porta * 0.50;
-        
+
         /**Validar clips */
         $valida = $this->desbloquearPortafolio($user,$portafolio, $precio_porta, $paga_user);
 
