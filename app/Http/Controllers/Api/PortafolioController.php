@@ -24,7 +24,7 @@ class PortafolioController extends Controller
         $portafolios = [];
 
         foreach($user->etiquetas_ids as $etiqueta){
-            $portafolios_for = Portafolio::where('etiquetas_ids', $etiqueta)->get();
+            $portafolios_for = Portafolio::where('etiquetas_ids', $etiqueta)->with('user:name,img_perfil')->get();
             foreach($portafolios_for as $i){
                 array_push($portafolios, $i);
             }
@@ -75,7 +75,7 @@ class PortafolioController extends Controller
     
     public function show($id)
     {
-        $portafolio = Portafolio::find($id);
+        $portafolio = Portafolio::with('user:user,img_perfil')->find($id);
         if(!$portafolio){
             return response()->json([
                 'message' => 'Portafolio no encontrado',
