@@ -8,6 +8,7 @@ use App\Portafolio;
 use App\Apunte;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Traits\Funciones;
 use App\Traits\Validaciones;
 use App\Traits\Transacciones;
@@ -143,21 +144,30 @@ class PortafolioController extends Controller
     {
         $portafolio = Portafolio::find($id);
         $user = Auth::user();
+        $contrasena = isset($_GET['contrasena']) ? $_GET['contrasena']: '';
+        
         if(!$portafolio){
             return response()->json([
                 'message' => 'Portafolio no encontrado',
             ],404);
         }
+
         if($portafolio->user_id != $user->_id){
             return response()->json([
                 'message' => 'No eres dueño de este portafolio',
             ],403);
         }
 
+        if(!Hash::check($contrasena, $user->password)){
+            return response()->json([
+                'message' => 'La contraseña es incorrecta.',
+            ],421);
+        }
+
         $portafolio->delete();
         return response()->json([
             'message' => 'Portafolio Eliminado.',
-        ],403);
+        ],200);
     }
 
     public function misPorta($id){
@@ -202,7 +212,7 @@ class PortafolioController extends Controller
             ],404);
         }
 
-        $precio_porta = count($portafolio->apuntes_ids) * 0.90;
+        $precio_porta = count($portafolio->apuntes_ids) * 0.90 * 25;
         $paga_user = $precio_porta * 0.50;
 
         /**Validar clips */
@@ -211,5 +221,20 @@ class PortafolioController extends Controller
         return response()->json([
             'message' => $valida['mensaje'],
         ],$valida['code']);
+    }
+
+    public function portaUser($id){
+        $user = User::find($id);
+
+        if(!$user){
+            return response()->json(['message' => 'Usuario no existente'],404);
+        }
+
+        $portafolio = Portafolio::where('user_id', $user->_id)->with('user:name,img_perfil')->paginate(12);
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $portafolio,
+        ],200);
     }
 }

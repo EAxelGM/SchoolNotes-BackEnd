@@ -72,7 +72,7 @@ trait Transacciones{
 
     public function desbloquearPortafolio($user_paga, $portafolio, $costo_apunte, $user_recibe_clips){
         if($user_paga->clips >= $costo_apunte){
-            $portafolios_comprados = $user_paga->portafolios_comprados;
+            $portafolios_comprados = isset($user_paga->portafolios_comprados) ? $user_paga->portafolios_comprados : [];
             if(in_array($portafolio->_id, $portafolios_comprados)){
                 return $data = [
                     'mensaje' => 'Ya has comprado -'.$portafolio->nombre.'- anteriormente',
