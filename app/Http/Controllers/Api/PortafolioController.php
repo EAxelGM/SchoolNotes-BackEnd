@@ -76,7 +76,7 @@ class PortafolioController extends Controller
     
     public function show($id)
     {
-        $portafolio = Portafolio::with('user:user,img_perfil')->find($id);
+        $portafolio = Portafolio::with('user:name,img_perfil')->find($id);
         if(!$portafolio){
             return response()->json([
                 'message' => 'Portafolio no encontrado',
@@ -127,6 +127,8 @@ class PortafolioController extends Controller
         if($portafolio->isClean()){
             return response()->json(['message'=>'Especifica al menos un valor diferente'],421);
         }
+        $portafolio->apuntes_ids = json_decode($request->apuntes_ids);
+        $portafolio->etiquetas_ids = json_decode($request->etiquetas_ids);
         
         if($request->file('img_destacada')){
             $img = $this->subirFile($user, $request->file('img_destacada'), $request->titulo);
@@ -137,7 +139,7 @@ class PortafolioController extends Controller
         return response()->json([
             'message' => 'Portafolio Editado',
             'data' => $portafolio,
-        ],404);
+        ],200);
     }
     
     public function destroy($id)
@@ -201,8 +203,8 @@ class PortafolioController extends Controller
             'data' => $portafolios,
         ],200);
     }
-
-    public function comprarPorta(){
+    
+    public function comprarPorta(Request $request){
         $user = Auth::user();
         $portafolio = Portafolio::find($request->portafolio_id);
 
@@ -212,11 +214,12 @@ class PortafolioController extends Controller
             ],404);
         }
 
-        $precio_porta = count($portafolio->apuntes_ids) * 0.90 * 25;
-        $paga_user = $precio_porta * 0.50;
+        $precio_porta = $request->precio_portafolio;
+        $paga_user = $request->ganancia;
+        $apuntes_ids_faltantes = json_decode($request->apuntes_ids_faltantes);
 
         /**Validar clips */
-        $valida = $this->desbloquearPortafolio($user,$portafolio, $precio_porta, $paga_user);
+        $valida = $this->desbloquearPortafolio($user,$portafolio, $precio_porta, $paga_user, $apuntes_ids_faltantes);
 
         return response()->json([
             'message' => $valida['mensaje'],
@@ -235,6 +238,31 @@ class PortafolioController extends Controller
         return response()->json([
             'message' => 'Success',
             'data' => $portafolio,
+        ],200);
+    }
+
+    public function savePorta(Request $request){
+        $user = Auth::user();
+        $portafolio = Portafolio::find($request->portafolio_id);
+        if(!$portafolio){
+            return response()->json([
+                'message' => 'Portafolio no encotrado'
+            ],404);
+        }
+        $portafolios_comprados = isset($user->portafolios_comprados) ? $user->portafolios_comprados : [];
+        if(in_array($portafolio->_id, $portafolios_comprados)){
+            $clave = array_search($portafolio->_id, $portafolios_comprados);
+            unset($portafolios_comprados[$clave]);
+            $portafolios_comprados = array_values($portafolios_comprados);
+        }else{
+            array_push($portafolios_comprados, $portafolio->_id);
+        }
+        $user->portafolios_comprados = $portafolios_comprados;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Success.',
+            'data' => $user,
         ],200);
     }
 }

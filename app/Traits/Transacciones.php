@@ -70,19 +70,20 @@ trait Transacciones{
 
     }
 
-    public function desbloquearPortafolio($user_paga, $portafolio, $costo_apunte, $user_recibe_clips){
+    public function desbloquearPortafolio($user_paga, $portafolio, $costo_apunte, $user_recibe_clips, $apuntes_ids_faltantes){
         if($user_paga->clips >= $costo_apunte){
             $portafolios_comprados = isset($user_paga->portafolios_comprados) ? $user_paga->portafolios_comprados : [];
-            if(in_array($portafolio->_id, $portafolios_comprados)){
-                return $data = [
-                    'mensaje' => 'Ya has comprado -'.$portafolio->nombre.'- anteriormente',
-                    'code' => 403,
-                ];
+            if(!in_array($portafolio->_id, $portafolios_comprados)){
+                array_push($portafolios_comprados, $portafolio->_id);
             }
-            array_push($portafolios_comprados, $portafolio->_id);
-
             $user_paga->portafolios_comprados = $portafolios_comprados;
             $user_paga->clips = $user_paga->clips - $costo_apunte;
+
+            $array_apuntes_user = $user_paga->apuntes_comprados;
+            foreach($apuntes_ids_faltantes as $id_apuntes){
+                array_push($array_apuntes_user, $id_apuntes);
+            }
+            $user_paga->apuntes_comprados = $array_apuntes_user;
             $user_paga->save();
 
             $user_recibe = User::find($portafolio->user_id);
