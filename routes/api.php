@@ -99,6 +99,13 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         Route::post('buscar', 'BusquedasController@busqueda');
         Route::post('buscar-etiqueta', 'BusquedasController@etiquetas');
 
+        /**PORTAFOLIOS */
+        Route::resource('portafolios', 'PortafolioController');
+        Route::post('comprar-portafolio', 'PortafolioController@comprarPorta');
+        Route::get('mis-portafolios/{id}', 'PortafolioController@misPorta');
+        Route::get('portafolios/{id}/usuario','PortafolioController@portaUser');
+        Route::post('guardar-portafolio', 'PortafolioController@savePorta');
+        
         /**UNIVERSIDADES */
         Route::resource('universidad', 'UniversidadController');
 

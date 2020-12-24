@@ -189,4 +189,12 @@ trait Validaciones {
         ]);
         return $validator;
     }
+
+    public function datosPortafolio($data){
+        $validator = Validator::make($data, [
+            'nombre' => 'required', 
+            'descripcion' => 'required',
+        ]);
+        return $validator;
+    }
 }

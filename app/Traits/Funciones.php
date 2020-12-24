@@ -47,7 +47,7 @@ trait Funciones{
             $path = Storage::disk('power_point')->put($nombre, \File::get($file));
             $data = ['message' => 'Archivo Power Point subido con exito', 'path' => asset('documentos-power-point/'.$nombre), 'code' => 200, 'casi_slug' => $nombre];
         }
-        else if($extension == 'docx' || $extension == 'docm' || $extension == 'dotx' || $extension == 'dotm,'){
+        else if($extension == 'docx' || $extension == 'docm' || $extension == 'dotx' || $extension == 'dotm' || $extension == 'doc'){
             $path = Storage::disk('word')->put($nombre, \File::get($file));
             $data = ['message' => 'Archivo Word subido con exito', 'path' => asset('documentos-word/'.$nombre), 'code' => 200, 'casi_slug' => $nombre];
         }

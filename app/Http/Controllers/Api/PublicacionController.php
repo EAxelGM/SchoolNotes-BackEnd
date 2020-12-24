@@ -71,7 +71,7 @@ class PublicacionController extends Controller
         
         $validator = $this->datosPublicacion($request->all());
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         //$user = User::find($request->user_id);
