@@ -66,7 +66,7 @@ class PortafolioController extends Controller
         $portafolio->user;
 
         /**Validar clips */
-        $valida = $this->desbloquearPortafolio($user,$portafolio, 0, 0);
+        $valida = $this->desbloquearPortafolio($user,$portafolio, 0, 0, []);
 
         return response()->json([
             'message' => 'Portafolio Creado',
