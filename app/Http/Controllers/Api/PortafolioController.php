@@ -179,6 +179,7 @@ class PortafolioController extends Controller
                 'message' => 'No se encontro el usuario.',
             ],404);
         }
+        $user->portafolios_comprados = $user->portafolios_comprados ? $user->portafolios_comprados : [];
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $portafolios = [];
 
