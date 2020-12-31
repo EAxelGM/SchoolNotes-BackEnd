@@ -196,7 +196,7 @@ class PortafolioController extends Controller
             }
         }
 
-        $portafolios = $this->paginacionPersonalizada($page, $portafolios, 12, 'created_at');
+        $portafolios = $this->paginacionPersonalizada($page, $portafolios, 12, 'nombre');
 
         return response()->json([
             'message' => 'success',
