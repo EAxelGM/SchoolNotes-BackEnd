@@ -9,6 +9,7 @@ use App\User;
 use App\Apunte;
 use App\Pregunta;
 use App\Etiqueta;
+use App\Portafolio;
 use App\Traits\Funciones;
 
 class BusquedasController extends Controller
@@ -18,6 +19,7 @@ class BusquedasController extends Controller
 
     public function busqueda(Request $request){
         $code = 200;
+        $mensaje = "Success";
         switch($request->tipo){
             case 'usuarios':
                 $data = $this->nombres($request->data);
@@ -31,6 +33,10 @@ class BusquedasController extends Controller
                 $data = $this->preguntas($request->data);
             break;
 
+            case 'portafolios':
+                $data = $this->portafolios($request->data);
+            break;
+
             case 'usuarios_por_universidad';
                 $data = $this->userUniversidades($request->data);
             break;
@@ -41,11 +47,12 @@ class BusquedasController extends Controller
 
             default:
                 $data = [];
+                $mensaje="Este tipo aun no esta implementado...";
                 $code = 421;
             break;
         }
         return response()->json([
-            'message' => 'Success',
+            'message' => $mensaje,
             'data' => $data,
         ],$code);
     }
@@ -62,6 +69,11 @@ class BusquedasController extends Controller
 
     public function preguntas($name){
         $data = Pregunta::where('pregunta', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->orderBy('created_at', 'DESC')->paginate($this->paginate);
+        return $data;
+    }
+
+    public function portafolios($name){
+        $data = Portafolio::where('nombre', 'LIKE', '%'.$name.'%')->with('user:name,img_perfil')->orderBy('created_at', 'DESC')->paginate($this->paginate);
         return $data;
     }
 
@@ -90,6 +102,7 @@ class BusquedasController extends Controller
         }
 
         $code = 200;
+        $mensaje="Success";
         switch($request->tipo){
             case 'usuarios':
                 $data = User::where('etiquetas_ids', $etiqueta->_id)->paginate($this->paginate);
@@ -103,17 +116,22 @@ class BusquedasController extends Controller
                 $data = Pregunta::where('etiquetas_ids', $etiqueta->_id)->with('user:name,img_perfil')->paginate($this->paginate);
             break;
 
+            case 'portafolios':
+                $data = Portafolio::where('etiquetas_ids', $etiqueta->_id)->with('user:name,img_perfil')->paginate($this->paginate);
+            break;
+
             default:
                 $data = [];
                 $code = 421;
+                $mensaje="Este tipo aun no esta implementado...";
             break;
 
         }
 
         return response()->json([
-            'message' => 'Success',
+            'message' => $mensaje,
             'data' => $data,
-        ]);
+        ],$code);
     }
 
     public function meSiguen($id){
